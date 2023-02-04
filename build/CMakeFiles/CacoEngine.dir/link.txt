@@ -1,0 +1,1 @@
+/Library/Developer/CommandLineTools/usr/bin/c++  --std=c++20 -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/CacoEngine.dir/src/engine.cpp.o CMakeFiles/CacoEngine.dir/src/main.cpp.o CMakeFiles/CacoEngine.dir/src/objects.cpp.o -o CacoEngine  /opt/local/lib/libSDL2.dylib 

@@ -1,0 +1,17 @@
+[
+{
+  "directory": "/Users/rishit/src/repos/CacoEngine/build",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++  -I/opt/local/include -I/Users/rishit/src/repos/CacoEngine/include -isystem /opt/local/include/SDL2  --std=c++20 -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk -o CMakeFiles/CacoEngine.dir/src/engine.cpp.o -c /Users/rishit/src/repos/CacoEngine/src/engine.cpp",
+  "file": "/Users/rishit/src/repos/CacoEngine/src/engine.cpp"
+},
+{
+  "directory": "/Users/rishit/src/repos/CacoEngine/build",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++  -I/opt/local/include -I/Users/rishit/src/repos/CacoEngine/include -isystem /opt/local/include/SDL2  --std=c++20 -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk -o CMakeFiles/CacoEngine.dir/src/main.cpp.o -c /Users/rishit/src/repos/CacoEngine/src/main.cpp",
+  "file": "/Users/rishit/src/repos/CacoEngine/src/main.cpp"
+},
+{
+  "directory": "/Users/rishit/src/repos/CacoEngine/build",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++  -I/opt/local/include -I/Users/rishit/src/repos/CacoEngine/include -isystem /opt/local/include/SDL2  --std=c++20 -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk -o CMakeFiles/CacoEngine.dir/src/objects.cpp.o -c /Users/rishit/src/repos/CacoEngine/src/objects.cpp",
+  "file": "/Users/rishit/src/repos/CacoEngine/src/objects.cpp"
+}
+]
