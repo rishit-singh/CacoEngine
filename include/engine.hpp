@@ -1,7 +1,8 @@
 #ifndef ENGINE_H_
 #define ENGINE_H_
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
+#include <SDL_events.h>
 #include <vector>
 #include <string_view>
 #include "objects.hpp"
@@ -11,7 +12,7 @@ namespace CacoEngine
     enum class Extension
     {
         Video = SDL_INIT_VIDEO,
-        Audio = SDL_INIT_VIDEO
+        Audio = SDL_INIT_AUDIO
     };
 
     class Engine
@@ -20,14 +21,23 @@ namespace CacoEngine
             std::vector<Extension> Extensions;
 
             int ExtensionBits;
+
+
+            SDL_Event Event;
     public:
             std::string_view Title;
 
             Vector2D Resolution;
 
-            void AddExtension(Extension);
+            bool IsRunning;
+
+            SDL_Window* Window;
+
             void Run();
+            void AddExtension(Extension);
             void Initialize();
+
+            virtual void OnKeyPress(SDL_KeyboardEvent&);
 
             Engine(std::string_view = "CacoEngine App", Vector2D = Vector2D(800, 600), bool = true);
             ~Engine();
