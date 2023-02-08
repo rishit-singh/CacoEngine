@@ -5,7 +5,7 @@
 #include <SDL_events.h>
 #include <vector>
 #include <string_view>
-#include "objects.hpp"
+#include "surface.hpp"
 
 namespace CacoEngine
 {
@@ -22,14 +22,17 @@ namespace CacoEngine
 
             int ExtensionBits;
 
-
             SDL_Event Event;
+
+            Surface WindowSurface;
     public:
             std::string_view Title;
 
             Vector2D Resolution;
 
             bool IsRunning;
+
+            Vector2D CursorPosition;
 
             SDL_Window* Window;
 
