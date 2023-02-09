@@ -1,6 +1,7 @@
 #include "objects.hpp"
 #include <SDL_rect.h>
 #include <SDL_render.h>
+#include <random>
 
 CacoEngine::Vector2D::Vector2D(int x, int y) :  X(x), Y(y)
 {
@@ -12,7 +13,6 @@ CacoEngine::Vertex2D::Vertex2D(Vector2D position, RGBA color) : Position(positio
 
 CacoEngine::RGBA::RGBA(int r, int g, int b, int a) : R(r), G(g), B(b), A(a)
 {
-
 }
 
 CacoEngine::RGBA CacoEngine::Colors[5] = {RGBA(255, 0, 0), RGBA(0, 255, 0),
@@ -20,6 +20,17 @@ CacoEngine::RGBA CacoEngine::Colors[5] = {RGBA(255, 0, 0), RGBA(0, 255, 0),
                                          RGBA(0, 0, 0)};
 
 CacoEngine::Object::Object() : ID(0) {}
+
+CacoEngine::Object::Object(const Object &object) {
+    *this = object;
+}
+
+CacoEngine::Object& CacoEngine::Object::operator =(const Object& object) {
+    this->ID = object.ID;
+    this->Vertices = object.Vertices;
+
+    return *this;
+}
 
 CacoEngine::Object::~Object() {}
 
@@ -32,8 +43,19 @@ CacoEngine::Triangle::Triangle(CacoEngine::Vertex2D p, CacoEngine::Vertex2D p1,
     this->AddVertex(p2);
 }
 
-CacoEngine::Triangle::~Triangle()
-{}
+CacoEngine::Triangle::Triangle(const Triangle &triangle) {
+    *this = triangle;
+}
+
+CacoEngine::Triangle &CacoEngine::Triangle::operator =(const Triangle& triangle) {
+    this->ID = triangle.ID;
+    this->Vertices = std::vector<CacoEngine::Vertex2D>();
+
+    for (int x = 0; x < triangle.Vertices.size(); x++)
+        this->Vertices.push_back(triangle.Vertices[x]);
+}
+
+CacoEngine::Triangle::~Triangle() {}
 
 
 SDL_Vertex CacoEngine::Vertex2D::GetSDLVertex()

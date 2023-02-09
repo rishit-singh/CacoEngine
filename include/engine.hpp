@@ -5,6 +5,7 @@
 #include <SDL_events.h>
 #include <vector>
 #include <string_view>
+#include "objects.hpp"
 #include "surface.hpp"
 #include "renderer.hpp"
 
@@ -28,6 +29,8 @@ namespace CacoEngine
             Renderer EngineRenderer;
 
             Surface WindowSurface;
+
+            std::vector<Object> Objects;
     public:
             std::string_view Title;
 

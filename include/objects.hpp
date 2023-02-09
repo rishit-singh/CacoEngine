@@ -54,11 +54,15 @@ namespace CacoEngine
 
             std::vector<Vertex2D> Vertices;
 
-            std::vector<SDL_Vertex> GetBuffer();
+            virtual std::vector<SDL_Vertex> GetBuffer();
 
             void AddVertex(Vertex2D);
 
             Object();
+            Object(const Object&);
+
+            Object& operator =(const Object& object);
+
             ~Object();
     };
 
@@ -66,7 +70,48 @@ namespace CacoEngine
     {
     public:
             Triangle(Vertex2D, Vertex2D, Vertex2D, RGBA);
+            Triangle(const Triangle&);
+
+            Triangle& operator =(const Triangle&);
+
             ~Triangle();
+    };
+
+    class Mesh : public Object
+    {
+    protected:
+            void Initialize();
+    public:
+            std::vector<Triangle> Triangles;
+
+            void AddTriangle(Triangle triangle)
+            {
+                this->Triangles.push_back(triangle);
+            }
+
+            std::vector<SDL_Vertex> GetBuffer() override
+            {
+                std::vector<SDL_Vertex> vertices = std::vector<SDL_Vertex>(),
+                    temp;
+
+                for (int x = 0; x < this->Triangles.size(); x++)
+                {
+                    temp = this->Triangles[x].GetBuffer();
+
+                    for (int y = 0; y < temp.size(); x++)
+                        vertices.push_back(temp[y]);//vertices.push_back(this->Trianges[x]);
+                }
+                
+                return vertices;
+            }
+
+            Mesh(std::vector<Triangle> triangles = std::vector<Triangle>()) : Object(), Triangles(triangles)
+            {
+            }
+
+            ~Mesh()
+            {
+            }
     };
 }
 
