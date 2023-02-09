@@ -1,17 +1,66 @@
 #include "objects.hpp"
+#include <SDL_rect.h>
+#include <SDL_render.h>
 
 CacoEngine::Vector2D::Vector2D(int x, int y) :  X(x), Y(y)
 {
 }
 
-CacoEngine::Vertex2D::Vertex2D(Vector2D position, RGB color) : Position(position), Color(color)
+CacoEngine::Vertex2D::Vertex2D(Vector2D position, RGBA color) : Position(position), Color(color)
 {
 }
 
-CacoEngine::RGB::RGB(int r, int g, int b) : R(r), G(g), B(b) {
+CacoEngine::RGBA::RGBA(int r, int g, int b, int a) : R(r), G(g), B(b), A(a)
+{
 
 }
 
-CacoEngine::RGB CacoEngine::Colors[3] = {
-    RGB(255, 0, 0), RGB(0, 255, 0), RGB(0, 0, 255)
-};
+CacoEngine::RGBA CacoEngine::Colors[5] = {RGBA(255, 0, 0), RGBA(0, 255, 0),
+                                         RGBA(0, 0, 255), RGBA(255, 255, 255),
+                                         RGBA(0, 0, 0)};
+
+CacoEngine::Object::Object() : ID(0) {}
+
+CacoEngine::Object::~Object() {}
+
+CacoEngine::Triangle::Triangle(CacoEngine::Vertex2D p, CacoEngine::Vertex2D p1,
+                               CacoEngine::Vertex2D p2, CacoEngine::RGBA color)
+    : Object()
+{
+    this->AddVertex(p);
+    this->AddVertex(p1);
+    this->AddVertex(p2);
+}
+
+CacoEngine::Triangle::~Triangle()
+{}
+
+
+SDL_Vertex CacoEngine::Vertex2D::GetSDLVertex()
+{
+    return {
+        SDL_FPoint { (float)this->Position.X, (float)this->Position.Y },
+        SDL_Color { (uint8_t)this->Color.R, (uint8_t)this->Color.B, (uint8_t)this->Color.G, (uint8_t)this->Color.A },
+        SDL_FPoint { 0 }
+    };
+}
+
+void CacoEngine::Object::AddVertex(Vertex2D vertex)
+{
+    this->Vertices.push_back(vertex);
+}
+
+std::vector<SDL_Vertex> CacoEngine::Object::GetBuffer()
+{
+    std::vector<SDL_Vertex> sdlVertices = std::vector<SDL_Vertex>();
+
+
+    sdlVertices.reserve(this->Vertices.size());
+
+    SDL_Vertex vertex;
+
+    for (int x = 0; x < this->Vertices.size(); x++)
+        sdlVertices.push_back(this->Vertices[x].GetSDLVertex());
+
+    return sdlVertices;
+}

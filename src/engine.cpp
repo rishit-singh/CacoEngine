@@ -1,5 +1,7 @@
 #include "engine.hpp"
 #include <SDL_events.h>
+#include <SDL_pixels.h>
+#include <SDL_render.h>
 #include <SDL_video.h>
 #include <iostream>
 
@@ -34,7 +36,10 @@ namespace CacoEngine
         this->IsRunning = true;
         this->Window = SDL_CreateWindow(this->Title.data(), 0, 2500, this->Resolution.X, this->Resolution.Y, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 
-        this->WindowSurface = Surface(this->Window);
+        //this->WindowSurface = Surface(this->Window);
+        this->EngineRenderer = Renderer(this->Window);
+
+        SDL_Renderer* renderer = SDL_CreateRenderer(this->Window, -1, SDL_RENDERER_ACCELERATED);
 
         while (this->IsRunning)
         {
@@ -68,11 +73,21 @@ namespace CacoEngine
                         break;
                 }
 
-            for (int y = 0; y < this->CursorPosition.Y; y++)
-                for (int x = 0; x <  this->CursorPosition.X; x++)
-                    this->WindowSurface.SetPixel(Vertex2D(Vector2D(x, y), Colors[(int)Color::Red]));
 
-            SDL_UpdateWindowSurface(this->Window);
+            this->EngineRenderer.Clear();
+            this->EngineRenderer.SetColor(Colors[(int)Color::White]);
+
+            //SDL_RenderDrawLine(renderer, 5, 5, 100, 120);
+
+            Triangle triangle = Triangle(Vertex2D(Vector2D(400, 150), RGBA(255, 0, 0, 255)),
+                                      Vertex2D(Vector2D(200, 450), RGBA(255, 0, 0, 255)),
+                                      Vertex2D(Vector2D(600, 450), RGBA(255, 0, 0, 255)), RGBA());
+
+
+            SDL_RenderGeometry(this->EngineRenderer.Instance, nullptr, triangle.GetBuffer().data(), triangle.Vertices.size(), nullptr, 0);
+            SDL_RenderPresent(this->EngineRenderer.Instance);
+
+            SDL_Delay(0);
         }
     }
 

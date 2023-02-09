@@ -6,6 +6,7 @@
 #include <vector>
 #include <string_view>
 #include "surface.hpp"
+#include "renderer.hpp"
 
 namespace CacoEngine
 {
@@ -23,6 +24,8 @@ namespace CacoEngine
             int ExtensionBits;
 
             SDL_Event Event;
+
+            Renderer EngineRenderer;
 
             Surface WindowSurface;
     public:
