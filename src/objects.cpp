@@ -53,6 +53,7 @@ CacoEngine::Triangle &CacoEngine::Triangle::operator =(const Triangle& triangle)
 
     for (int x = 0; x < triangle.Vertices.size(); x++)
         this->Vertices.push_back(triangle.Vertices[x]);
+    return *this;
 }
 
 CacoEngine::Triangle::~Triangle() {}

@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 #include <vector>
 #include <array>
+#include <iostream>
 
 namespace CacoEngine
 {
@@ -98,10 +99,12 @@ namespace CacoEngine
                 {
                     temp = this->Triangles[x].GetBuffer();
 
+                    std::cout << "Size: "  << temp.size() << std::endl;
+
                     for (int y = 0; y < temp.size(); x++)
                         vertices.push_back(temp[y]);//vertices.push_back(this->Trianges[x]);
                 }
-                
+
                 return vertices;
             }
 

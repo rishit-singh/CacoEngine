@@ -88,7 +88,7 @@ namespace CacoEngine
             mesh.AddTriangle(
                     Triangle(Vertex2D(Vector2D(this->CursorPosition.X, this->CursorPosition.Y), RGBA(255, 0, 0, 255)),
                             Vertex2D(Vector2D(this->CursorPosition.X, this->CursorPosition.Y + 50), RGBA(255, 0, 0, 255)),
-                            Vertex2D(Vector2D(this->CursorPosition.X + 50, this->CursorPosition.Y + 50), RGBA(255, 0, 0, 255)), RGBA()));
+                             Vertex2D(Vector2D(this->CursorPosition.X + 50, this->CursorPosition.Y + 50), RGBA(255, 0, 0, 255)), RGBA()));
             mesh.AddTriangle(
                     Triangle(Vertex2D(Vector2D(this->CursorPosition.X + 50, this->CursorPosition.Y + 50), RGBA(255, 0, 0, 255)),
                             Vertex2D(Vector2D(this->CursorPosition.X + 50, this->CursorPosition.Y), RGBA(255, 0, 0, 255)),
@@ -97,7 +97,7 @@ namespace CacoEngine
 
             this->Objects.push_back(mesh);
 
-            for (int x = 0; x < this->Objects.size(); x++)
+            for (int x = 0; x < mesh.Triangles.size(); x++)
                 SDL_RenderGeometry(this->EngineRenderer.Instance, nullptr, this->Objects[x].GetBuffer().data(), this->Objects[x].Vertices.size(), nullptr, 0);
 
             SDL_RenderPresent(this->EngineRenderer.Instance);
