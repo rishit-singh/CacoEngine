@@ -88,28 +88,17 @@ namespace CacoEngine
             void AddTriangle(Triangle triangle)
             {
                 this->Triangles.push_back(triangle);
-            }
 
-            std::vector<SDL_Vertex> GetBuffer() override
-            {
-                std::vector<SDL_Vertex> vertices = std::vector<SDL_Vertex>(),
-                    temp;
+                int end = this->Triangles.size() - 1;
 
-                for (int x = 0; x < this->Triangles.size(); x++)
-                {
-                    temp = this->Triangles[x].GetBuffer();
-
-                    std::cout << "Size: "  << temp.size() << std::endl;
-
-                    for (int y = 0; y < temp.size(); x++)
-                        vertices.push_back(temp[y]);//vertices.push_back(this->Trianges[x]);
-                }
-
-                return vertices;
+                for (int x = 0; x < 3; x++)
+                    this->Vertices.push_back(this->Triangles[end].Vertices[x]);
             }
 
             Mesh(std::vector<Triangle> triangles = std::vector<Triangle>()) : Object(), Triangles(triangles)
             {
+                for (int x = 0; x < triangles.size(); x++)
+                    this->AddTriangle(triangles[x]);
             }
 
             ~Mesh()
