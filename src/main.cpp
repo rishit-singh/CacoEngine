@@ -22,20 +22,24 @@ public:
 
         void OnUpdate(int frame) override
         {
-                Mesh mesh;
-                mesh.AddTriangle(
-                        Triangle(Vertex2D(Vector2D(this->CursorPosition.X, this->CursorPosition.Y), this->TintColor, Vector2D(0, 0)),
-                                    Vertex2D(Vector2D(this->CursorPosition.X, this->CursorPosition.Y + 100), this->TintColor, Vector2D(0, 1)),
-                                Vertex2D(Vector2D(this->CursorPosition.X + 100, this->CursorPosition.Y + 100), this->TintColor, Vector2D(1, 1)), RGBA()));
+        }
 
-                mesh.AddTriangle(
-                        Triangle(Vertex2D(Vector2D(this->CursorPosition.X + 100, this->CursorPosition.Y + 100), this->TintColor, Vector2D(1, 1)),
-                                Vertex2D(Vector2D(this->CursorPosition.X + 100, this->CursorPosition.Y), this->TintColor, Vector2D(1, 0)),
-                                Vertex2D(Vector2D(this->CursorPosition.X, this->CursorPosition.Y), this->TintColor, Vector2D(0, 0)), RGBA()));
+        void OnMouseClick(SDL_MouseButtonEvent& event)
+        {
+            Mesh mesh;
+            mesh.AddTriangle(
+                    Triangle(Vertex2D(Vector2D(this->CursorPosition.X, this->CursorPosition.Y), this->TintColor, Vector2D(0, 0)),
+                                Vertex2D(Vector2D(this->CursorPosition.X, this->CursorPosition.Y + 100), this->TintColor, Vector2D(0, 1)),
+                            Vertex2D(Vector2D(this->CursorPosition.X + 100, this->CursorPosition.Y + 100), this->TintColor, Vector2D(1, 1)), RGBA()));
+
+            mesh.AddTriangle(
+                    Triangle(Vertex2D(Vector2D(this->CursorPosition.X + 100, this->CursorPosition.Y + 100), this->TintColor, Vector2D(1, 1)),
+                            Vertex2D(Vector2D(this->CursorPosition.X + 100, this->CursorPosition.Y), this->TintColor, Vector2D(1, 0)),
+                            Vertex2D(Vector2D(this->CursorPosition.X, this->CursorPosition.Y), this->TintColor, Vector2D(0, 0)), RGBA()));
 
 
-                this->Objects.push_back(mesh);
-                std::cout << "(" << this->CursorPosition.X << ", " << this->CursorPosition.Y << ")" << frame << std::endl;
+            this->Objects.push_back(mesh);
+            std::cout << "(" << this->CursorPosition.X << ", " << this->CursorPosition.Y << ")" << this->Frame << std::endl;
         }
 
         void OnMouseScroll(SDL_MouseWheelEvent &event) override

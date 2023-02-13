@@ -80,7 +80,7 @@ namespace CacoEngine
 
                     case SDL_MOUSEBUTTONDOWN:
                         SDL_GetMouseState(&this->CursorPosition.X, &this->CursorPosition.Y);
-
+                        this->OnMouseClick(this->Event.button);
                         break;
 
                     case SDL_MOUSEWHEEL:
