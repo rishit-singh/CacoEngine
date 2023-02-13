@@ -52,6 +52,7 @@ namespace CacoEngine
             /** Event handlers **/
             virtual void OnKeyPress(SDL_KeyboardEvent&);
             virtual void OnMouseClick(SDL_MouseButtonEvent&);
+            virtual void OnMouseScroll(SDL_MouseWheelEvent&);
 
             virtual void OnInitialize();
             virtual void OnUpdate(int);

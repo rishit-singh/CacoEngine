@@ -36,11 +36,17 @@ namespace CacoEngine
             this->IsRunning = false;
     }
 
-    void Engine::OnMouseClick(SDL_MouseButtonEvent &event)
-    {}
+    void Engine::OnMouseClick(SDL_MouseButtonEvent& event)
+    {
+    }
+
+    void Engine::OnMouseScroll(SDL_MouseWheelEvent& event)
+    {
+    }
 
     void Engine::OnInitialize()
-    {}
+    {
+    }
 
     void Engine::OnUpdate(int frame)
     {}
@@ -69,23 +75,16 @@ namespace CacoEngine
 
                         break;
                     case SDL_KEYDOWN:
-                        //this->OnKeyPress(this->Event.key);
-
-                        if (this->Event.key.keysym.sym == SDLK_DOWN)
-                        {
-                            this->CursorPosition.Y += 100;
-                        }
-
-                        if (this->Event.key.keysym.sym == SDLK_RIGHT)
-                        {
-                            this->CursorPosition.X += 100;
-                        }
-
+                        this->OnKeyPress(this->Event.key);
                         break;
 
                     case SDL_MOUSEBUTTONDOWN:
                         SDL_GetMouseState(&this->CursorPosition.X, &this->CursorPosition.Y);
 
+                        break;
+
+                    case SDL_MOUSEWHEEL:
+                        this->OnMouseScroll(this->Event.wheel);
                         break;
                 }
 
