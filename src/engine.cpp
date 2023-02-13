@@ -45,7 +45,15 @@ namespace CacoEngine
 
         IMG_Init(IMG_INIT_PNG);
 
-        Texture texture = TextureManager::CreateTexture("./texture.png", this->EngineRenderer);
+        Texture texture = TextureManager::CreateTexture("./cacodemon.png", this->EngineRenderer);
+        //SDL_Surface* surface = IMG_Load("./texture.png");
+
+
+        //std::cout << (surface);
+
+        //SDL_Texture* texture = SDL_CreateTextureFromSurface(this->EngineRenderer.Instance, surface);
+
+        //SDL_FreeSurface(surface);
 
         while (this->IsRunning)
         {
@@ -93,7 +101,6 @@ namespace CacoEngine
 
 
             this->EngineRenderer.Clear();
-
             this->EngineRenderer.SetColor(Colors[(int)Color::White]);
 
 
