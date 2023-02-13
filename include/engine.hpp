@@ -32,6 +32,8 @@ namespace CacoEngine
 
             std::vector<Object> Objects;
     public:
+            int Frame;
+
             std::string_view Title;
 
             Vector2D Resolution;
@@ -47,7 +49,14 @@ namespace CacoEngine
             void AddExtension(Extension);
             void Initialize();
 
+            /** Event handlers **/
             virtual void OnKeyPress(SDL_KeyboardEvent&);
+            virtual void OnMouseClick(SDL_MouseButtonEvent&);
+
+            virtual void OnInitialize();
+            virtual void OnUpdate(int);
+
+            Object& CreateMesh(std::vector<Vector2D>);
 
             Engine(std::string_view = "CacoEngine App", Vector2D = Vector2D(800, 600), bool = true);
             ~Engine();

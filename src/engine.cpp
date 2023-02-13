@@ -36,6 +36,16 @@ namespace CacoEngine
             this->IsRunning = false;
     }
 
+    void Engine::OnMouseClick(SDL_MouseButtonEvent &event)
+    {}
+
+    void Engine::OnInitialize()
+    {}
+
+    void Engine::OnUpdate(int frame)
+    {}
+
+
     void Engine::Run()
     {
         this->IsRunning = true;
@@ -46,14 +56,8 @@ namespace CacoEngine
         IMG_Init(IMG_INIT_PNG);
 
         Texture texture = TextureManager::CreateTexture("./cacodemon.png", this->EngineRenderer);
-        //SDL_Surface* surface = IMG_Load("./texture.png");
 
-
-        //std::cout << (surface);
-
-        //SDL_Texture* texture = SDL_CreateTextureFromSurface(this->EngineRenderer.Instance, surface);
-
-        //SDL_FreeSurface(surface);
+        this->OnInitialize();
 
         while (this->IsRunning)
         {
@@ -77,24 +81,10 @@ namespace CacoEngine
                             this->CursorPosition.X += 100;
                         }
 
-
                         break;
+
                     case SDL_MOUSEBUTTONDOWN:
                         SDL_GetMouseState(&this->CursorPosition.X, &this->CursorPosition.Y);
-                        Mesh mesh;
-                        mesh.AddTriangle(
-                                Triangle(Vertex2D(Vector2D(this->CursorPosition.X, this->CursorPosition.Y), Colors[(int)Color::White], Vector2D(0, 0)),
-                                         Vertex2D(Vector2D(this->CursorPosition.X, this->CursorPosition.Y + 50), Colors[(int)Color::White], Vector2D(0, 1)),
-                                        Vertex2D(Vector2D(this->CursorPosition.X + 50, this->CursorPosition.Y + 50), Colors[(int)Color::White], Vector2D(1, 1)), RGBA()));
-
-                        mesh.AddTriangle(
-                                Triangle(Vertex2D(Vector2D(this->CursorPosition.X + 50, this->CursorPosition.Y + 50), Colors[(int)Color::White], Vector2D(1, 1)),
-                                        Vertex2D(Vector2D(this->CursorPosition.X + 50, this->CursorPosition.Y), Colors[(int)Color::White], Vector2D(1, 0)),
-                                        Vertex2D(Vector2D(this->CursorPosition.X, this->CursorPosition.Y), Colors[(int)Color::White], Vector2D(0, 0)), RGBA()));
-
-
-                        this->Objects.push_back(mesh);
-                        std::cout << "(" << this->CursorPosition.X << ", " << this->CursorPosition.Y << ")\n";
 
                         break;
                 }
@@ -109,13 +99,15 @@ namespace CacoEngine
 
             SDL_RenderPresent(this->EngineRenderer.Instance);
             SDL_Delay(0);
+
+            this->OnUpdate(++this->Frame);
         }
     }
 
 
 
     Engine::Engine(std::string_view title, Vector2D resolution, bool initialize)
-        : Title(title), Resolution(resolution), IsRunning(false)
+        : Title(title), Resolution(resolution), IsRunning(false), Frame(0)
     {
         this->Extensions = {
             Extension::Video,
@@ -129,6 +121,8 @@ namespace CacoEngine
     Engine::~Engine()
     {
         SDL_DestroyWindow(this->Window);
+
+        IMG_Quit();
         SDL_Quit();
 
         std::cout << "SDL Aborted.";
