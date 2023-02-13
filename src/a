@@ -41,11 +41,20 @@ namespace CacoEngine
         this->IsRunning = true;
         this->Window = SDL_CreateWindow(this->Title.data(), 0, 2500, this->Resolution.X, this->Resolution.Y, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 
+        //this->WindowSurface = Surface(this->Window);
         this->EngineRenderer = Renderer(this->Window);
 
+//        Texture texture = TextureManager::CreateTexture("./texture.png", this->EngineRenderer);
         IMG_Init(IMG_INIT_PNG);
 
-        Texture texture = TextureManager::CreateTexture("./texture.png", this->EngineRenderer);
+        SDL_Surface* surface = IMG_Load("./texture.png");
+
+
+        std::cout << (surface);
+
+        SDL_Texture* texture = SDL_CreateTextureFromSurface(this->EngineRenderer.Instance, surface);
+
+        SDL_FreeSurface(surface);
 
         while (this->IsRunning)
         {
@@ -73,16 +82,23 @@ namespace CacoEngine
                         break;
                     case SDL_MOUSEBUTTONDOWN:
                         SDL_GetMouseState(&this->CursorPosition.X, &this->CursorPosition.Y);
-                        Mesh mesh;
-                        mesh.AddTriangle(
-                                Triangle(Vertex2D(Vector2D(this->CursorPosition.X, this->CursorPosition.Y), Colors[(int)Color::White], Vector2D(0, 0)),
-                                         Vertex2D(Vector2D(this->CursorPosition.X, this->CursorPosition.Y + 50), Colors[(int)Color::White], Vector2D(0, 1)),
-                                        Vertex2D(Vector2D(this->CursorPosition.X + 50, this->CursorPosition.Y + 50), Colors[(int)Color::White], Vector2D(1, 1)), RGBA()));
+                        // this->WindowSurface.SetPixel(Vertex2D(this->CursorPosition, RGB(255, 0, 0)));
 
+                        // Mesh mesh = Mesh({
+                        //     });
+
+                        Mesh mesh;
+                        //SDL_RenderDrawLine(renderer, 5, 5, 100, 120);
                         mesh.AddTriangle(
-                                Triangle(Vertex2D(Vector2D(this->CursorPosition.X + 50, this->CursorPosition.Y + 50), Colors[(int)Color::White], Vector2D(1, 1)),
-                                        Vertex2D(Vector2D(this->CursorPosition.X + 50, this->CursorPosition.Y), Colors[(int)Color::White], Vector2D(1, 0)),
-                                        Vertex2D(Vector2D(this->CursorPosition.X, this->CursorPosition.Y), Colors[(int)Color::White], Vector2D(0, 0)), RGBA()));
+                                Triangle(Vertex2D(Vector2D(this->CursorPosition.X, this->CursorPosition.Y), RGBA(255, 0, 0, 255), Vector2D(0, 0))),
+                                         Vertex2D(Vector2D(this->CursorPosition.X, this->CursorPosition.Y + 50), RGBA(255, 0, 0, 255), Vector2D(1, 0)),
+                                
+                                        Vertex2D(Vector2D(this->CursorPosition.X + 50, this->CursorPosition.Y + 50), RGBA(255, 0, 0, 255), Vector2D(1, 1)), RGBA());
+                        mesh.AddTriangle(
+                                Triangle(Vertex2D(Vector2D(this->CursorPosition.X + 50, this->CursorPosition.Y + 50), RGBA(255, 0, 0, 255), Vector2D(1, 1)),
+                                        Vertex2D(Vector2D(this->CursorPosition.X + 50, this->CursorPosition.Y), RGBA(255, 0, 0, 255), Vector2D(0, 1)),
+                                        Vertex2D(Vector2D(this->CursorPosition.X, this->CursorPosition.Y), RGBA(255, 0, 0, 255)), Vector2D(0, 0))
+                            );
 
 
                         this->Objects.push_back(mesh);
@@ -93,12 +109,12 @@ namespace CacoEngine
 
 
             this->EngineRenderer.Clear();
-
             this->EngineRenderer.SetColor(Colors[(int)Color::White]);
 
 
+
             for (int x = 0; x < this->Objects.size(); x++)
-                SDL_RenderGeometry(this->EngineRenderer.Instance, texture.mTexture, this->Objects[x].GetBuffer().data(), this->Objects[x].Vertices.size(), nullptr, 0);
+                SDL_RenderGeometry(this->EngineRenderer.Instance, texture, this->Objects[x].GetBuffer().data(), this->Objects[x].Vertices.size(), nullptr, 0);
 
             SDL_RenderPresent(this->EngineRenderer.Instance);
             SDL_Delay(0);

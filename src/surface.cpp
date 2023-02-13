@@ -1,4 +1,5 @@
 #include "surface.hpp"
+#include <SDL_surface.h>
 
 namespace CacoEngine
 {
@@ -8,8 +9,13 @@ namespace CacoEngine
             this->Screen = SDL_GetWindowSurface(window);
     }
 
+    Surface::Surface(SDL_Surface* surface) : Screen(surface)
+    {
+    }
+
     Surface::~Surface()
     {
+        SDL_FreeSurface(this->Screen);
     }
 
     void Surface::SetPixel(CacoEngine::Vertex2D pixel)

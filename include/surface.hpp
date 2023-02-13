@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 #include <SDL_video.h>
 
+#include <string_view>
 #include "objects.hpp"
 
 namespace CacoEngine
@@ -16,6 +17,8 @@ namespace CacoEngine
         void SetPixel(Vertex2D);
 
         Surface(SDL_Window* = nullptr);
+        Surface(SDL_Surface*);
+
         ~Surface();
     };
 } // namespace CacoEngine

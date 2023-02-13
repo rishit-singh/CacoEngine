@@ -30,11 +30,13 @@ namespace CacoEngine
     {
         Vector2D Position;
 
+        Vector2D TextureCoordinates;
+
         RGBA Color;
 
         SDL_Vertex GetSDLVertex();
 
-        Vertex2D(Vector2D = Vector2D(), RGBA = RGBA());
+        Vertex2D(Vector2D = Vector2D(), RGBA = RGBA(), Vector2D = Vector2D());
     };
 
     enum class Color

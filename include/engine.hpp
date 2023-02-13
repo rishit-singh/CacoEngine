@@ -43,6 +43,7 @@ namespace CacoEngine
             SDL_Window* Window;
 
             void Run();
+
             void AddExtension(Extension);
             void Initialize();
 
