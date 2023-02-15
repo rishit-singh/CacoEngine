@@ -5,7 +5,6 @@
 #include <SDL_events.h>
 #include <vector>
 #include <string_view>
-#include "vertex.hpp"
 #include "objects.hpp"
 #include "surface.hpp"
 #include "renderer.hpp"
@@ -32,8 +31,9 @@ namespace CacoEngine
             Surface WindowSurface;
 
             std::vector<Object> Objects;
-            int Frame;
     public:
+            int Frame;
+
             std::string_view Title;
 
             Vector2D Resolution;

@@ -2,6 +2,7 @@
 #include <SDL_render.h>
 
 
+
 CacoEngine::Texture::Texture(int id, SDL_Texture* texture)
 {
     this->ID = id;
@@ -21,8 +22,6 @@ CacoEngine::Texture &CacoEngine::Texture::operator=(const Texture &texture)
     return *this;
 }
 
-CacoEngine::Texture::~Texture()
-{
-}
+CacoEngine::Texture::~Texture() {}
 
-
+std::vector<CacoEngine::Texture> CacoEngine::TextureManager::Textures = std::vector<CacoEngine::Texture>();

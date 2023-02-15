@@ -6,6 +6,7 @@
 #include <SDL_render.h>
 #include <SDL_surface.h>
 #include <SDL_image.h>
+#include <vector>
 #include <string_view>
 #include "renderer.hpp"
 #include "surface.hpp"
@@ -30,14 +31,13 @@ namespace CacoEngine
     class TextureManager
     {
     public:
-        static inline std::vector<Texture> Textures = std::vector<Texture>();
+        static std::vector<Texture> Textures; // = std::vector<Texture>();
 
         static Texture CreateTexture(std::string_view path, Renderer& renderer)
         {
             Surface surface = Surface(IMG_Load(path.data()));
 
             SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer.Instance, surface.Screen);
-
 
             return Texture(TextureManager::Textures.size(), texture);
         }

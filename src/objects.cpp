@@ -3,23 +3,7 @@
 #include <SDL_render.h>
 #include <random>
 
-CacoEngine::Vector2D::Vector2D(int x, int y) :  X(x), Y(y)
-{
-}
-
-CacoEngine::Vertex2D::Vertex2D(Vector2D position, RGBA color, Vector2D textureCoordinates) : Position(position), Color(color), TextureCoordinates(textureCoordinates)
-{
-}
-
-CacoEngine::RGBA::RGBA(int r, int g, int b, int a) : R(r), G(g), B(b), A(a)
-{
-}
-
-CacoEngine::RGBA CacoEngine::Colors[5] = {RGBA(255, 0, 0), RGBA(0, 255, 0),
-                                         RGBA(0, 0, 255), RGBA(255, 255, 255),
-                                         RGBA(0, 0, 0)};
-
-CacoEngine::Object::Object() : ID(0) {}
+CacoEngine::Object::Object() : ID(0), Position(Vector2D()){}
 
 CacoEngine::Object::Object(const Object &object) {
     *this = object;
@@ -28,6 +12,8 @@ CacoEngine::Object::Object(const Object &object) {
 CacoEngine::Object& CacoEngine::Object::operator =(const Object& object) {
     this->ID = object.ID;
     this->Vertices = object.Vertices;
+
+    this->Position = this->Vertices[0].Position;
 
     return *this;
 }
@@ -71,6 +57,9 @@ SDL_Vertex CacoEngine::Vertex2D::GetSDLVertex()
 void CacoEngine::Object::AddVertex(Vertex2D vertex)
 {
     this->Vertices.push_back(vertex);
+
+    if (this->Vertices.size() == 1)
+        this->Position = this->Vertices[0].Position;
 }
 
 std::vector<SDL_Vertex> CacoEngine::Object::GetBuffer()
@@ -87,3 +76,19 @@ std::vector<SDL_Vertex> CacoEngine::Object::GetBuffer()
 
     return sdlVertices;
 }
+
+CacoEngine::Rectangle::Rectangle(Vector2D dimensions, Vector2D position, RGBA color, Texture texture)
+    : Mesh() {
+    this->Position = position;
+
+    this->AddTriangle(Triangle(Vertex2D(Vector2D(position.X, position.Y), color),
+                 Vertex2D(Vector2D(position.X + dimensions.X, position.Y), color),
+                 Vertex2D(Vector2D(position.X, position.Y + dimensions.Y), color), color));
+
+    this->AddTriangle(Triangle(Vertex2D(Vector2D(position.X, position.Y), color),
+                 Vertex2D(Vector2D(position.X + dimensions.X, position.Y), color),
+                 Vertex2D(Vector2D(position.X, position.Y + dimensions.Y), color), color));
+}
+
+CacoEngine::Rectangle::~Rectangle()
+{}

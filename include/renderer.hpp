@@ -3,10 +3,11 @@
 
 #include <SDL2/SDL.h>
 #include <SDL_render.h>
-#include "objects.hpp"
+#include "vertex.hpp"
 
 namespace CacoEngine
 {
+
     class Renderer
     {
     public:

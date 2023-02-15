@@ -1,59 +1,24 @@
 #ifndef OBJECTS_H_
 #define OBJECTS_H_
 
-#include <SDL2/SDL.h>
 #include <vector>
 #include <array>
 #include <iostream>
+#include "vertex.hpp"
+#include "texture.hpp"
+
 
 namespace CacoEngine
 {
-    struct RGBA
-    {
-        int R;
-        int G;
-        int B;
-        int A;
-
-        RGBA(int = 0, int = 0, int = 0, int = 255);
-    };
-
-    struct Vector2D
-    {
-        int X;
-        int Y;
-
-        Vector2D(int = 0, int = 0);
-    };
-
-    struct Vertex2D
-    {
-        Vector2D Position;
-
-        Vector2D TextureCoordinates;
-
-        RGBA Color;
-
-        SDL_Vertex GetSDLVertex();
-
-        Vertex2D(Vector2D = Vector2D(), RGBA = RGBA(), Vector2D = Vector2D());
-    };
-
-    enum class Color
-    {
-        Red,
-        Blue,
-        Green,
-        White,
-        Black
-    };
-
-    extern RGBA Colors[5];
 
     class Object
     {
     public:
             int ID;
+
+            Vector2D Position;
+
+            Texture mTexture;
 
             std::vector<Vertex2D> Vertices;
 
@@ -94,7 +59,7 @@ namespace CacoEngine
                 int end = this->Triangles.size() - 1;
 
                 for (int x = 0; x < 3; x++)
-                    this->Vertices.push_back(this->Triangles[end].Vertices[x]);
+                    this->AddVertex(this->Triangles[end].Vertices[x]);
             }
 
             Mesh(std::vector<Triangle> triangles = std::vector<Triangle>()) : Object(), Triangles(triangles)
@@ -106,6 +71,16 @@ namespace CacoEngine
             ~Mesh()
             {
             }
+    };
+
+    class Rectangle : public Mesh
+    {
+    public:
+            Vector2D Dimensions;
+
+
+            Rectangle(Vector2D, Vector2D, RGBA = Colors[(int)Color::White], Texture = Texture());
+            ~Rectangle();
     };
 }
 

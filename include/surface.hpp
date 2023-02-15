@@ -5,7 +5,7 @@
 #include <SDL_video.h>
 
 #include <string_view>
-#include "objects.hpp"
+#include "vertex.hpp"
 
 namespace CacoEngine
 {
