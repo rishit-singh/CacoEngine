@@ -32,6 +32,7 @@ namespace CacoEngine
             Surface WindowSurface;
 
             std::vector<Object> Objects;
+
             int Frame;
     public:
             std::string_view Title;

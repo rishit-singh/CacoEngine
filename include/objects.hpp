@@ -26,6 +26,8 @@ namespace CacoEngine
 
             void AddVertex(Vertex2D);
 
+            void Translate(Vector2D);
+
             Object();
             Object(const Object&);
 

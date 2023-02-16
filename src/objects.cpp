@@ -1,7 +1,9 @@
 #include "objects.hpp"
+#include "vertex.hpp"
 #include <SDL_rect.h>
 #include <SDL_render.h>
 #include <random>
+
 
 CacoEngine::Object::Object() : ID(0), Position(Vector2D()){}
 
@@ -62,6 +64,13 @@ void CacoEngine::Object::AddVertex(Vertex2D vertex)
         this->Position = this->Vertices[0].Position;
 }
 
+void CacoEngine::Object::Translate(Vector2D difference) {
+    this->Position += difference;
+
+    for (int x = 0; x < this->Vertices.size(); x++)
+        this->Vertices[x].Position += difference;
+}
+
 std::vector<SDL_Vertex> CacoEngine::Object::GetBuffer()
 {
     std::vector<SDL_Vertex> sdlVertices = std::vector<SDL_Vertex>();
@@ -92,5 +101,4 @@ CacoEngine::Rectangle::Rectangle(Vector2D dimensions, Vector2D position, RGBA co
                                Vertex2D(Vector2D(position.X, position.Y), color, Vector2D(0, 0)), color));
 }
 
-CacoEngine::Rectangle::~Rectangle()
-{}
+CacoEngine::Rectangle::~Rectangle() {}

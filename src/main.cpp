@@ -27,6 +27,8 @@ public:
 
             //this->Objects.push_back(Sprite(texture, Vector2D(100, 100), Vector2D(100, 100)));
             this->Objects.push_back(Sprite(texture, Vector2D(200, 200), Vector2D(100, 100)));
+
+            this->Objects[this->Objects.size() - 1].Translate(Vector2D(500, 0));
         }
 
         void OnUpdate(int frame) override
@@ -53,6 +55,7 @@ public:
 
         void OnKeyPress(SDL_KeyboardEvent& event) override
         {
+            if (event.keysym.sym == )
         }
 
         void OnMouseScroll(SDL_MouseWheelEvent &event) override

@@ -15,3 +15,12 @@ CacoEngine::RGBA::RGBA(int r, int g, int b, int a) : R(r), G(g), B(b), A(a)
 CacoEngine::RGBA CacoEngine::Colors[5] = {RGBA(255, 0, 0), RGBA(0, 255, 0),
                                          RGBA(0, 0, 255), RGBA(255, 255, 255),
                                          RGBA(0, 0, 0)};
+
+
+CacoEngine::Vector2D &CacoEngine::Vector2D::operator+=(Vector2D difference)
+{
+    this->X += difference.X;
+    this->Y += difference.Y;
+
+    return *this;
+}
