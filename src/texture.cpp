@@ -22,6 +22,8 @@ CacoEngine::Texture &CacoEngine::Texture::operator=(const Texture &texture)
     return *this;
 }
 
-CacoEngine::Texture::~Texture() {}
+CacoEngine::Texture::~Texture()
+{
+}
 
 std::vector<CacoEngine::Texture> CacoEngine::TextureManager::Textures = std::vector<CacoEngine::Texture>();

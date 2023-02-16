@@ -12,7 +12,7 @@ CacoEngine::Object::Object(const Object &object) {
 CacoEngine::Object& CacoEngine::Object::operator =(const Object& object) {
     this->ID = object.ID;
     this->Vertices = object.Vertices;
-
+    this->mTexture = object.mTexture;
     this->Position = this->Vertices[0].Position;
 
     return *this;

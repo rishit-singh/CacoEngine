@@ -73,6 +73,9 @@ namespace CacoEngine
 
                         break;
                     case SDL_KEYDOWN:
+                        if (this->Event.key.keysym.sym == SDLK_ESCAPE)
+                            this->IsRunning = false;
+
                         this->OnKeyPress(this->Event.key);
                         break;
 
@@ -91,8 +94,10 @@ namespace CacoEngine
             this->EngineRenderer.SetColor(Colors[(int)Color::White]);
 
 
+
             for (int x = 0; x < this->Objects.size(); x++)
                 SDL_RenderGeometry(this->EngineRenderer.Instance, this->Objects[x].mTexture.mTexture, this->Objects[x].GetBuffer().data(), this->Objects[x].Vertices.size(), nullptr, 0);
+
 
             SDL_RenderPresent(this->EngineRenderer.Instance);
             SDL_Delay(0);

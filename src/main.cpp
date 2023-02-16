@@ -22,7 +22,11 @@ public:
             this->TintIndex = 0;
             this->TintColor = Colors[this->TintIndex];
 
-            this->Objects.push_back(Sprite(TextureManager::CreateTexture("cacodemon.png", this->EngineRenderer), Vector2D(100, 100), Vector2D(100, 100)));
+            Texture texture = TextureManager::CreateTexture("cacodemon.png", this->EngineRenderer);
+
+
+            //this->Objects.push_back(Sprite(texture, Vector2D(100, 100), Vector2D(100, 100)));
+            this->Objects.push_back(Sprite(texture, Vector2D(200, 200), Vector2D(100, 100)));
         }
 
         void OnUpdate(int frame) override
