@@ -55,7 +55,15 @@ public:
 
         void OnKeyPress(SDL_KeyboardEvent& event) override
         {
-            if (event.keysym.sym == )
+            if (event.keysym.sym == SDLK_RIGHT)
+                this->Objects[this->Objects.size() - 1].Translate(Vector2D(50, 0));
+            if (event.keysym.sym == SDLK_LEFT)
+                this->Objects[this->Objects.size() - 1].Translate(Vector2D(-50, 0));
+            if (event.keysym.sym == SDLK_DOWN)
+                this->Objects[this->Objects.size() - 1].Translate(Vector2D(0, 50));
+
+            if (event.keysym.sym == SDLK_UP)
+                this->Objects[this->Objects.size() - 1].Translate(Vector2D(0, -50));
         }
 
         void OnMouseScroll(SDL_MouseWheelEvent &event) override
