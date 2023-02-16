@@ -17,10 +17,18 @@ CacoEngine::RGBA CacoEngine::Colors[5] = {RGBA(255, 0, 0), RGBA(0, 255, 0),
                                          RGBA(0, 0, 0)};
 
 
-CacoEngine::Vector2D &CacoEngine::Vector2D::operator+=(Vector2D difference)
+CacoEngine::Vector2D &CacoEngine::Vector2D::operator +=(Vector2D difference)
 {
     this->X += difference.X;
     this->Y += difference.Y;
+
+    return *this;
+}
+
+CacoEngine::Vector2D &CacoEngine::Vector2D::operator -=(Vector2D difference)
+{
+    this->X -= difference.X;
+    this->Y -= difference.Y;
 
     return *this;
 }

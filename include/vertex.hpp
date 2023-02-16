@@ -21,6 +21,7 @@ namespace CacoEngine
         int Y;
 
         Vector2D& operator +=(Vector2D);
+        Vector2D& operator -=(Vector2D);
 
         Vector2D(int = 0, int = 0);
     };

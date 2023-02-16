@@ -1,9 +1,11 @@
+#include <SDL_keycode.h>
+#include <algorithm>
+#include <unordered_map>
+#include <iostream>
+
 #include "engine.hpp"
 #include "texture.hpp"
 #include "tools.hpp"
-#include <SDL_keycode.h>
-#include <algorithm>
-#include <iostream>
 #include "sprite.hpp"
 #include "random.hpp"
 
@@ -16,59 +18,80 @@ public:
 
         RGBA TintColor;
 
+        int SelectedIndex;
+
+        std::unordered_map<std::string_view, Texture> TextureCache;
+
+        int Force;
 
         void OnInitialize() override
         {
             this->TintIndex = 0;
             this->TintColor = Colors[this->TintIndex];
+            this->SelectedIndex = 0;
 
-            Texture texture = TextureManager::CreateTexture("cacodemon.png", this->EngineRenderer);
+            this->Force = 800;
+
+            this->TextureCache["cacodemon"] = TextureManager::CreateTexture("cacodemon.png", this->EngineRenderer);
+            this->TextureCache["cacodemon_left"] = TextureManager::CreateTexture("cacodemon_left.png", this->EngineRenderer);
+            this->TextureCache["cacodemon_right"] = TextureManager::CreateTexture("cacodemon_right.png", this->EngineRenderer);
 
 
-            //this->Objects.push_back(Sprite(texture, Vector2D(100, 100), Vector2D(100, 100)));
-            this->Objects.push_back(Sprite(texture, Vector2D(200, 200), Vector2D(100, 100)));
-
-            this->Objects[this->Objects.size() - 1].Translate(Vector2D(500, 0));
+            this->Objects.push_back(Sprite(this->TextureCache["cacodemon"], Vector2D(200, 200), Vector2D(100, 100)));
         }
 
         void OnUpdate(int frame) override
         {
+            for (; this->Force >= 0; this->Force--)
+                this->Objects[this->SelectedIndex].Translate(Vector2D(1, 0));
         }
 
         void OnMouseClick(SDL_MouseButtonEvent& event)
         {
-            // Rectangle rect = Rectangle(Vector2D(200, 200), this->CursorPosition, this->TintColor);
-            // // mesh.AddTriangle(
-            // //         Triangle(Vertex2D(Vector2D(this->CursorPosition.X, this->CursorPosition.Y), this->TintColor, Vector2D(0, 0)),
-            // //                     Vertex2D(Vector2D(this->CursorPosition.X, this->CursorPosition.Y + 100), this->TintColor, Vector2D(0, 1)),
-            // //                 Vertex2D(Vector2D(this->CursorPosition.X + 100, this->CursorPosition.Y + 100), this->TintColor, Vector2D(1, 1)), RGBA()));
-
-            // // mesh.AddTriangle(
-            // //         Triangle(Vertex2D(Vector2D(this->CursorPosition.X + 100, this->CursorPosition.Y + 100), this->TintColor, Vector2D(1, 1)),
-            // //                 Vertex2D(Vector2D(this->CursorPosition.X + 100, this->CursorPosition.Y), this->TintColor, Vector2D(1, 0)),
-            // //                 Vertex2D(Vector2D(this->CursorPosition.X, this->CursorPosition.Y), this->TintColor, Vector2D(0, 0)), RGBA()));
-
-
-            // this->Objects.push_back(rect);
-            // std::cout << "(" << this->CursorPosition.X << ", " << this->CursorPosition.Y << ")" << this->Frame << std::endl;
         }
 
         void OnKeyPress(SDL_KeyboardEvent& event) override
         {
             if (event.keysym.sym == SDLK_RIGHT)
-                this->Objects[this->Objects.size() - 1].Translate(Vector2D(50, 0));
+            {
+                this->Objects[this->SelectedIndex].mTexture = this->TextureCache["cacodemon_right"];
+                this->Objects[this->SelectedIndex].Translate(Vector2D(10, 0));
+            }
+
             if (event.keysym.sym == SDLK_LEFT)
-                this->Objects[this->Objects.size() - 1].Translate(Vector2D(-50, 0));
+            {
+                this->Objects[this->SelectedIndex].mTexture = this->TextureCache["cacodemon_left"];
+                this->Objects[this->SelectedIndex].Translate(Vector2D(-10, 0));
+            }
+
             if (event.keysym.sym == SDLK_DOWN)
-                this->Objects[this->Objects.size() - 1].Translate(Vector2D(0, 50));
+            {
+                this->Objects[this->SelectedIndex].mTexture = this->TextureCache["cacodemon"];
+                this->Objects[this->SelectedIndex].Translate(Vector2D(0, 10));
+            }
 
             if (event.keysym.sym == SDLK_UP)
-                this->Objects[this->Objects.size() - 1].Translate(Vector2D(0, -50));
+            {
+                this->Objects[this->SelectedIndex].mTexture = this->TextureCache["cacodemon"];
+                this->Objects[this->SelectedIndex].Translate(Vector2D(0, -10));
+            }
+            if (event.keysym.sym == SDLK_s)
+            {
+                this->Objects.push_back(Sprite(this->TextureCache["cacodemon"], Vector2D(200, 200), Vector2D(100, 100)));
+                this->SelectedIndex++;
+            }
+
+            if (event.keysym.sym == SDLK_c)
+                if (++this->SelectedIndex >= this->Objects.size())
+                    this->SelectedIndex = 0;
+
+            if (event.keysym.sym == SDLK_d)
+                if (--this->SelectedIndex < 0)
+                    this->SelectedIndex = this->Objects.size() - 1;
         }
 
         void OnMouseScroll(SDL_MouseWheelEvent &event) override
         {
-
             if (event.y > 0)
                 this->TintIndex++;
 
@@ -98,12 +121,6 @@ int main(int argc, char** argv)
     Application app = Application(argv[1], CacoEngine::Vector2D(atoi(argv[2]), atoi(argv[3])));
 
     app.Run();
-    // CacoEngine::Util::Random random = CacoEngine::Util::Random();
-
-    // for (int x = 0; x < atoi(argv[1]); x++)
-    //     std::cout << random.Next(0, 100) << ", ";
-
-    // std::cout << std::endl;
 
     return 0;
 }
