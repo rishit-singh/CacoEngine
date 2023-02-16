@@ -77,17 +77,19 @@ std::vector<SDL_Vertex> CacoEngine::Object::GetBuffer()
     return sdlVertices;
 }
 
-CacoEngine::Rectangle::Rectangle(Vector2D dimensions, Vector2D position, RGBA color, Texture texture)
-    : Mesh() {
+CacoEngine::Rectangle::Rectangle(Vector2D dimensions, Vector2D position, RGBA color, Texture texture) : Mesh()
+{
     this->Position = position;
 
-    this->AddTriangle(Triangle(Vertex2D(Vector2D(position.X, position.Y), color),
-                 Vertex2D(Vector2D(position.X + dimensions.X, position.Y), color),
-                 Vertex2D(Vector2D(position.X, position.Y + dimensions.Y), color), color));
+    this->mTexture = texture;
 
-    this->AddTriangle(Triangle(Vertex2D(Vector2D(position.X, position.Y), color),
-                 Vertex2D(Vector2D(position.X + dimensions.X, position.Y), color),
-                 Vertex2D(Vector2D(position.X, position.Y + dimensions.Y), color), color));
+    this->AddTriangle(Triangle(Vertex2D(Vector2D(position.X, position.Y), color, Vector2D(0, 0)),
+                 Vertex2D(Vector2D(position.X, position.Y + dimensions.Y), color, Vector2D(0, 1)),
+                 Vertex2D(Vector2D(position.X + dimensions.X, position.Y + dimensions.Y), color, Vector2D(1, 1)), color));
+
+    this->AddTriangle(Triangle(Vertex2D(Vector2D(position.X + dimensions.X, position.Y + dimensions.Y), color, Vector2D(1, 1)),
+                               Vertex2D(Vector2D(position.X + dimensions.X, position.Y), color, Vector2D(1, 0)),
+                               Vertex2D(Vector2D(position.X, position.Y), color, Vector2D(0, 0)), color));
 }
 
 CacoEngine::Rectangle::~Rectangle()
