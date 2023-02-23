@@ -10,7 +10,7 @@ namespace CacoEngine
     {
     public:
             Sprite(Texture, Vector2D = Vector2D(), Vector2D = Vector2D());
-            ~Sprite();
+            virtual ~Sprite();
     };
 };
 
