@@ -46,7 +46,7 @@ public:
                 this->Objects[this->SelectedIndex].Translate(Vector2D(1, 0));
         }
 
-        void OnMouseClick(SDL_MouseButtonEvent& event)
+        void OnMouseClick(SDL_MouseButtonEvent& event) override
         {
         }
 
@@ -75,6 +75,7 @@ public:
                 this->Objects[this->SelectedIndex].mTexture = this->TextureCache["cacodemon"];
                 this->Objects[this->SelectedIndex].Translate(Vector2D(0, -10));
             }
+
             if (event.keysym.sym == SDLK_s)
             {
                 this->Objects.push_back(Sprite(this->TextureCache["cacodemon"], Vector2D(200, 200), Vector2D(100, 100)));
@@ -124,4 +125,3 @@ int main(int argc, char** argv)
 
     return 0;
 }
-
