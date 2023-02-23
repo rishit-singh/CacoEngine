@@ -33,7 +33,7 @@ namespace CacoEngine
 
             Object& operator =(const Object& object);
 
-            ~Object();
+            virtual ~Object();
     };
 
     class Triangle : public Object
@@ -44,7 +44,7 @@ namespace CacoEngine
 
             Triangle& operator =(const Triangle&);
 
-            ~Triangle();
+            virtual ~Triangle();
     };
 
     class Mesh : public Object
@@ -70,7 +70,7 @@ namespace CacoEngine
                     this->AddTriangle(triangles[x]);
             }
 
-            ~Mesh()
+            virtual ~Mesh()
             {
             }
     };
@@ -82,7 +82,7 @@ namespace CacoEngine
 
 
             Rectangle(Vector2D, Vector2D, RGBA = Colors[(int)Color::White], Texture = Texture());
-            ~Rectangle();
+            virtual ~Rectangle();
     };
 }
 

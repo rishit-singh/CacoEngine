@@ -9,41 +9,39 @@
 #include "sprite.hpp"
 #include "random.hpp"
 
-using namespace CacoEngine;
-
 class Application : public CacoEngine::Engine
 {
 public:
         int TintIndex;
 
-        RGBA TintColor;
+        CacoEngine::RGBA TintColor;
 
         int SelectedIndex;
 
-        std::unordered_map<std::string_view, Texture> TextureCache;
+        std::unordered_map<std::string_view, CacoEngine::Texture> TextureCache;
 
         int Force;
 
         void OnInitialize() override
         {
             this->TintIndex = 0;
-            this->TintColor = Colors[this->TintIndex];
+            this->TintColor = CacoEngine::Colors[this->TintIndex];
             this->SelectedIndex = 0;
 
             this->Force = 800;
 
-            this->TextureCache["cacodemon"] = TextureManager::CreateTexture("cacodemon.png", this->EngineRenderer);
-            this->TextureCache["cacodemon_left"] = TextureManager::CreateTexture("cacodemon_left.png", this->EngineRenderer);
-            this->TextureCache["cacodemon_right"] = TextureManager::CreateTexture("cacodemon_right.png", this->EngineRenderer);
+            this->TextureCache["cacodemon"] = CacoEngine::TextureManager::CreateTexture("cacodemon.png", this->EngineRenderer);
+            this->TextureCache["cacodemon_left"] = CacoEngine::TextureManager::CreateTexture("cacodemon_left.png", this->EngineRenderer);
+            this->TextureCache["cacodemon_right"] = CacoEngine::TextureManager::CreateTexture("cacodemon_right.png", this->EngineRenderer);
 
 
-            this->Objects.push_back(Sprite(this->TextureCache["cacodemon"], Vector2D(200, 200), Vector2D(100, 100)));
+            this->Objects.push_back(CacoEngine::Sprite(this->TextureCache["cacodemon"], CacoEngine::Vector2D(200, 200), CacoEngine::Vector2D(100, 100)));
         }
 
         void OnUpdate(int frame) override
         {
             for (; this->Force >= 0; this->Force--)
-                this->Objects[this->SelectedIndex].Translate(Vector2D(1, 0));
+                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2D(1, 0));
         }
 
         void OnMouseClick(SDL_MouseButtonEvent& event) override
@@ -55,30 +53,30 @@ public:
             if (event.keysym.sym == SDLK_RIGHT)
             {
                 this->Objects[this->SelectedIndex].mTexture = this->TextureCache["cacodemon_right"];
-                this->Objects[this->SelectedIndex].Translate(Vector2D(10, 0));
+                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2D(10, 0));
             }
 
             if (event.keysym.sym == SDLK_LEFT)
             {
                 this->Objects[this->SelectedIndex].mTexture = this->TextureCache["cacodemon_left"];
-                this->Objects[this->SelectedIndex].Translate(Vector2D(-10, 0));
+                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2D(-10, 0));
             }
 
             if (event.keysym.sym == SDLK_DOWN)
             {
                 this->Objects[this->SelectedIndex].mTexture = this->TextureCache["cacodemon"];
-                this->Objects[this->SelectedIndex].Translate(Vector2D(0, 10));
+                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2D(0, 10));
             }
 
             if (event.keysym.sym == SDLK_UP)
             {
                 this->Objects[this->SelectedIndex].mTexture = this->TextureCache["cacodemon"];
-                this->Objects[this->SelectedIndex].Translate(Vector2D(0, -10));
+                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2D(0, -10));
             }
 
             if (event.keysym.sym == SDLK_s)
             {
-                this->Objects.push_back(Sprite(this->TextureCache["cacodemon"], Vector2D(200, 200), Vector2D(100, 100)));
+                this->Objects.push_back(CacoEngine::Sprite(this->TextureCache["cacodemon"], CacoEngine::Vector2D(200, 200), CacoEngine::Vector2D(100, 100)));
                 this->SelectedIndex++;
             }
 
@@ -104,7 +102,7 @@ public:
             else if (this->TintIndex > 4)
                 this->TintIndex = 0;
 
-            this->TintColor = Colors[this->TintIndex];
+            this->TintColor = CacoEngine::Colors[this->TintIndex];
 
         }
 
