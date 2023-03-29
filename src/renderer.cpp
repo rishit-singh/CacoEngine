@@ -24,3 +24,8 @@ void CacoEngine::Renderer::SetColor(RGBA color)
 
     SDL_SetRenderDrawColor(this->Instance, this->Color.R, this->Color.G, this->Color.B, SDL_ALPHA_OPAQUE);
 }
+
+SDL_Renderer *CacoEngine::Renderer::GetInstance()
+{
+    return this->Instance;
+}

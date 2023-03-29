@@ -44,9 +44,6 @@ namespace CacoEngine
     {
     }
 
-    void Engine::OnInitialize()
-    {
-    }
 
     void Engine::OnUpdate(int frame)
     {}
@@ -54,6 +51,8 @@ namespace CacoEngine
 
     void Engine::Run()
     {
+        SDL_Renderer* renderer;
+
         this->IsRunning = true;
         this->Window = SDL_CreateWindow(this->Title.data(), 0, 2500, this->Resolution.X, this->Resolution.Y, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 
@@ -93,14 +92,11 @@ namespace CacoEngine
             this->EngineRenderer.Clear();
             this->EngineRenderer.SetColor(Colors[(int)Color::White]);
 
-
-
             for (int x = 0; x < this->Objects.size(); x++)
-                SDL_RenderGeometry(this->EngineRenderer.Instance, this->Objects[x].mTexture.mTexture, this->Objects[x].GetBuffer().data(), this->Objects[x].Vertices.size(), nullptr, 0);
+                SDL_RenderGeometry(renderer = this->EngineRenderer.GetInstance(), this->Objects[x].mTexture.mTexture, this->Objects[x].GetBuffer().data(), this->Objects[x].Vertices.size(), nullptr, 0);
 
-
-            SDL_RenderPresent(this->EngineRenderer.Instance);
             SDL_Delay(0);
+            SDL_RenderPresent(renderer);
 
             this->OnUpdate(++this->Frame);
         }

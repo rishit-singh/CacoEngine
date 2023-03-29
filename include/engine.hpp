@@ -55,7 +55,7 @@ namespace CacoEngine
             virtual void OnMouseClick(SDL_MouseButtonEvent&);
             virtual void OnMouseScroll(SDL_MouseWheelEvent&);
 
-            virtual void OnInitialize();
+            virtual void OnInitialize() = 0;
             virtual void OnUpdate(int);
 
             Object& CreateMesh(std::vector<Vector2D>);

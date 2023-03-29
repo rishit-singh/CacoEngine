@@ -10,13 +10,17 @@ namespace CacoEngine
 
     class Renderer
     {
-    public:
+    private:
             SDL_Renderer* Instance;
+
+    public:
 
             RGBA Color;
 
             void Clear(RGBA = RGBA());
             void SetColor(RGBA);
+
+            SDL_Renderer* GetInstance();
 
             Renderer(SDL_Window* = nullptr);
             ~Renderer();
