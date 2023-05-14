@@ -75,7 +75,15 @@ public:
 
             if (event.keysym.sym == SDLK_s)
             {
-                this->Objects.push_back(CacoEngine::Sprite(this->TextureCache["cacodemon"], CacoEngine::Vector2D(200, 200), CacoEngine::Vector2D(100, 100)));
+                // CacoEngine::Sprite sprite = CacoEngine::Sprite(this->TextureCache["cacodemon"], CacoEngine::Vector2D(200, 200), CacoEngine::Vector2D(100, 100));
+
+                CacoEngine::Rectangle sprite = CacoEngine::Rectangle(CacoEngine::Vector2D(200, 200), CacoEngine::Vector2D(100)); 
+
+
+                sprite.SetFillColor(CacoEngine::Colors[(int)CacoEngine::Color::Red]);
+                sprite.FillMode = CacoEngine::RasterizeMode::SolidColor;
+
+                this->Objects.push_back(sprite);
                 this->SelectedIndex++;
             }
 

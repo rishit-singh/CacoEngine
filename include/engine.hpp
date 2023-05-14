@@ -21,7 +21,8 @@ namespace CacoEngine
     class Engine
     {
     protected:
-            std::vector<Extension> Extensions;
+            // Contains all the Extensions
+            std::vector<Extension> Extensions; 
 
             int ExtensionBits;
 
@@ -34,6 +35,9 @@ namespace CacoEngine
             std::vector<Object> Objects;
 
             int Frame;
+            
+            bool HasExtension(Extension);
+
     public:
             std::string_view Title;
 
@@ -46,6 +50,7 @@ namespace CacoEngine
             SDL_Window* Window;
 
             void Run();
+
 
             void AddExtension(Extension);
             void Initialize();

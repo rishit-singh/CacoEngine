@@ -38,7 +38,7 @@ namespace CacoEngine
             Surface surface = Surface(IMG_Load(path.data()));
 
             SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer.GetInstance(), surface.Screen);
-
+        
             return Texture(TextureManager::Textures.size(), texture);
         }
     };

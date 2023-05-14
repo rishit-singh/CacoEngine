@@ -5,6 +5,7 @@ CacoEngine::Sprite::Sprite(CacoEngine::Texture texture, Vector2D dimensions, Vec
     : Rectangle(dimensions, position,
                 CacoEngine::Colors[(int)CacoEngine::Color::White], texture)
 {
+    this->FillMode = RasterizeMode::Texture;
 }
 
 CacoEngine::Sprite::~Sprite() {}

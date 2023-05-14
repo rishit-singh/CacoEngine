@@ -4,7 +4,7 @@
 #include <SDL_render.h>
 #include <random>
 
-CacoEngine::Object::Object() : ID(0), Position(Vector2D())
+CacoEngine::Object::Object() : ID(0), Position(Vector2D()), Vertices(std::vector<Vertex2D>()), mTexture(Texture()), FillColor(RGBA()), FillMode(RasterizeMode::SolidColor)
 {
 }
 
@@ -19,7 +19,8 @@ CacoEngine::Object& CacoEngine::Object::operator =(const Object& object)
     this->Vertices = object.Vertices;
     this->mTexture = object.mTexture;
     this->Position = this->Vertices[0].Position;
-
+    this->FillColor = object.FillColor;
+    this->FillMode = object.FillMode;
     return *this;
 }
 
@@ -69,7 +70,8 @@ void CacoEngine::Object::AddVertex(Vertex2D vertex)
         this->Position = this->Vertices[0].Position;
 }
 
-void CacoEngine::Object::Translate(Vector2D difference) {
+void CacoEngine::Object::Translate(Vector2D difference) 
+{
     this->Position += difference;
 
     for (int x = 0; x < this->Vertices.size(); x++)
@@ -80,7 +82,6 @@ std::vector<SDL_Vertex> CacoEngine::Object::GetBuffer()
 {
     std::vector<SDL_Vertex> sdlVertices = std::vector<SDL_Vertex>();
 
-
     sdlVertices.reserve(this->Vertices.size());
 
     for (int x = 0; x < this->Vertices.size(); x++)
@@ -89,12 +90,38 @@ std::vector<SDL_Vertex> CacoEngine::Object::GetBuffer()
     return sdlVertices;
 }
 
+void CacoEngine::Mesh::SetFillColor(RGBA color)
+{
+    for (int x = 0; x < this->Vertices.size(); x++)
+        this->Vertices[x].Color = color;
+}
+
+CacoEngine::Mesh::Mesh(std::vector<Triangle> triangles) : Object(), Triangles(triangles)
+{
+    for (int x = 0; x < triangles.size(); x++)
+        this->AddTriangle(triangles[x]);
+}
+
+CacoEngine::Mesh::~Mesh()
+{
+}
+
+void CacoEngine::Mesh::AddTriangle(Triangle triangle)
+{
+    this->Triangles.push_back(triangle);
+
+    int end = this->Triangles.size() - 1;
+
+    for (int x = 0; x < 3; x++)
+        this->AddVertex(this->Triangles[end].Vertices[x]);
+}
+
 CacoEngine::Rectangle::Rectangle(Vector2D dimensions, Vector2D position, RGBA color, Texture texture) : Mesh()
 {
     this->Position = position;
-
     this->mTexture = texture;
 
+ 
     this->AddTriangle(Triangle(Vertex2D(Vector2D(position.X, position.Y), color, Vector2D(0, 0)),
                  Vertex2D(Vector2D(position.X, position.Y + dimensions.Y), color, Vector2D(0, 1)),
                  Vertex2D(Vector2D(position.X + dimensions.X, position.Y + dimensions.Y), color, Vector2D(1, 1)), color));
@@ -105,3 +132,4 @@ CacoEngine::Rectangle::Rectangle(Vector2D dimensions, Vector2D position, RGBA co
 }
 
 CacoEngine::Rectangle::~Rectangle() {}
+

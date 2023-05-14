@@ -14,8 +14,19 @@ namespace CacoEngine
 {
     void Engine::AddExtension(Extension extension)
     {
-        this->Extensions.push_back(extension);
+        if (!this->HasExtension(extension))
+            this->Extensions.push_back(extension);
     }
+
+    bool Engine::HasExtension(Extension extension)
+    {
+        for (int x = 0; x < this->Extensions.size(); x++)
+            if (this->Extensions[x] == extension)
+                return true;
+
+        return false;
+    }
+
 
     void Engine::Initialize()
     {
@@ -52,6 +63,8 @@ namespace CacoEngine
 
         while (this->IsRunning)
         {
+            SDL_GetMouseState(&this->CursorPosition.X, &this->CursorPosition.Y);
+
             while (SDL_PollEvent(&this->Event))
                 switch (this->Event.type)
                 {
@@ -67,7 +80,6 @@ namespace CacoEngine
                         break;
 
                     case SDL_MOUSEBUTTONDOWN:
-                        SDL_GetMouseState(&this->CursorPosition.X, &this->CursorPosition.Y);
                         this->OnMouseClick(this->Event.button);
                         break;
 
@@ -79,9 +91,16 @@ namespace CacoEngine
 
             this->EngineRenderer.Clear();
             this->EngineRenderer.SetColor(Colors[(int)Color::White]);
+            
+            Object object;
+
+            bool fillMode; 
 
             for (int x = 0; x < this->Objects.size(); x++)
-                SDL_RenderGeometry(renderer = this->EngineRenderer.GetInstance(), this->Objects[x].mTexture.mTexture, this->Objects[x].GetBuffer().data(), this->Objects[x].Vertices.size(), nullptr, 0);
+            {
+                this->EngineRenderer.SetColor((object = this->Objects[x]).FillColor); 
+                SDL_RenderGeometry(renderer = this->EngineRenderer.GetInstance(), (object.FillMode == RasterizeMode::Texture) ? object.mTexture.mTexture : nullptr, object.GetBuffer().data(), object.Vertices.size(), nullptr, 0);
+            }
 
             SDL_RenderPresent(renderer);
             SDL_Delay(0);
@@ -90,14 +109,12 @@ namespace CacoEngine
         }
     }
 
-
-
     Engine::Engine(std::string_view title, Vector2D resolution, bool initialize)
         : Title(title), Resolution(resolution), IsRunning(false), Frame(0)
     {
         this->Extensions = {
             Extension::Video,
-            Extension::Audio
+            Extension::Audio,
         };
 
         if (initialize)
@@ -114,3 +131,5 @@ namespace CacoEngine
         std::cout << "SDL Aborted.";
     }
 }
+ 
+ 

@@ -7,7 +7,6 @@ namespace CacoEngine
     {
         if (window)
             this->Screen = SDL_GetWindowSurface(window);
-    
     }
 
     Surface::Surface(SDL_Surface* surface) : Screen(surface)
@@ -25,9 +24,11 @@ namespace CacoEngine
 
         uint8_t* pixelArray = (uint8_t*)this->Screen->pixels;
 
-        pixelArray[pixel.Position.Y * this->Screen->pitch + pixel.Position.X * this->Screen->format->BytesPerPixel + 0] = pixel.Color.G;
-        pixelArray[pixel.Position.Y * this->Screen->pitch + pixel.Position.X * this->Screen->format->BytesPerPixel + 1] = pixel.Color.B;
-        pixelArray[pixel.Position.Y * this->Screen->pitch + pixel.Position.X * this->Screen->format->BytesPerPixel + 2] = pixel.Color.R;
+        uint8_t offset;
+
+        pixelArray[(offset = pixel.Position.Y * this->Screen->pitch + pixel.Position.X * this->Screen->format->BytesPerPixel) + 0] = pixel.Color.G;
+        pixelArray[offset + 1] = pixel.Color.B;
+        pixelArray[offset + 2] = pixel.Color.R;
 
         SDL_UnlockSurface(this->Screen);
     }

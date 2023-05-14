@@ -9,80 +9,76 @@
 
 
 namespace CacoEngine
-{
+{   
+	enum class RasterizeMode
+	{
+		SolidColor,
+		Texture
+	};
 
-    class Object
+   class Object
     {
     public:
-            int ID;
+	    int ID;
 
-            Vector2D Position;
+	    Vector2D Position;
 
-            Texture mTexture;
+	    Texture mTexture;
 
-            std::vector<Vertex2D> Vertices;
+	    RGBA FillColor;
 
-            virtual std::vector<SDL_Vertex> GetBuffer();
+		RasterizeMode FillMode;
 
-            void AddVertex(Vertex2D);
+	    std::vector<Vertex2D> Vertices;
 
-            void Translate(Vector2D);
+	    virtual std::vector<SDL_Vertex> GetBuffer();
 
-            Object();
-            Object(const Object&);
+	    void AddVertex(Vertex2D);
 
-            Object& operator =(const Object& object);
+	    void Translate(Vector2D);
 
-            virtual ~Object();
+	    Object();
+	    Object(const Object&);
+
+	    Object& operator =(const Object& object);
+
+	    virtual ~Object();
     };
 
     class Triangle : public Object
     {
     public:
-            Triangle(Vertex2D, Vertex2D, Vertex2D, RGBA);
-            Triangle(const Triangle&);
+	    Triangle(Vertex2D, Vertex2D, Vertex2D, RGBA);
+	    Triangle(const Triangle&);
 
-            Triangle& operator =(const Triangle&);
+	    Triangle& operator =(const Triangle&);
 
-            virtual ~Triangle();
+	    virtual ~Triangle();
     };
 
     class Mesh : public Object
     {
     protected:
-            void Initialize();
+	    void Initialize();
     public:
-            std::vector<Triangle> Triangles;
+	    std::vector<Triangle> Triangles;
 
-            void AddTriangle(Triangle triangle)
-            {
-                this->Triangles.push_back(triangle);
+		void SetFillColor(RGBA);
 
-                int end = this->Triangles.size() - 1;
+	    void AddTriangle(Triangle triangle);
 
-                for (int x = 0; x < 3; x++)
-                    this->AddVertex(this->Triangles[end].Vertices[x]);
-            }
+	    Mesh(std::vector<Triangle> triangles = std::vector<Triangle>());
 
-            Mesh(std::vector<Triangle> triangles = std::vector<Triangle>()) : Object(), Triangles(triangles)
-            {
-                for (int x = 0; x < triangles.size(); x++)
-                    this->AddTriangle(triangles[x]);
-            }
-
-            virtual ~Mesh()
-            {
-            }
+	    virtual ~Mesh();
     };
 
     class Rectangle : public Mesh
     {
     public:
-            Vector2D Dimensions;
+	    Vector2D Dimensions;
 
-
-            Rectangle(Vector2D, Vector2D, RGBA = Colors[(int)Color::White], Texture = Texture());
-            virtual ~Rectangle();
+	    Rectangle(Vector2D, Vector2D, RGBA = Colors[(int)Color::White], Texture = Texture());
+	    virtual ~Rectangle();
     };
 }
 

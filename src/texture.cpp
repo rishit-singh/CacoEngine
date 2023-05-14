@@ -1,8 +1,6 @@
 #include "texture.hpp"
 #include <SDL_render.h>
 
-
-
 CacoEngine::Texture::Texture(int id, SDL_Texture* texture)
 {
     this->ID = id;  

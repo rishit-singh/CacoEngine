@@ -13,7 +13,6 @@ namespace CacoEngine
             SDL_Renderer* Instance;
 
     public:
-
             RGBA Color;
 
             void Clear(RGBA = RGBA());
@@ -27,3 +26,4 @@ namespace CacoEngine
 }
 
 #endif // RENDERER_H_
+
