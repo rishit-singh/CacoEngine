@@ -51,12 +51,12 @@ namespace CacoEngine
             void Initialize();
 
             /** Event handlers **/
-            virtual void OnKeyPress(SDL_KeyboardEvent&);
-            virtual void OnMouseClick(SDL_MouseButtonEvent&);
-            virtual void OnMouseScroll(SDL_MouseWheelEvent&);
+            virtual void OnKeyPress(SDL_KeyboardEvent&) = 0;
+            virtual void OnMouseClick(SDL_MouseButtonEvent&) = 0;
+            virtual void OnMouseScroll(SDL_MouseWheelEvent&) = 0;
 
             virtual void OnInitialize() = 0;
-            virtual void OnUpdate(int);
+            virtual void OnUpdate(int) = 0;
 
             Object& CreateMesh(std::vector<Vector2D>);
 

@@ -7,6 +7,7 @@ namespace CacoEngine
     {
         if (window)
             this->Screen = SDL_GetWindowSurface(window);
+    
     }
 
     Surface::Surface(SDL_Surface* surface) : Screen(surface)
@@ -31,3 +32,6 @@ namespace CacoEngine
         SDL_UnlockSurface(this->Screen);
     }
 }
+ 
+
+ 

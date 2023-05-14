@@ -5,7 +5,7 @@
 
 CacoEngine::Texture::Texture(int id, SDL_Texture* texture)
 {
-    this->ID = id;
+    this->ID = id;  
     this->mTexture = texture;
 }
 

@@ -4,14 +4,17 @@
 #include <SDL_render.h>
 #include <random>
 
+CacoEngine::Object::Object() : ID(0), Position(Vector2D())
+{
+}
 
-CacoEngine::Object::Object() : ID(0), Position(Vector2D()){}
-
-CacoEngine::Object::Object(const Object &object) {
+CacoEngine::Object::Object(const Object &object)
+{
     *this = object;
 }
 
-CacoEngine::Object& CacoEngine::Object::operator =(const Object& object) {
+CacoEngine::Object& CacoEngine::Object::operator =(const Object& object)
+{
     this->ID = object.ID;
     this->Vertices = object.Vertices;
     this->mTexture = object.mTexture;
@@ -31,11 +34,13 @@ CacoEngine::Triangle::Triangle(CacoEngine::Vertex2D p, CacoEngine::Vertex2D p1,
     this->AddVertex(p2);
 }
 
-CacoEngine::Triangle::Triangle(const Triangle &triangle) {
+CacoEngine::Triangle::Triangle(const Triangle &triangle)
+{
     *this = triangle;
 }
 
-CacoEngine::Triangle &CacoEngine::Triangle::operator =(const Triangle& triangle) {
+CacoEngine::Triangle &CacoEngine::Triangle::operator =(const Triangle& triangle)
+{
     this->ID = triangle.ID;
     this->Vertices = std::vector<CacoEngine::Vertex2D>();
 
@@ -77,8 +82,6 @@ std::vector<SDL_Vertex> CacoEngine::Object::GetBuffer()
 
 
     sdlVertices.reserve(this->Vertices.size());
-
-    SDL_Vertex vertex;
 
     for (int x = 0; x < this->Vertices.size(); x++)
         sdlVertices.push_back(this->Vertices[x].GetSDLVertex());

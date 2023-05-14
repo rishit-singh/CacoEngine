@@ -36,18 +36,6 @@ namespace CacoEngine
             this->IsRunning = false;
     }
 
-    void Engine::OnMouseClick(SDL_MouseButtonEvent& event)
-    {
-    }
-
-    void Engine::OnMouseScroll(SDL_MouseWheelEvent& event)
-    {
-    }
-
-
-    void Engine::OnUpdate(int frame)
-    {}
-
 
     void Engine::Run()
     {
@@ -95,8 +83,8 @@ namespace CacoEngine
             for (int x = 0; x < this->Objects.size(); x++)
                 SDL_RenderGeometry(renderer = this->EngineRenderer.GetInstance(), this->Objects[x].mTexture.mTexture, this->Objects[x].GetBuffer().data(), this->Objects[x].Vertices.size(), nullptr, 0);
 
-            SDL_Delay(0);
             SDL_RenderPresent(renderer);
+            SDL_Delay(0);
 
             this->OnUpdate(++this->Frame);
         }

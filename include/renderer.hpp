@@ -7,7 +7,6 @@
 
 namespace CacoEngine
 {
-
     class Renderer
     {
     private:

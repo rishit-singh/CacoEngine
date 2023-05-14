@@ -19,7 +19,7 @@ namespace CacoEngine::Util
         T Next(T min, T max)
         {
             this->Distribution = std::uniform_int_distribution<T>(min, max);
-
+        
             return this->Distribution(this->MTInstance);
         }
         
