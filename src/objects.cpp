@@ -4,7 +4,7 @@
 #include <SDL_render.h>
 #include <random>
 
-CacoEngine::Object::Object() : ID(0), Position(Vector2D()), Vertices(std::vector<Vertex2D>()), mTexture(Texture()), FillColor(RGBA()), FillMode(RasterizeMode::SolidColor)
+CacoEngine::Object::Object() : ID(0), Position(Vector2D()), Vertices(std::vector<Vertex2D>()), mTexture(Texture()), FillColor(CacoEngine::Colors[(int)CacoEngine::Color::White]), FillMode(RasterizeMode::SolidColor)
 {
 }
 
@@ -21,7 +21,28 @@ CacoEngine::Object& CacoEngine::Object::operator =(const Object& object)
     this->Position = this->Vertices[0].Position;
     this->FillColor = object.FillColor;
     this->FillMode = object.FillMode;
+
     return *this;
+}
+
+std::vector<SDL_Point> CacoEngine::Object::GetPoints()
+{
+    std::vector<SDL_Point> sdlPoints = std::vector<SDL_Point>();
+
+    for (int x = 0; x < this->Vertices.size(); x++)
+        sdlPoints.push_back(this->Vertices[x].GetSDLPoint());
+
+    return sdlPoints;
+}
+
+std::vector<SDL_FPoint> CacoEngine::Object::GetPointsF()
+{
+    std::vector<SDL_FPoint> sdlPoints = std::vector<SDL_FPoint>();
+
+    for (int x = 0; x < this->Vertices.size(); x++)
+        sdlPoints.push_back(this->Vertices[x].GetSDLPointF());
+
+    return sdlPoints;
 }
 
 CacoEngine::Object::~Object() {}
@@ -53,14 +74,6 @@ CacoEngine::Triangle &CacoEngine::Triangle::operator =(const Triangle& triangle)
 CacoEngine::Triangle::~Triangle() {}
 
 
-SDL_Vertex CacoEngine::Vertex2D::GetSDLVertex()
-{
-    return {
-        SDL_FPoint { (float)this->Position.X, (float)this->Position.Y },
-        SDL_Color { (uint8_t)this->Color.R, (uint8_t)this->Color.B, (uint8_t)this->Color.G, (uint8_t)this->Color.A },
-        SDL_FPoint { (float)this->TextureCoordinates.X, (float)this->TextureCoordinates.Y }
-    };
-}
 
 void CacoEngine::Object::AddVertex(Vertex2D vertex)
 {
@@ -78,7 +91,7 @@ void CacoEngine::Object::Translate(Vector2D difference)
         this->Vertices[x].Position += difference;
 }
 
-std::vector<SDL_Vertex> CacoEngine::Object::GetBuffer()
+std::vector<SDL_Vertex> CacoEngine::Object::GetVertexBuffer()
 {
     std::vector<SDL_Vertex> sdlVertices = std::vector<SDL_Vertex>();
 

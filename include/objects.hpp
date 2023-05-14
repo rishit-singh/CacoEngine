@@ -12,6 +12,7 @@ namespace CacoEngine
 {   
 	enum class RasterizeMode
 	{
+		WireFrame,
 		SolidColor,
 		Texture
 	};
@@ -31,8 +32,12 @@ namespace CacoEngine
 
 	    std::vector<Vertex2D> Vertices;
 
-	    virtual std::vector<SDL_Vertex> GetBuffer();
+	    virtual std::vector<SDL_Vertex> GetVertexBuffer();
 
+		virtual std::vector<SDL_FPoint> GetPointsF();
+
+		virtual std::vector<SDL_Point> GetPoints();
+	 
 	    void AddVertex(Vertex2D);
 
 	    void Translate(Vector2D);

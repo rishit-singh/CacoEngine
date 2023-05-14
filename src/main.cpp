@@ -80,12 +80,24 @@ public:
                 CacoEngine::Rectangle sprite = CacoEngine::Rectangle(CacoEngine::Vector2D(200, 200), CacoEngine::Vector2D(100)); 
 
 
-                sprite.SetFillColor(CacoEngine::Colors[(int)CacoEngine::Color::Red]);
-                sprite.FillMode = CacoEngine::RasterizeMode::SolidColor;
+                // sprite.SetFillColor(CacoEngine::Colors[(int)CacoEngine::Color::Red]);
+
+                sprite.mTexture = this->TextureCache["cacodemon"];
+                sprite.FillMode = CacoEngine::RasterizeMode::Texture;
 
                 this->Objects.push_back(sprite);
                 this->SelectedIndex++;
             }
+
+            if (event.keysym.sym == SDLK_w)
+            {
+                CacoEngine::Object& object = this->Objects[this->SelectedIndex];
+                if (object.FillMode == CacoEngine::RasterizeMode::WireFrame)
+                    object.FillMode = CacoEngine::RasterizeMode::Texture;
+                else
+                   object.FillMode = CacoEngine::RasterizeMode::WireFrame; 
+            }
+            
 
             if (event.keysym.sym == SDLK_c)
                 if (++this->SelectedIndex >= this->Objects.size())
@@ -110,7 +122,6 @@ public:
                 this->TintIndex = 0;
 
             this->TintColor = CacoEngine::Colors[this->TintIndex];
-
         }
 
         Application(std::string_view appName, CacoEngine::Vector2D windowDimensions) : Engine(appName, windowDimensions)

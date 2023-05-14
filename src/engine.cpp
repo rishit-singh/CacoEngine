@@ -27,7 +27,6 @@ namespace CacoEngine
         return false;
     }
 
-
     void Engine::Initialize()
     {
         this->ExtensionBits = (int)this->Extensions[0];
@@ -51,6 +50,10 @@ namespace CacoEngine
     void Engine::Run()
     {
         SDL_Renderer* renderer;
+
+        Object object;
+
+        std::vector<SDL_Point*> vertexBuffer;
 
         this->IsRunning = true;
         this->Window = SDL_CreateWindow(this->Title.data(), 0, 2500, this->Resolution.X, this->Resolution.Y, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
@@ -91,15 +94,15 @@ namespace CacoEngine
 
             this->EngineRenderer.Clear();
             this->EngineRenderer.SetColor(Colors[(int)Color::White]);
-            
-            Object object;
-
-            bool fillMode; 
 
             for (int x = 0; x < this->Objects.size(); x++)
             {
                 this->EngineRenderer.SetColor((object = this->Objects[x]).FillColor); 
-                SDL_RenderGeometry(renderer = this->EngineRenderer.GetInstance(), (object.FillMode == RasterizeMode::Texture) ? object.mTexture.mTexture : nullptr, object.GetBuffer().data(), object.Vertices.size(), nullptr, 0);
+
+                if (object.FillMode == RasterizeMode::WireFrame)
+                    SDL_RenderDrawLines(renderer = this->EngineRenderer.GetInstance(), object.GetPoints().data(), object.Vertices.size());
+                else
+                    SDL_RenderGeometry(renderer = this->EngineRenderer.GetInstance(), (object.FillMode == RasterizeMode::Texture) ? object.mTexture.mTexture : nullptr, object.GetVertexBuffer().data(), object.Vertices.size(), nullptr, 0);
             }
 
             SDL_RenderPresent(renderer);

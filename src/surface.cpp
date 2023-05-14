@@ -3,7 +3,7 @@
 
 namespace CacoEngine
 {
-    Surface::Surface(SDL_Window *window)
+    Surface::Surface(SDL_Window* window)
     {
         if (window)
             this->Screen = SDL_GetWindowSurface(window);

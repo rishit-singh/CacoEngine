@@ -26,6 +26,17 @@ namespace CacoEngine
         Vector2D(int = 0, int = 0);
     };
 
+    struct Vector2Df
+    {
+        double X;
+        double Y;
+
+        Vector2Df& operator +=(Vector2Df);
+        Vector2Df& operator -=(Vector2Df);
+
+        Vector2Df(double = 0, double = 0);
+    };
+
     struct Vertex2D
     {
         Vector2D Position;
@@ -35,6 +46,9 @@ namespace CacoEngine
         RGBA Color;
 
         SDL_Vertex GetSDLVertex();
+        
+        SDL_FPoint GetSDLPointF();
+        SDL_Point GetSDLPoint();
 
         Vertex2D(Vector2D = Vector2D(), RGBA = RGBA(), Vector2D = Vector2D());
     };
