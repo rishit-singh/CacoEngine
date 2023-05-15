@@ -9,6 +9,7 @@
 #include "objects.hpp"
 #include "surface.hpp"
 #include "renderer.hpp"
+#include "rigidmesh.hpp"
 
 namespace CacoEngine
 {
@@ -34,9 +35,16 @@ namespace CacoEngine
 
             std::vector<Object> Objects;
 
+            std::vector<RigidObject2D> RigidObjects;
+
             int Frame;
             
             bool HasExtension(Extension);
+
+            void UpdatePhysics();
+
+            void Render(SDL_Renderer*, std::vector<Object>&); 
+            void Render(SDL_Renderer*, std::vector<RigidObject2D>&); 
 
     public:
             std::string_view Title;
@@ -51,7 +59,6 @@ namespace CacoEngine
 
             void Run();
 
-
             void AddExtension(Extension);
             void Initialize();
 
@@ -63,8 +70,11 @@ namespace CacoEngine
             virtual void OnInitialize() = 0;
             virtual void OnUpdate(int) = 0;
 
-            Object& CreateMesh(std::vector<Vector2D>);
+            Object& AddObject(Object&);
+            RigidObject2D& AddObject(RigidObject2D&);
 
+            Object& CreateMesh(std::vector<Vector2D>);
+            
             Engine(std::string_view = "CacoEngine App", Vector2D = Vector2D(800, 600), bool = true);
             ~Engine();
     };

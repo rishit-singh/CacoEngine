@@ -46,7 +46,57 @@ namespace CacoEngine
             this->IsRunning = false;
     }
 
+    void Engine::UpdatePhysics()
+    {
+    }
 
+    void Engine::Render(SDL_Renderer* renderer, std::vector<Object>& objects)
+    {
+        for (int x = 0; x < objects.size(); x++)
+        {
+            Object& object = objects[x];
+
+            this->EngineRenderer.SetColor((object).FillColor); 
+
+            if (object.FillMode == RasterizeMode::WireFrame)
+                SDL_RenderDrawLines(renderer = this->EngineRenderer.GetInstance(), object.GetPoints().data(), object.Vertices.size());
+            else
+                SDL_RenderGeometry((renderer = this->EngineRenderer.GetInstance()), 
+                                    (object.FillMode == RasterizeMode::Texture) ? object.mTexture.mTexture : nullptr, 
+                                    object.GetVertexBuffer().data(), 
+                                    object.Vertices.size(), 
+                                    nullptr, 0);
+        }            
+
+
+        SDL_RenderPresent(renderer);
+        SDL_Delay(0);
+    }
+
+    void Engine::Render(SDL_Renderer* renderer, std::vector<RigidObject2D>& objects)
+    {
+        // std::cout << "Object size: " << objects.size() << std::endl;
+        for (int x = 0; x < objects.size(); x++)
+        {
+            Object& object = objects[x];
+
+            this->EngineRenderer.SetColor((object).FillColor); 
+
+            if (object.FillMode == RasterizeMode::WireFrame)
+                SDL_RenderDrawLines(renderer = this->EngineRenderer.GetInstance(), object.GetPoints().data(), object.Vertices.size());
+            else
+                SDL_RenderGeometry((renderer = this->EngineRenderer.GetInstance()), 
+                                    (object.FillMode == RasterizeMode::Texture) ? object.mTexture.mTexture : nullptr, 
+                                    object.GetVertexBuffer().data(), 
+                                    object.Vertices.size(), 
+                                    nullptr, 0);
+        }            
+
+        SDL_RenderPresent(renderer);
+        SDL_Delay(0);
+    }
+    
+    
     void Engine::Run()
     {
         SDL_Renderer* renderer;
@@ -75,6 +125,7 @@ namespace CacoEngine
                         this->IsRunning = false;
 
                         break;
+
                     case SDL_KEYDOWN:
                         if (this->Event.key.keysym.sym == SDLK_ESCAPE)
                             this->IsRunning = false;
@@ -82,7 +133,7 @@ namespace CacoEngine
                         this->OnKeyPress(this->Event.key);
                         break;
 
-                    case SDL_MOUSEBUTTONDOWN:
+                    case SDL_MOUSEBUTTONDOWN:                    
                         this->OnMouseClick(this->Event.button);
                         break;
 
@@ -95,29 +146,22 @@ namespace CacoEngine
             this->EngineRenderer.Clear();
             this->EngineRenderer.SetColor(Colors[(int)Color::White]);
 
-            for (int x = 0; x < this->Objects.size(); x++)
-            {
-                this->EngineRenderer.SetColor((object = this->Objects[x]).FillColor); 
 
-                if (object.FillMode == RasterizeMode::WireFrame)
-                    SDL_RenderDrawLines(renderer = this->EngineRenderer.GetInstance(), object.GetPoints().data(), object.Vertices.size());
-                else
-                    SDL_RenderGeometry(renderer = this->EngineRenderer.GetInstance(), (object.FillMode == RasterizeMode::Texture) ? object.mTexture.mTexture : nullptr, object.GetVertexBuffer().data(), object.Vertices.size(), nullptr, 0);
-            }
-
-            SDL_RenderPresent(renderer);
-            SDL_Delay(0);
-
+            this->Render(renderer, this->Objects);
+            this->Render(renderer, this->RigidObjects);
+            this->UpdatePhysics();
+            
+            
             this->OnUpdate(++this->Frame);
         }
     }
 
     Engine::Engine(std::string_view title, Vector2D resolution, bool initialize)
-        : Title(title), Resolution(resolution), IsRunning(false), Frame(0)
+        : Title(title), Resolution(resolution), IsRunning(false), Frame(0), Objects(std::vector<Object>()), RigidObjects(std::vector<RigidObject2D>())
     {
         this->Extensions = {
             Extension::Video,
-            Extension::Audio,
+            Extension::Audio
         };
 
         if (initialize)
@@ -134,5 +178,4 @@ namespace CacoEngine
         std::cout << "SDL Aborted.";
     }
 }
- 
  

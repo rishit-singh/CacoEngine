@@ -12,9 +12,11 @@ namespace CacoEngine
 
         Vector2D Force { Vector2D(0, 0) };
 
+        uint64_t LastUpdate;
+
         virtual void CollidesWith(RigidBody2D&) = 0; 
 
-        RigidBody2D();
+        RigidBody2D(Vector2D = Vector2D(), Vector2D = Vector2D());
     };
 }
 

@@ -39,11 +39,9 @@ public:
 
         void OnUpdate(int frame) override
         {
-            for (; this->Force >= 0; this->Force--)
-                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2D(1, 0));
         }
 
-        void OnMouseClick(SDL_MouseButtonEvent& event) override
+        void OnMouseClick(SDL_MouseButtonEvent& event)
         {
         }
 
@@ -75,15 +73,15 @@ public:
 
             if (event.keysym.sym == SDLK_s)
             {
-                // CacoEngine::Sprite sprite = CacoEngine::Sprite(this->TextureCache["cacodemon"], CacoEngine::Vector2D(200, 200), CacoEngine::Vector2D(100, 100));
+                CacoEngine::Sprite sprite = CacoEngine::Sprite(this->TextureCache["cacodemon"], CacoEngine::Vector2D(200, 200), CacoEngine::Vector2D(100, 100));
 
-                CacoEngine::Rectangle sprite = CacoEngine::Rectangle(CacoEngine::Vector2D(200, 200), CacoEngine::Vector2D(100)); 
+                // CacoEngine::Rectangle sprite = CacoEngine::Rectangle(CacoEngine::Vector2D(200, 200), CacoEngine::Vector2D(100)); 
 
 
                 // sprite.SetFillColor(CacoEngine::Colors[(int)CacoEngine::Color::Red]);
 
-                sprite.mTexture = this->TextureCache["cacodemon"];
-                sprite.FillMode = CacoEngine::RasterizeMode::Texture;
+                // sprite.mTexture = this->TextureCache["cacodemon"];
+                // sprite.FillMode = CacoEngine::RasterizeMode::Texture;
 
                 this->Objects.push_back(sprite);
                 this->SelectedIndex++;
@@ -98,7 +96,6 @@ public:
                    object.FillMode = CacoEngine::RasterizeMode::WireFrame; 
             }
             
-
             if (event.keysym.sym == SDLK_c)
                 if (++this->SelectedIndex >= this->Objects.size())
                     this->SelectedIndex = 0;

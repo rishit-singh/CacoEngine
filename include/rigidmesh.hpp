@@ -6,12 +6,17 @@
 
 namespace CacoEngine
 {
-    class RigidMesh : public Mesh, public RigidBody2D
+    class RigidMesh2D : public Mesh, public RigidBody2D
     {
     public:
-        RigidMesh(std::vector<Triangle> triangles = new std::vector<Triangle>()) : Mesh()
-        {}
-    }
+        RigidMesh2D(std::vector<Triangle> = std::vector<Triangle>());
+    };
+
+    class RigidObject2D : public Object, public RigidBody2D
+    {
+    public:
+        RigidObject2D();
+    };
 }
 
 #endif
