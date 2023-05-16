@@ -6,9 +6,10 @@
 
 #include "engine.hpp"
 #include "rigidbody.hpp"
+#include "rigidsprite.hpp"
 #include "texture.hpp"
 #include "tools.hpp"
-#include "sprite.hpp"
+#include "rigidsprite.hpp"
 #include "random.hpp"
 #include "box.hpp"
 
@@ -42,7 +43,11 @@ public:
 
             box.RigidBody = CacoEngine::RigidBody2D(CacoEngine::Vector2Df(0, 50), CacoEngine::Vector2Df(0, 50));
 
-            this->AddObject(box);
+            CacoEngine::RigidSprite rgSprite = CacoEngine::RigidSprite(this->TextureCache["cacodemon"],CacoEngine::Vector2Df(200, 200), CacoEngine::Vector2Df(100, 100));
+
+
+            // this->AddObject(box);
+            this->AddObject(rgSprite);
             //
             this->Metrics = CacoEngine::RigidBody2D(CacoEngine::Vector2Df(0, 5), CacoEngine::Vector2Df(0, 50));
         }
