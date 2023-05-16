@@ -47,7 +47,7 @@ namespace CacoEngine
     public:
             std::string_view Title;
 
-            Vector2D Resolution;
+            Vector2Df Resolution;
 
             bool IsRunning;
 
@@ -73,9 +73,9 @@ namespace CacoEngine
             Object& AddObject(Object);
             RigidObject2D& AddObject(RigidObject2D);
 
-            Object& CreateMesh(std::vector<Vector2D>);
+            Object& CreateMesh(std::vector<Vector2Df>);
             
-            Engine(std::string_view = "CacoEngine App", Vector2D = Vector2D(800, 600), bool = true);
+            Engine(std::string_view = "CacoEngine App", Vector2Df = Vector2Df(800, 600), bool = true);
             ~Engine();
     };
 }

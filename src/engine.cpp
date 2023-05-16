@@ -73,12 +73,12 @@ namespace CacoEngine
 
             uint64_t dT = (time - object.RigidBody.LastUpdate) / 1000.0f;
 
-            object.RigidBody.Velocity += Vector2D(0, dT * gravity);
+            object.RigidBody.Velocity += Vector2Df(0, dT * gravity);
 
-            object.Translate(Vector2D(0, object.RigidBody.Velocity.Y * dT));
+            object.Translate(Vector2Df(0, object.RigidBody.Velocity.Y * dT));
 
             // if (object.Position.Y > 800)
-            //     object.Translate(Vector2D(0, -(object.Position.Y - 800)));
+            //     object.Translate(Vector2Df(0, -(object.Position.Y - 800)));
 
             object.RigidBody.LastUpdate = time;
         }
@@ -93,7 +93,7 @@ namespace CacoEngine
             this->EngineRenderer.SetColor((object).FillColor); 
 
             if (object.FillMode == RasterizeMode::WireFrame)
-                SDL_RenderDrawLines(renderer = this->EngineRenderer.GetInstance(), object.ObjectMesh.GetPoints().data(), object.ObjectMesh.Vertices.size());
+                SDL_RenderDrawLinesF(renderer = this->EngineRenderer.GetInstance(), object.ObjectMesh.GetPoints().data(), object.ObjectMesh.Vertices.size());
             else
                 SDL_RenderGeometry((renderer = this->EngineRenderer.GetInstance()), 
                                     (object.FillMode == RasterizeMode::Texture) ? object.mTexture.mTexture : nullptr, 
@@ -116,7 +116,7 @@ namespace CacoEngine
             this->EngineRenderer.SetColor((object).FillColor); 
 
             if (object.FillMode == RasterizeMode::WireFrame)
-                SDL_RenderDrawLines(renderer = this->EngineRenderer.GetInstance(), object.ObjectMesh.GetPoints().data(), object.ObjectMesh.Vertices.size());
+                SDL_RenderDrawLinesF(renderer = this->EngineRenderer.GetInstance(), object.ObjectMesh.GetPoints().data(), object.ObjectMesh.Vertices.size());
             else
                 SDL_RenderGeometry((renderer = this->EngineRenderer.GetInstance()), 
                                     (object.FillMode == RasterizeMode::Texture) ? object.mTexture.mTexture : nullptr, 
@@ -204,7 +204,7 @@ namespace CacoEngine
         }
     }
 
-    Engine::Engine(std::string_view title, Vector2D resolution, bool initialize)
+    Engine::Engine(std::string_view title, Vector2Df resolution, bool initialize)
         : Objects(std::vector<Object>()), RigidObjects(std::vector<RigidObject2D>()), ElapsedTime(0), Title(title), Resolution(resolution), IsRunning(false)
     {
         this->Extensions = {

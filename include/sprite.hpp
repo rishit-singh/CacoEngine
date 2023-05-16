@@ -9,7 +9,7 @@ namespace CacoEngine
     class Sprite : public Rectangle
     {
     public:
-            Sprite(Texture, Vector2D = Vector2D(), Vector2D = Vector2D());
+            Sprite(Texture, Vector2Df = Vector2Df(), Vector2Df = Vector2Df());
             virtual ~Sprite();
     };
 };

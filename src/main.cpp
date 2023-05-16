@@ -35,12 +35,12 @@ public:
             this->TextureCache["cacodemon_left"] = CacoEngine::TextureManager::CreateTexture("cacodemon_left.png", this->EngineRenderer);
             this->TextureCache["cacodemon_right"] = CacoEngine::TextureManager::CreateTexture("cacodemon_right.png", this->EngineRenderer);
 
-            this->AddObject((CacoEngine::Object)CacoEngine::Sprite(this->TextureCache["cacodemon"], CacoEngine::Vector2D(200, 200), CacoEngine::Vector2D(100, 100)));
+            this->AddObject((CacoEngine::Object)CacoEngine::Sprite(this->TextureCache["cacodemon"], CacoEngine::Vector2Df(200, 200), CacoEngine::Vector2Df(100, 100)));
             
-            // CacoEngine::Box2D box = CacoEngine::Box2D(CacoEngine::Vector2D(200, 200), CacoEngine::Vector2D(100, 100));
+            // CacoEngine::Box2D box = CacoEngine::Box2D(CacoEngine::Vector2Df(200, 200), CacoEngine::Vector2Df(100, 100));
             // this->AddObject(box);
             //
-            this->Metrics = CacoEngine::RigidBody2D(CacoEngine::Vector2D(0, 500), CacoEngine::Vector2D(0, 500));
+            this->Metrics = CacoEngine::RigidBody2D(CacoEngine::Vector2Df(0, 500), CacoEngine::Vector2Df(0, 500));
         }
 
         void OnUpdate(double frame) override
@@ -65,33 +65,33 @@ public:
 
                 std::cout << "Velocity: " << this->Metrics.Velocity.X << std::endl;
 
-                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2D(this->Metrics.Velocity.X * this->ElapsedTime, 0));
+                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2Df(this->Metrics.Velocity.X * this->ElapsedTime, 0));
             }
 
             if (event.keysym.sym == SDLK_LEFT)
             {
                 this->Objects[this->SelectedIndex].mTexture = this->TextureCache["cacodemon_left"];
-                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2D(-200 * this->ElapsedTime, 0));
+                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2Df(-200 * this->ElapsedTime, 0));
             }
 
             if (event.keysym.sym == SDLK_DOWN)
             {
                 this->Objects[this->SelectedIndex].mTexture = this->TextureCache["cacodemon"];
-                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2D(0, 200 * this->ElapsedTime));
+                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2Df(0, 200 * this->ElapsedTime));
             }
 
             if (event.keysym.sym == SDLK_UP)
             {
                 this->Objects[this->SelectedIndex].mTexture = this->TextureCache["cacodemon"];
-                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2D(0, -200 * this->ElapsedTime));
+                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2Df(0, -200 * this->ElapsedTime));
             }
 
             if (event.keysym.sym == SDLK_s)
             {
 
-                CacoEngine::Sprite sprite = CacoEngine::Sprite(this->TextureCache["cacodemon"], CacoEngine::Vector2D(200, 200), CacoEngine::Vector2D(100, 100));
+                CacoEngine::Sprite sprite = CacoEngine::Sprite(this->TextureCache["cacodemon"], CacoEngine::Vector2Df(200, 200), CacoEngine::Vector2Df(100, 100));
 
-                // CacoEngine::Rectangle sprite = CacoEngine::Rectangle(CacoEngine::Vector2D(200, 200), CacoEngine::Vector2D(100)); 
+                // CacoEngine::Rectangle sprite = CacoEngine::Rectangle(CacoEngine::Vector2Df(200, 200), CacoEngine::Vector2Df(100));
 
 
                 // sprite.SetFillColor(CacoEngine::Colors[(int)CacoEngine::Color::Red]);
@@ -137,7 +137,7 @@ public:
             this->TintColor = CacoEngine::Colors[this->TintIndex];
         }
 
-        Application(std::string_view appName, CacoEngine::Vector2D windowDimensions) : Engine(appName, windowDimensions)
+        Application(std::string_view appName, CacoEngine::Vector2Df windowDimensions) : Engine(appName, windowDimensions)
         {
         }
 
@@ -149,7 +149,7 @@ public:
 
 int main(int argc, char** argv)
 {
-    Application app = Application(argv[1], CacoEngine::Vector2D(atoi(argv[2]), atoi(argv[3])));
+    Application app = Application(argv[1], CacoEngine::Vector2Df(atoi(argv[2]), atoi(argv[3])));
 
     app.Run();
 

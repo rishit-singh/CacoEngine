@@ -23,17 +23,15 @@ namespace CacoEngine
         void Initialize();
 
     public:
-        std::vector<Vertex2D> Vertices;
+        std::vector<Vertex2Df> Vertices;
 
-        void AddTriangle(Vertex2D, Vertex2D, Vertex2D);
+        void AddTriangle(Vertex2Df, Vertex2Df, Vertex2Df);
 
         std::vector<SDL_Vertex> GetVertexBuffer();
 
-        std::vector<SDL_FPoint> GetPointsF();
+        std::vector<SDL_FPoint> GetPoints();
 
-        std::vector<SDL_Point> GetPoints();
-
-        Mesh(std::vector<Vertex2D>  = std::vector<Vertex2D>());
+        Mesh(std::vector<Vertex2Df>  = std::vector<Vertex2Df>());
 
         virtual ~Mesh();
     };
@@ -44,7 +42,7 @@ namespace CacoEngine
     public:
         int ID;
 
-        Vector2D Position;
+        Vector2Df Position;
 
         Texture mTexture;
 
@@ -54,9 +52,9 @@ namespace CacoEngine
 
         Mesh ObjectMesh;
 
-        void AddVertex(Vertex2D);
+        void AddVertex(Vertex2Df);
 
-        void Translate(Vector2D);
+        void Translate(Vector2Df);
 
         void SetFillColor(RGBA);
 
@@ -71,7 +69,7 @@ namespace CacoEngine
     class Triangle : public Object
     {
     public:
-        Triangle(Vertex2D, Vertex2D, Vertex2D, RGBA);
+        Triangle(Vertex2Df, Vertex2Df, Vertex2Df, RGBA);
         Triangle(const Triangle&);
 
         Triangle& operator =(const Triangle&);
@@ -82,9 +80,9 @@ namespace CacoEngine
     class Rectangle : public Object
     {
     public:
-        Vector2D Dimensions;
+        Vector2Df Dimensions;
 
-        Rectangle(Vector2D, Vector2D, RGBA = Colors[(int)Color::White], Texture = Texture());
+        Rectangle(Vector2Df, Vector2Df, RGBA = Colors[(int)Color::White], Texture = Texture());
         virtual ~Rectangle();
     };
 }
