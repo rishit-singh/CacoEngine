@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "engine.hpp"
+#include "rigidbody.hpp"
 #include "texture.hpp"
 #include "tools.hpp"
 #include "sprite.hpp"
@@ -13,6 +14,7 @@
 class Application : public CacoEngine::Engine
 {
 public:
+
         int TintIndex;
 
         CacoEngine::RGBA TintColor;
@@ -21,7 +23,7 @@ public:
 
         std::unordered_map<std::string_view, CacoEngine::Texture> TextureCache;
 
-        int Force;
+        CacoEngine::RigidBody2D Metrics;
 
         void OnInitialize() override
         {
@@ -29,21 +31,24 @@ public:
             this->TintColor = CacoEngine::Colors[this->TintIndex];
             this->SelectedIndex = 0;
 
-            this->Force = 800;
-
             this->TextureCache["cacodemon"] = CacoEngine::TextureManager::CreateTexture("cacodemon.png", this->EngineRenderer);
             this->TextureCache["cacodemon_left"] = CacoEngine::TextureManager::CreateTexture("cacodemon_left.png", this->EngineRenderer);
             this->TextureCache["cacodemon_right"] = CacoEngine::TextureManager::CreateTexture("cacodemon_right.png", this->EngineRenderer);
 
             this->AddObject((CacoEngine::Object)CacoEngine::Sprite(this->TextureCache["cacodemon"], CacoEngine::Vector2D(200, 200), CacoEngine::Vector2D(100, 100)));
             
-            CacoEngine::Box2D box = CacoEngine::Box2D(CacoEngine::Vector2D(200, 200), CacoEngine::Vector2D(100, 100));
-
+            // CacoEngine::Box2D box = CacoEngine::Box2D(CacoEngine::Vector2D(200, 200), CacoEngine::Vector2D(100, 100));
             // this->AddObject(box);
+            //
+            this->Metrics = CacoEngine::RigidBody2D(CacoEngine::Vector2D(0, 500), CacoEngine::Vector2D(0, 500));
         }
 
-        void OnUpdate(int frame) override
+        void OnUpdate(double frame) override
         {
+            std::cout << "dT: " << frame << std::endl;
+            // CacoEngine::Object& object = this->Objects[this->SelectedIndex];
+
+            // object.Translate((this->CursorPosition - object.Position));
         }
 
         void OnMouseClick(SDL_MouseButtonEvent& event) override
@@ -55,29 +60,35 @@ public:
             if (event.keysym.sym == SDLK_RIGHT)
             {
                 this->Objects[this->SelectedIndex].mTexture = this->TextureCache["cacodemon_right"];
-                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2D(10, 0));
+
+                this->Metrics.Velocity += (this->Metrics.Acceleration * this->ElapsedTime);
+
+                std::cout << "Velocity: " << this->Metrics.Velocity.X << std::endl;
+
+                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2D(this->Metrics.Velocity.X * this->ElapsedTime, 0));
             }
 
             if (event.keysym.sym == SDLK_LEFT)
             {
                 this->Objects[this->SelectedIndex].mTexture = this->TextureCache["cacodemon_left"];
-                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2D(-10, 0));
+                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2D(-200 * this->ElapsedTime, 0));
             }
 
             if (event.keysym.sym == SDLK_DOWN)
             {
                 this->Objects[this->SelectedIndex].mTexture = this->TextureCache["cacodemon"];
-                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2D(0, 10));
+                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2D(0, 200 * this->ElapsedTime));
             }
 
             if (event.keysym.sym == SDLK_UP)
             {
                 this->Objects[this->SelectedIndex].mTexture = this->TextureCache["cacodemon"];
-                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2D(0, -10));
+                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2D(0, -200 * this->ElapsedTime));
             }
 
             if (event.keysym.sym == SDLK_s)
             {
+
                 CacoEngine::Sprite sprite = CacoEngine::Sprite(this->TextureCache["cacodemon"], CacoEngine::Vector2D(200, 200), CacoEngine::Vector2D(100, 100));
 
                 // CacoEngine::Rectangle sprite = CacoEngine::Rectangle(CacoEngine::Vector2D(200, 200), CacoEngine::Vector2D(100)); 

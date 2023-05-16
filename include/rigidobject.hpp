@@ -10,7 +10,7 @@ namespace CacoEngine
     public:
         RigidBody2D RigidBody;
 
-        bool CollidesWith(RigidObject2D&);
+       virtual bool CollidesWith(RigidObject2D&);
 
         // RigidObject2D& operator =(const RigidObject2D&);
 

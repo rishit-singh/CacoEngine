@@ -27,7 +27,6 @@ namespace CacoEngine
 
             int ExtensionBits;
 
-
             SDL_Event Event;
 
             Renderer EngineRenderer;
@@ -38,8 +37,6 @@ namespace CacoEngine
 
             std::vector<RigidObject2D> RigidObjects;
 
-            int Frame;
-            
             bool HasExtension(Extension);
 
             void UpdatePhysics();
@@ -58,6 +55,8 @@ namespace CacoEngine
 
             SDL_Window* Window;
 
+            double ElapsedTime;
+
             void Run();
 
             void AddExtension(Extension);
@@ -69,7 +68,7 @@ namespace CacoEngine
             virtual void OnMouseScroll(SDL_MouseWheelEvent&) = 0;
 
             virtual void OnInitialize() = 0;
-            virtual void OnUpdate(int) = 0;
+            virtual void OnUpdate(double) = 0;
 
             Object& AddObject(Object);
             RigidObject2D& AddObject(RigidObject2D);

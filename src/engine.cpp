@@ -4,6 +4,7 @@
 #include <SDL_pixels.h>
 #include <SDL_render.h>
 #include <SDL_surface.h>
+#include <SDL_timer.h>
 #include <SDL_video.h>
 #include <iostream>
 #include <vector>
@@ -49,7 +50,7 @@ namespace CacoEngine
     
     RigidObject2D& Engine::AddObject(RigidObject2D object)
     {
-        // this->RigidObjects.emplace_back(object);
+        this->RigidObjects.push_back(object);
         
         return this->RigidObjects[this->RigidObjects.size() - 1];
     }
@@ -62,7 +63,7 @@ namespace CacoEngine
 
     void Engine::UpdatePhysics()
     {   
-        int gravity = 5;
+        int gravity = 1;
 
         for (int x = 0; x < this->RigidObjects.size(); x++)
         {
@@ -72,10 +73,12 @@ namespace CacoEngine
 
             uint64_t dT = (time - object.RigidBody.LastUpdate) / 1000.0f;
 
-            object.Translate(Vector2D(0, dT * gravity));
+            object.RigidBody.Velocity += Vector2D(0, dT * gravity);
 
-            if (object.Position.Y > 800)
-                object.Translate(Vector2D(0, -(object.Position.Y - 800)));
+            object.Translate(Vector2D(0, object.RigidBody.Velocity.Y * dT));
+
+            // if (object.Position.Y > 800)
+            //     object.Translate(Vector2D(0, -(object.Position.Y - 800)));
 
             object.RigidBody.LastUpdate = time;
         }
@@ -144,9 +147,16 @@ namespace CacoEngine
 
         this->OnInitialize();
 
+        uint64_t prev = 0, current = 0;
+
+
         while (this->IsRunning)
         {
             SDL_GetMouseState(&this->CursorPosition.X, &this->CursorPosition.Y);
+
+            prev = SDL_GetPerformanceCounter();
+
+            std::cout << "prev: " << prev << '\n';
 
             while (SDL_PollEvent(&this->Event))
                 switch (this->Event.type)
@@ -181,13 +191,21 @@ namespace CacoEngine
             this->Render(renderer, this->RigidObjects);
             this->UpdatePhysics();
             
-            
-            this->OnUpdate(++this->Frame);
+
+            current = SDL_GetPerformanceCounter();
+
+            std::cout << "current: " << current << '\n';
+
+            this->ElapsedTime = (double)((current - prev) / (double)SDL_GetPerformanceFrequency());
+
+            std::cout << "elapsed: " << current << '\n';
+
+            this->OnUpdate(this->ElapsedTime);
         }
     }
 
     Engine::Engine(std::string_view title, Vector2D resolution, bool initialize)
-        : Objects(std::vector<Object>()), RigidObjects(std::vector<RigidObject2D>()), Frame(0), Title(title), Resolution(resolution), IsRunning(false)
+        : Objects(std::vector<Object>()), RigidObjects(std::vector<RigidObject2D>()), ElapsedTime(0), Title(title), Resolution(resolution), IsRunning(false)
     {
         this->Extensions = {
             Extension::Video,
