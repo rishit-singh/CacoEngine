@@ -8,6 +8,7 @@
 #include "tools.hpp"
 #include "sprite.hpp"
 #include "random.hpp"
+#include "box.hpp"
 
 class Application : public CacoEngine::Engine
 {
@@ -34,14 +35,18 @@ public:
             this->TextureCache["cacodemon_left"] = CacoEngine::TextureManager::CreateTexture("cacodemon_left.png", this->EngineRenderer);
             this->TextureCache["cacodemon_right"] = CacoEngine::TextureManager::CreateTexture("cacodemon_right.png", this->EngineRenderer);
 
-            this->Objects.push_back(CacoEngine::Sprite(this->TextureCache["cacodemon"], CacoEngine::Vector2D(200, 200), CacoEngine::Vector2D(100, 100)));
+            this->AddObject((CacoEngine::Object)CacoEngine::Sprite(this->TextureCache["cacodemon"], CacoEngine::Vector2D(200, 200), CacoEngine::Vector2D(100, 100)));
+            
+            CacoEngine::Box2D box = CacoEngine::Box2D(CacoEngine::Vector2D(200, 200), CacoEngine::Vector2D(100, 100));
+
+            // this->AddObject(box);
         }
 
         void OnUpdate(int frame) override
         {
         }
 
-        void OnMouseClick(SDL_MouseButtonEvent& event)
+        void OnMouseClick(SDL_MouseButtonEvent& event) override
         {
         }
 

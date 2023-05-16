@@ -7,8 +7,9 @@
 #include <SDL_video.h>
 #include <iostream>
 #include <vector>
-#include "objects.hpp"
+#include "rigidobject.hpp"
 #include "texture.hpp"
+
 
 namespace CacoEngine
 {
@@ -40,6 +41,19 @@ namespace CacoEngine
         }
     }
 
+    Object& Engine::AddObject(Object object)
+    {
+        this->Objects.push_back(object);
+        return this->Objects[this->Objects.size() - 1];
+    }
+    
+    RigidObject2D& Engine::AddObject(RigidObject2D object)
+    {
+        // this->RigidObjects.emplace_back(object);
+        
+        return this->RigidObjects[this->RigidObjects.size() - 1];
+    }
+
     void Engine::OnKeyPress(SDL_KeyboardEvent& event)
     {
         if (event.keysym.sym == SDLK_ESCAPE)
@@ -47,7 +61,24 @@ namespace CacoEngine
     }
 
     void Engine::UpdatePhysics()
-    {
+    {   
+        int gravity = 5;
+
+        for (int x = 0; x < this->RigidObjects.size(); x++)
+        {
+            RigidObject2D& object = this->RigidObjects[x];
+
+            uint64_t time = SDL_GetTicks64();
+
+            uint64_t dT = (time - object.RigidBody.LastUpdate) / 1000.0f;
+
+            object.Translate(Vector2D(0, dT * gravity));
+
+            if (object.Position.Y > 800)
+                object.Translate(Vector2D(0, -(object.Position.Y - 800)));
+
+            object.RigidBody.LastUpdate = time;
+        }
     }
 
     void Engine::Render(SDL_Renderer* renderer, std::vector<Object>& objects)
@@ -59,15 +90,14 @@ namespace CacoEngine
             this->EngineRenderer.SetColor((object).FillColor); 
 
             if (object.FillMode == RasterizeMode::WireFrame)
-                SDL_RenderDrawLines(renderer = this->EngineRenderer.GetInstance(), object.GetPoints().data(), object.Vertices.size());
+                SDL_RenderDrawLines(renderer = this->EngineRenderer.GetInstance(), object.ObjectMesh.GetPoints().data(), object.ObjectMesh.Vertices.size());
             else
                 SDL_RenderGeometry((renderer = this->EngineRenderer.GetInstance()), 
                                     (object.FillMode == RasterizeMode::Texture) ? object.mTexture.mTexture : nullptr, 
-                                    object.GetVertexBuffer().data(), 
-                                    object.Vertices.size(), 
+                                    object.ObjectMesh.GetVertexBuffer().data(),
+                                    object.ObjectMesh.Vertices.size(),
                                     nullptr, 0);
         }            
-
 
         SDL_RenderPresent(renderer);
         SDL_Delay(0);
@@ -83,12 +113,12 @@ namespace CacoEngine
             this->EngineRenderer.SetColor((object).FillColor); 
 
             if (object.FillMode == RasterizeMode::WireFrame)
-                SDL_RenderDrawLines(renderer = this->EngineRenderer.GetInstance(), object.GetPoints().data(), object.Vertices.size());
+                SDL_RenderDrawLines(renderer = this->EngineRenderer.GetInstance(), object.ObjectMesh.GetPoints().data(), object.ObjectMesh.Vertices.size());
             else
                 SDL_RenderGeometry((renderer = this->EngineRenderer.GetInstance()), 
                                     (object.FillMode == RasterizeMode::Texture) ? object.mTexture.mTexture : nullptr, 
-                                    object.GetVertexBuffer().data(), 
-                                    object.Vertices.size(), 
+                                    object.ObjectMesh.GetVertexBuffer().data(),
+                                    object.ObjectMesh.Vertices.size(),
                                     nullptr, 0);
         }            
 
@@ -99,7 +129,7 @@ namespace CacoEngine
     
     void Engine::Run()
     {
-        SDL_Renderer* renderer;
+        SDL_Renderer* renderer = nullptr;
 
         Object object;
 
@@ -157,7 +187,7 @@ namespace CacoEngine
     }
 
     Engine::Engine(std::string_view title, Vector2D resolution, bool initialize)
-        : Title(title), Resolution(resolution), IsRunning(false), Frame(0), Objects(std::vector<Object>()), RigidObjects(std::vector<RigidObject2D>())
+        : Objects(std::vector<Object>()), RigidObjects(std::vector<RigidObject2D>()), Frame(0), Title(title), Resolution(resolution), IsRunning(false)
     {
         this->Extensions = {
             Extension::Video,

@@ -9,81 +9,83 @@
 
 
 namespace CacoEngine
-{   
-	enum class RasterizeMode
-	{
-		WireFrame,
-		SolidColor,
-		Texture
-	};
+{
+    enum class RasterizeMode
+    {
+        WireFrame,
+        SolidColor,
+        Texture
+    };
 
-   class Object
+    class Mesh
+    {
+    protected:
+        void Initialize();
+
+    public:
+        std::vector<Vertex2D> Vertices;
+
+        void AddTriangle(Vertex2D, Vertex2D, Vertex2D);
+
+        std::vector<SDL_Vertex> GetVertexBuffer();
+
+        std::vector<SDL_FPoint> GetPointsF();
+
+        std::vector<SDL_Point> GetPoints();
+
+        Mesh(std::vector<Vertex2D>  = std::vector<Vertex2D>());
+
+        virtual ~Mesh();
+    };
+
+
+    class Object
     {
     public:
-	    int ID;
+        int ID;
 
-	    Vector2D Position;
+        Vector2D Position;
 
-	    Texture mTexture;
+        Texture mTexture;
 
-	    RGBA FillColor;
+        RGBA FillColor;
 
-		RasterizeMode FillMode;
+        RasterizeMode FillMode;
 
-	    std::vector<Vertex2D> Vertices;
+        Mesh ObjectMesh;
 
-	    virtual std::vector<SDL_Vertex> GetVertexBuffer();
+        void AddVertex(Vertex2D);
 
-		virtual std::vector<SDL_FPoint> GetPointsF();
+        void Translate(Vector2D);
 
-		virtual std::vector<SDL_Point> GetPoints();
-	 
-	    void AddVertex(Vertex2D);
+        void SetFillColor(RGBA);
 
-	    void Translate(Vector2D);
+        Object();
+        Object(const Object&);
 
-	    Object();
-	    Object(const Object&);
+        Object& operator =(const Object& object);
 
-	    Object& operator =(const Object& object);
-
-	    virtual ~Object();
+        virtual ~Object();
     };
 
     class Triangle : public Object
     {
     public:
-	    Triangle(Vertex2D, Vertex2D, Vertex2D, RGBA);
-	    Triangle(const Triangle&);
+        Triangle(Vertex2D, Vertex2D, Vertex2D, RGBA);
+        Triangle(const Triangle&);
 
-	    Triangle& operator =(const Triangle&);
+        Triangle& operator =(const Triangle&);
 
-	    virtual ~Triangle();
+        virtual ~Triangle();
     };
 
-    class Mesh : public Object
-    {
-    protected:
-	    void Initialize();
-    public:
-	    std::vector<Triangle> Triangles;
-
-		void SetFillColor(RGBA);
-
-	    void AddTriangle(Triangle triangle);
-
-	    Mesh(std::vector<Triangle> triangles = std::vector<Triangle>());
-
-	    virtual ~Mesh();
-    };
-
-    class Rectangle : public Mesh
+    class Rectangle : public Object
     {
     public:
-	    Vector2D Dimensions;
+        Vector2D Dimensions;
 
-	    Rectangle(Vector2D, Vector2D, RGBA = Colors[(int)Color::White], Texture = Texture());
-	    virtual ~Rectangle();
+        Rectangle(Vector2D, Vector2D, RGBA = Colors[(int)Color::White], Texture = Texture());
+        virtual ~Rectangle();
     };
 }
 

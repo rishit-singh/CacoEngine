@@ -2,6 +2,7 @@
 #define RIGIDBODY_H_
 
 #include "vertex.hpp"
+#include "objects.hpp"
 
 namespace CacoEngine
 {
@@ -14,9 +15,11 @@ namespace CacoEngine
 
         uint64_t LastUpdate;
 
-        virtual void CollidesWith(RigidBody2D&) = 0; 
-
+        void AddForce(Vector2D);
+        
         RigidBody2D(Vector2D = Vector2D(), Vector2D = Vector2D());
+
+        virtual ~RigidBody2D();
     };
 }
 

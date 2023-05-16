@@ -9,7 +9,7 @@
 #include "objects.hpp"
 #include "surface.hpp"
 #include "renderer.hpp"
-#include "rigidmesh.hpp"
+#include "rigidobject.hpp"
 
 namespace CacoEngine
 {
@@ -26,6 +26,7 @@ namespace CacoEngine
             std::vector<Extension> Extensions; 
 
             int ExtensionBits;
+
 
             SDL_Event Event;
 
@@ -70,8 +71,8 @@ namespace CacoEngine
             virtual void OnInitialize() = 0;
             virtual void OnUpdate(int) = 0;
 
-            Object& AddObject(Object&);
-            RigidObject2D& AddObject(RigidObject2D&);
+            Object& AddObject(Object);
+            RigidObject2D& AddObject(RigidObject2D);
 
             Object& CreateMesh(std::vector<Vector2D>);
             
