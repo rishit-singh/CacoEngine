@@ -1,4 +1,5 @@
 #include "rigidobject.hpp"
+#include "vertex.hpp"
 
 CacoEngine::RigidObject2D::RigidObject2D() : Object()
 {
@@ -31,6 +32,10 @@ bool CacoEngine::RigidObject2D::CollidesWith(CacoEngine::RigidObject2D& object)
     return false;
 }
 
+bool CacoEngine::RigidObject2D::CollidesWith(CacoEngine::Vector2Df point)
+{
+    return false;
+}
 // CacoEngine::Box2D::Box2D(CacoEngie::Vector2D dimensions, Vector2D position, RGBA color) : Rectangle(dimensions, position, color), RigidBody2D()
 // {
 // }

@@ -63,24 +63,22 @@ namespace CacoEngine
 
     void Engine::UpdatePhysics()
     {   
-        int gravity = 1;
+        int gravity = 1000;
 
         for (int x = 0; x < this->RigidObjects.size(); x++)
         {
             RigidObject2D& object = this->RigidObjects[x];
 
-            uint64_t time = SDL_GetTicks64();
+            double dT = this->ElapsedTime;
 
-            uint64_t dT = (time - object.RigidBody.LastUpdate) / 1000.0f;
+            object.RigidBody.Velocity +=  Vector2Df(0, dT * gravity);
 
-            object.RigidBody.Velocity += Vector2Df(0, dT * gravity);
+            object.Translate(Vector2Df(object.RigidBody.Velocity.X * dT, object.RigidBody.Velocity.Y * dT));
 
-            object.Translate(Vector2Df(0, object.RigidBody.Velocity.Y * dT));
+            if (object.Position.Y > 400)
+                object.Translate(Vector2Df(0, -(object.Position.Y - 400)));
 
-            // if (object.Position.Y > 800)
-            //     object.Translate(Vector2Df(0, -(object.Position.Y - 800)));
-
-            object.RigidBody.LastUpdate = time;
+            object.RigidBody.LastUpdate = this->ElapsedTime;
         }
     }
 
@@ -102,16 +100,15 @@ namespace CacoEngine
                                     nullptr, 0);
         }            
 
-        SDL_RenderPresent(renderer);
-        SDL_Delay(0);
+        // SDL_RenderPresent(renderer);
+        // SDL_Delay(0);
     }
 
     void Engine::Render(SDL_Renderer* renderer, std::vector<RigidObject2D>& objects)
     {
-        // std::cout << "Object size: " << objects.size() << std::endl;
         for (int x = 0; x < objects.size(); x++)
         {
-            Object& object = objects[x];
+            RigidObject2D& object = objects[x];
 
             this->EngineRenderer.SetColor((object).FillColor); 
 
@@ -124,6 +121,7 @@ namespace CacoEngine
                                     object.ObjectMesh.Vertices.size(),
                                     nullptr, 0);
         }            
+
 
         SDL_RenderPresent(renderer);
         SDL_Delay(0);
@@ -156,8 +154,6 @@ namespace CacoEngine
 
             prev = SDL_GetPerformanceCounter();
 
-            std::cout << "prev: " << prev << '\n';
-
             while (SDL_PollEvent(&this->Event))
                 switch (this->Event.type)
                 {
@@ -189,16 +185,13 @@ namespace CacoEngine
 
             this->Render(renderer, this->Objects);
             this->Render(renderer, this->RigidObjects);
+
             this->UpdatePhysics();
-            
+
 
             current = SDL_GetPerformanceCounter();
 
-            std::cout << "current: " << current << '\n';
-
             this->ElapsedTime = (double)((current - prev) / (double)SDL_GetPerformanceFrequency());
-
-            std::cout << "elapsed: " << current << '\n';
 
             this->OnUpdate(this->ElapsedTime);
         }

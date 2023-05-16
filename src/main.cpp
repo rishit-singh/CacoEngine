@@ -1,5 +1,6 @@
 #include <SDL_keycode.h>
 #include <algorithm>
+#include <cstdint>
 #include <unordered_map>
 #include <iostream>
 
@@ -36,19 +37,18 @@ public:
             this->TextureCache["cacodemon_right"] = CacoEngine::TextureManager::CreateTexture("cacodemon_right.png", this->EngineRenderer);
 
             this->AddObject((CacoEngine::Object)CacoEngine::Sprite(this->TextureCache["cacodemon"], CacoEngine::Vector2Df(200, 200), CacoEngine::Vector2Df(100, 100)));
-            
-            // CacoEngine::Box2D box = CacoEngine::Box2D(CacoEngine::Vector2Df(200, 200), CacoEngine::Vector2Df(100, 100));
-            // this->AddObject(box);
+
+            CacoEngine::Box2D box = CacoEngine::Box2D(CacoEngine::Vector2Df(200, 200), CacoEngine::Vector2Df(100, 100));
+
+            box.RigidBody = CacoEngine::RigidBody2D(CacoEngine::Vector2Df(0, 50), CacoEngine::Vector2Df(0, 50));
+
+            this->AddObject(box);
             //
-            this->Metrics = CacoEngine::RigidBody2D(CacoEngine::Vector2Df(0, 500), CacoEngine::Vector2Df(0, 500));
+            this->Metrics = CacoEngine::RigidBody2D(CacoEngine::Vector2Df(0, 5), CacoEngine::Vector2Df(0, 50));
         }
 
         void OnUpdate(double frame) override
         {
-            std::cout << "dT: " << frame << std::endl;
-            // CacoEngine::Object& object = this->Objects[this->SelectedIndex];
-
-            // object.Translate((this->CursorPosition - object.Position));
         }
 
         void OnMouseClick(SDL_MouseButtonEvent& event) override
@@ -63,9 +63,9 @@ public:
 
                 this->Metrics.Velocity += (this->Metrics.Acceleration * this->ElapsedTime);
 
-                std::cout << "Velocity: " << this->Metrics.Velocity.X << std::endl;
+                std::cout << "Velocity: " << this->Metrics.Velocity.Y << std::endl;
 
-                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2Df(this->Metrics.Velocity.X * this->ElapsedTime, 0));
+                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2Df(this->Metrics.Velocity.Y * this->ElapsedTime, 0));
             }
 
             if (event.keysym.sym == SDLK_LEFT)
