@@ -38,6 +38,8 @@ namespace CacoEngine
         Vector2D& operator *=(int);
         Vector2D& operator /=(int);
 
+        bool operator ==(Vector2D&);
+
         Vector2D(int = 0, int = 0);
     };
 

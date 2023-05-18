@@ -146,3 +146,70 @@ CacoEngine::Rectangle::Rectangle(Vector2Df dimensions, Vector2Df position, RGBA 
 
 CacoEngine::Rectangle::~Rectangle() {}
 
+
+void CacoEngine::Circle::GeneratePoints()
+{
+    const float diameter = (this->Radius * 2);
+
+    float x = (this->Radius - 1);
+    float y = 0;
+    float tx = 1;
+    float ty = 1;
+    float error = (tx - diameter);
+
+    while( x >= y )
+    {
+        // Each of the following renders an octant of the circle
+        this->ObjectMesh.Vertices.push_back(Vertex2Df(Vector2Df((float)this->Position.X + x, (float)this->Position.Y - y), this->FillColor));
+        this->ObjectMesh.Vertices.push_back(Vertex2Df(Vector2Df((float)this->Position.X + x, (float)this->Position.Y + y), this->FillColor));
+        this->ObjectMesh.Vertices.push_back(Vertex2Df(Vector2Df((float)this->Position.X - x, (float)this->Position.Y - y), this->FillColor));
+        this->ObjectMesh.Vertices.push_back(Vertex2Df(Vector2Df((float)this->Position.X - x, (float)this->Position.Y + y), this->FillColor));
+        this->ObjectMesh.Vertices.push_back(Vertex2Df(Vector2Df((float)this->Position.X + y, (float)this->Position.Y - x), this->FillColor));
+        this->ObjectMesh.Vertices.push_back(Vertex2Df(Vector2Df((float)this->Position.X + y, (float)this->Position.Y + x), this->FillColor));
+        this->ObjectMesh.Vertices.push_back(Vertex2Df(Vector2Df((float)this->Position.X - y, (float)this->Position.Y - x), this->FillColor));
+        this->ObjectMesh.Vertices.push_back(Vertex2Df(Vector2Df((float)this->Position.X - y, (float)this->Position.Y + x), this->FillColor));
+
+        if( error <= 0 )
+        {
+            ++y;
+            error += ty;
+            ty += 2;
+        }
+
+        if( error > 0 )
+        {
+            --x;
+            tx += 2;
+            error += (tx - diameter);
+        }
+    }
+}
+
+double CacoEngine::Circle::GetRadius()
+{
+    return this->Radius;
+}
+
+
+CacoEngine::Vector2Df CacoEngine::Circle::GetCenter()
+{
+    return this->Position;
+}
+
+void CacoEngine::Circle::SetRadius(double radius)
+{
+    this->Radius = radius;
+
+    this->GeneratePoints();
+}
+
+CacoEngine::Circle::Circle(Vector2Df center,double radius) : Object(), Radius(radius)
+{
+    this->Position = center;
+    this->FillMode = RasterizeMode::Points;
+    this->GeneratePoints();
+}
+
+CacoEngine::Circle::~Circle()
+{
+}

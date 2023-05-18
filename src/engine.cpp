@@ -2,18 +2,73 @@
 #include <SDL_events.h>
 #include <SDL_image.h>
 #include <SDL_pixels.h>
+#include <SDL_rect.h>
 #include <SDL_render.h>
 #include <SDL_surface.h>
 #include <SDL_timer.h>
 #include <SDL_video.h>
 #include <iostream>
 #include <vector>
+#include "objects.hpp"
 #include "rigidobject.hpp"
 #include "texture.hpp"
 
 
 namespace CacoEngine
 {
+    bool IsBufferEqual(std::vector<SDL_FPoint> left, std::vector<SDL_FPoint> right)
+    {
+        for (int x = 0; x < left.size(); x++)
+            if (!(left[x].x == right[x].x && left[x].y == right[x].y))
+                return false;
+
+        return true;
+    }
+
+    std::vector<SDL_FPoint> PixelizeCircle( SDL_FPoint center, int radius )
+    {
+        std::vector<SDL_FPoint> points;
+
+
+        const float diameter = (radius * 2);
+
+        float x = (radius - 1);
+        float y = 0;
+        float tx = 1;
+        float ty = 1;
+        float error = (tx - diameter);
+
+        while( x >= y )
+        {
+            // Each of the following renders an octant of the circle
+            points.push_back( { center.x + x, center.y - y } );
+            points.push_back( { center.x + x, center.y + y } );
+            points.push_back( { center.x - x, center.y - y } );
+            points.push_back( { center.x - x, center.y + y } );
+            points.push_back( { center.x + y, center.y - x } );
+            points.push_back( { center.x + y, center.y + x } );
+            points.push_back( { center.x - y, center.y - x } );
+            points.push_back( { center.x - y, center.y + x } );
+
+            if( error <= 0 )
+            {
+                ++y;
+                error += ty;
+                ty += 2;
+            }
+
+            if( error > 0 )
+            {
+                --x;
+                tx += 2;
+                error += (tx - diameter);
+            }
+        }
+
+        return points; // RVO FTW
+    }
+
+
     void Engine::AddExtension(Extension extension)
     {
         if (!this->HasExtension(extension))
@@ -68,8 +123,7 @@ namespace CacoEngine
         for (int x = 0; x < this->RigidObjects.size(); x++)
         {
             RigidObject2D& object = this->RigidObjects[x];
-
-            double dT = this->ElapsedTime;
+            double dT = this->DeltaTime;
 
             object.RigidBody.Velocity +=  Vector2Df(0, dT * gravity);
 
@@ -78,27 +132,36 @@ namespace CacoEngine
             if (object.Position.Y > 400)
                 object.Translate(Vector2Df(0, -(object.Position.Y - 400)));
 
-            object.RigidBody.LastUpdate = this->ElapsedTime;
+            object.RigidBody.LastUpdate = this->DeltaTime;
         }
     }
 
     void Engine::Render(SDL_Renderer* renderer, std::vector<Object>& objects)
     {
+
+
         for (int x = 0; x < objects.size(); x++)
         {
             Object& object = objects[x];
 
-            this->EngineRenderer.SetColor((object).FillColor); 
+            this->EngineRenderer.SetColor((object).FillColor);
 
             if (object.FillMode == RasterizeMode::WireFrame)
                 SDL_RenderDrawLinesF(renderer = this->EngineRenderer.GetInstance(), object.ObjectMesh.GetPoints().data(), object.ObjectMesh.Vertices.size());
+
+            else if (object.FillMode == RasterizeMode::Points)
+                SDL_RenderDrawPointsF(renderer = this->EngineRenderer.GetInstance(),
+                                      object.ObjectMesh.GetPoints().data(),
+                                      object.ObjectMesh.Vertices.size());
+
             else
-                SDL_RenderGeometry((renderer = this->EngineRenderer.GetInstance()), 
-                                    (object.FillMode == RasterizeMode::Texture) ? object.mTexture.mTexture : nullptr, 
+                SDL_RenderGeometry((renderer = this->EngineRenderer.GetInstance()),
+                                    (object.FillMode == RasterizeMode::Texture) ? object.mTexture.mTexture : nullptr,
                                     object.ObjectMesh.GetVertexBuffer().data(),
                                     object.ObjectMesh.Vertices.size(),
                                     nullptr, 0);
-        }            
+
+        }
 
         // SDL_RenderPresent(renderer);
         // SDL_Delay(0);
@@ -110,24 +173,27 @@ namespace CacoEngine
         {
             RigidObject2D& object = objects[x];
 
-            this->EngineRenderer.SetColor((object).FillColor); 
+            this->EngineRenderer.SetColor((object).FillColor);
 
             if (object.FillMode == RasterizeMode::WireFrame)
                 SDL_RenderDrawLinesF(renderer = this->EngineRenderer.GetInstance(), object.ObjectMesh.GetPoints().data(), object.ObjectMesh.Vertices.size());
+
+            else if (object.FillMode == RasterizeMode::Points)
+                SDL_RenderDrawPointsF(renderer = this->EngineRenderer.GetInstance(), object.ObjectMesh.GetPoints().data(), object.ObjectMesh.Vertices.size());
             else
-                SDL_RenderGeometry((renderer = this->EngineRenderer.GetInstance()), 
-                                    (object.FillMode == RasterizeMode::Texture) ? object.mTexture.mTexture : nullptr, 
+                SDL_RenderGeometry((renderer = this->EngineRenderer.GetInstance()),
+                                    (object.FillMode == RasterizeMode::Texture) ? object.mTexture.mTexture : nullptr,
                                     object.ObjectMesh.GetVertexBuffer().data(),
                                     object.ObjectMesh.Vertices.size(),
                                     nullptr, 0);
-        }            
+        }
 
 
         SDL_RenderPresent(renderer);
         SDL_Delay(0);
     }
-    
-    
+
+
     void Engine::Run()
     {
         SDL_Renderer* renderer = nullptr;
@@ -169,7 +235,7 @@ namespace CacoEngine
                         this->OnKeyPress(this->Event.key);
                         break;
 
-                    case SDL_MOUSEBUTTONDOWN:                    
+                    case SDL_MOUSEBUTTONDOWN:
                         this->OnMouseClick(this->Event.button);
                         break;
 
@@ -191,14 +257,14 @@ namespace CacoEngine
 
             current = SDL_GetPerformanceCounter();
 
-            this->ElapsedTime = (double)((current - prev) / (double)SDL_GetPerformanceFrequency());
+            this->DeltaTime = (double)((current - prev) / (double)SDL_GetPerformanceFrequency());
 
-            this->OnUpdate(this->ElapsedTime);
+            this->OnUpdate(this->DeltaTime);
         }
     }
 
     Engine::Engine(std::string_view title, Vector2Df resolution, bool initialize)
-        : Objects(std::vector<Object>()), RigidObjects(std::vector<RigidObject2D>()), ElapsedTime(0), Title(title), Resolution(resolution), IsRunning(false)
+        : Objects(std::vector<Object>()), RigidObjects(std::vector<RigidObject2D>()), Title(title), Resolution(resolution), IsRunning(false), DeltaTime(0)
     {
         this->Extensions = {
             Extension::Video,
@@ -219,4 +285,3 @@ namespace CacoEngine
         std::cout << "SDL Aborted.";
     }
 }
- 

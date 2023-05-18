@@ -55,7 +55,7 @@ namespace CacoEngine
 
             SDL_Window* Window;
 
-            double ElapsedTime;
+            double DeltaTime;
 
             void Run();
 

@@ -121,6 +121,11 @@ CacoEngine::Vector2D &CacoEngine::Vector2D::operator /=(int rhs)
     return *this;
 }
 
+bool CacoEngine::Vector2D::operator==(Vector2D &vector)
+{
+    return (this->X = vector.X && this->Y == vector.Y );
+}
+
 //-------//
 
 CacoEngine::Vector2Df::Vector2Df(double x, double y) :  X(x), Y(y)

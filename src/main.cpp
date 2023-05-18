@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include "engine.hpp"
+#include "objects.hpp"
 #include "rigidbody.hpp"
 #include "rigidsprite.hpp"
 #include "texture.hpp"
@@ -12,6 +13,9 @@
 #include "rigidsprite.hpp"
 #include "random.hpp"
 #include "box.hpp"
+#include "vertex.hpp"
+
+
 
 class Application : public CacoEngine::Engine
 {
@@ -37,7 +41,7 @@ public:
             this->TextureCache["cacodemon_left"] = CacoEngine::TextureManager::CreateTexture("cacodemon_left.png", this->EngineRenderer);
             this->TextureCache["cacodemon_right"] = CacoEngine::TextureManager::CreateTexture("cacodemon_right.png", this->EngineRenderer);
 
-            this->AddObject((CacoEngine::Object)CacoEngine::Sprite(this->TextureCache["cacodemon"], CacoEngine::Vector2Df(200, 200), CacoEngine::Vector2Df(100, 100)));
+            this->AddObject((CacoEngine::Object)CacoEngine::Sprite(this->TextureCache["cacodemon"], CacoEngine::Vector2Df(200, 200), CacoEngine::Vector2Df(600, 600)));
 
             CacoEngine::Box2D box = CacoEngine::Box2D(CacoEngine::Vector2Df(200, 200), CacoEngine::Vector2Df(100, 100));
 
@@ -45,15 +49,26 @@ public:
 
             CacoEngine::RigidSprite rgSprite = CacoEngine::RigidSprite(this->TextureCache["cacodemon"],CacoEngine::Vector2Df(200, 200), CacoEngine::Vector2Df(100, 100));
 
-
             // this->AddObject(box);
+            //
             this->AddObject(rgSprite);
             //
+            this->AddObject(CacoEngine::Circle(CacoEngine::Vector2Df(200, 200), 200));
+
+            this->AddObject(
+                CacoEngine::Rectangle(CacoEngine::Vector2Df(200, 500),
+                                      CacoEngine::Vector2Df(300, 300),
+                                      CacoEngine::Colors[(int)CacoEngine::Color::Red]));
+
             this->Metrics = CacoEngine::RigidBody2D(CacoEngine::Vector2Df(0, 5), CacoEngine::Vector2Df(0, 50));
+
+
         }
 
         void OnUpdate(double frame) override
         {
+            this->EngineRenderer.SetColor(CacoEngine::Colors[(int)CacoEngine::Color::White]);
+            // DrawCircle(this->EngineRenderer.GetInstance(), 100, 100, 100);
         }
 
         void OnMouseClick(SDL_MouseButtonEvent& event) override
@@ -66,29 +81,29 @@ public:
             {
                 this->Objects[this->SelectedIndex].mTexture = this->TextureCache["cacodemon_right"];
 
-                this->Metrics.Velocity += (this->Metrics.Acceleration * this->ElapsedTime);
+                this->Metrics.Velocity += (this->Metrics.Acceleration * this->DeltaTime);
 
                 std::cout << "Velocity: " << this->Metrics.Velocity.Y << std::endl;
 
-                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2Df(this->Metrics.Velocity.Y * this->ElapsedTime, 0));
+                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2Df(this->Metrics.Velocity.Y * this->DeltaTime, 0));
             }
 
             if (event.keysym.sym == SDLK_LEFT)
             {
                 this->Objects[this->SelectedIndex].mTexture = this->TextureCache["cacodemon_left"];
-                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2Df(-200 * this->ElapsedTime, 0));
+                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2Df(-200 * this->DeltaTime, 0));
             }
 
             if (event.keysym.sym == SDLK_DOWN)
             {
                 this->Objects[this->SelectedIndex].mTexture = this->TextureCache["cacodemon"];
-                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2Df(0, 200 * this->ElapsedTime));
+                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2Df(0, 200 * this->DeltaTime));
             }
 
             if (event.keysym.sym == SDLK_UP)
             {
                 this->Objects[this->SelectedIndex].mTexture = this->TextureCache["cacodemon"];
-                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2Df(0, -200 * this->ElapsedTime));
+                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2Df(0, -200 * this->DeltaTime));
             }
 
             if (event.keysym.sym == SDLK_s)

@@ -12,6 +12,7 @@ namespace CacoEngine
 {
     enum class RasterizeMode
     {
+        Points,
         WireFrame,
         SolidColor,
         Texture
@@ -84,6 +85,23 @@ namespace CacoEngine
 
         Rectangle(Vector2Df, Vector2Df, RGBA = Colors[(int)Color::White], Texture = Texture());
         virtual ~Rectangle();
+    };
+
+    class Circle : public Object
+    {
+    protected:
+            void GeneratePoints();
+
+            double Radius;
+    public:
+            double GetRadius();
+
+            Vector2Df GetCenter();
+
+            void SetRadius(double);
+
+            Circle(Vector2Df, double =  1);
+            virtual ~Circle();
     };
 }
 
