@@ -8,6 +8,7 @@
 #include "objects.hpp"
 #include "rigidbody.hpp"
 #include "rigidsprite.hpp"
+#include "rigidobject.hpp"
 #include "texture.hpp"
 #include "tools.hpp"
 #include "rigidsprite.hpp"
@@ -51,18 +52,14 @@ public:
 
             // this->AddObject(box);
             //
-            this->AddObject(rgSprite);
+            // this->AddObject(rgSprite);
             //
-            this->AddObject(CacoEngine::Circle(CacoEngine::Vector2Df(200, 200), 200));
+            this->AddObject(CacoEngine::RigidCircle(CacoEngine::Vector2Df(200, 200), 50));
 
-            this->AddObject(
-                CacoEngine::Rectangle(CacoEngine::Vector2Df(200, 500),
-                                      CacoEngine::Vector2Df(300, 300),
-                                      CacoEngine::Colors[(int)CacoEngine::Color::Red]));
-
-            this->Metrics = CacoEngine::RigidBody2D(CacoEngine::Vector2Df(0, 5), CacoEngine::Vector2Df(0, 50));
+            // this->AddObject(CacoEngine::Box2D(CacoEngine::Vector2Df(100, 100), CacoEngine::Vector2Df(), CacoEngine::Colors[(int)CacoEngine::Color::White]));
 
 
+            // this->Metrics = CacoEngine::RigidBody2D(CacoEngine::Vector2Df(0, 5), CacoEngine::Vector2Df(0, 50));
         }
 
         void OnUpdate(double frame) override

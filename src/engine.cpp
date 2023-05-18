@@ -150,9 +150,7 @@ namespace CacoEngine
                 SDL_RenderDrawLinesF(renderer = this->EngineRenderer.GetInstance(), object.ObjectMesh.GetPoints().data(), object.ObjectMesh.Vertices.size());
 
             else if (object.FillMode == RasterizeMode::Points)
-                SDL_RenderDrawPointsF(renderer = this->EngineRenderer.GetInstance(),
-                                      object.ObjectMesh.GetPoints().data(),
-                                      object.ObjectMesh.Vertices.size());
+                SDL_RenderDrawPointsF(renderer = this->EngineRenderer.GetInstance(), object.ObjectMesh.GetPoints().data(), object.ObjectMesh.Vertices.size());
 
             else
                 SDL_RenderGeometry((renderer = this->EngineRenderer.GetInstance()),
@@ -187,7 +185,6 @@ namespace CacoEngine
                                     object.ObjectMesh.Vertices.size(),
                                     nullptr, 0);
         }
-
 
         SDL_RenderPresent(renderer);
         SDL_Delay(0);

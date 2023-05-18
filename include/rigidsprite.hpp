@@ -12,7 +12,6 @@ namespace CacoEngine
             Sprite mSprite;
 
     public:
-
         RigidSprite(Texture, Vector2Df, Vector2Df);
 
         virtual ~RigidSprite();

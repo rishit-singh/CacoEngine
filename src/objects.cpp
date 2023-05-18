@@ -35,16 +35,6 @@ std::vector<SDL_FPoint> CacoEngine::Mesh::GetPoints()
     return sdlPoints;
 }
 
-// std::vector<SDL_FPoint> CacoEngine::Mesh::GetPointsF()
-// {
-//     std::vector<SDL_FPoint> sdlPoints = std::vector<SDL_FPoint>();
-
-//     for (int x = 0; x < this->Vertices.size(); x++)
-//         sdlPoints.push_back(this->Vertices[x].GetSDLPointF());
-
-//     return sdlPoints;
-// }
-
 std::vector<SDL_Vertex> CacoEngine::Mesh::GetVertexBuffer()
 {
     std::vector<SDL_Vertex> sdlVertices = std::vector<SDL_Vertex>();

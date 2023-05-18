@@ -13,12 +13,27 @@ namespace CacoEngine
         virtual bool CollidesWith(RigidObject2D&);
         virtual bool CollidesWith(Vector2Df);
 
-        // RigidObject2D& operator =(const RigidObject2D&);
+        RigidObject2D& operator =(const RigidObject2D&);
 
         RigidObject2D();
-        // RigidObject2D(const RigidBody2D&);
+        RigidObject2D(const RigidObject2D&);
 
         virtual ~RigidObject2D();
+    };
+
+
+    class RigidCircle : public RigidObject2D
+    {
+    protected:
+            Circle mCircle;
+
+            void Sync();
+    public:
+            double GetRadius();
+            void SetRadius(double);
+
+            RigidCircle(Vector2Df, double = 1.0f);
+            virtual ~RigidCircle();
     };
 }
 
