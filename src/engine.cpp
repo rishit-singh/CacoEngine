@@ -12,63 +12,10 @@
 #include "objects.hpp"
 #include "rigidobject.hpp"
 #include "texture.hpp"
-
+#include <memory>
 
 namespace CacoEngine
 {
-    bool IsBufferEqual(std::vector<SDL_FPoint> left, std::vector<SDL_FPoint> right)
-    {
-        for (int x = 0; x < left.size(); x++)
-            if (!(left[x].x == right[x].x && left[x].y == right[x].y))
-                return false;
-
-        return true;
-    }
-
-    std::vector<SDL_FPoint> PixelizeCircle( SDL_FPoint center, int radius )
-    {
-        std::vector<SDL_FPoint> points;
-
-
-        const float diameter = (radius * 2);
-
-        float x = (radius - 1);
-        float y = 0;
-        float tx = 1;
-        float ty = 1;
-        float error = (tx - diameter);
-
-        while( x >= y )
-        {
-            // Each of the following renders an octant of the circle
-            points.push_back( { center.x + x, center.y - y } );
-            points.push_back( { center.x + x, center.y + y } );
-            points.push_back( { center.x - x, center.y - y } );
-            points.push_back( { center.x - x, center.y + y } );
-            points.push_back( { center.x + y, center.y - x } );
-            points.push_back( { center.x + y, center.y + x } );
-            points.push_back( { center.x - y, center.y - x } );
-            points.push_back( { center.x - y, center.y + x } );
-
-            if( error <= 0 )
-            {
-                ++y;
-                error += ty;
-                ty += 2;
-            }
-
-            if( error > 0 )
-            {
-                --x;
-                tx += 2;
-                error += (tx - diameter);
-            }
-        }
-
-        return points; // RVO FTW
-    }
-
-
     void Engine::AddExtension(Extension extension)
     {
         if (!this->HasExtension(extension))
@@ -99,15 +46,16 @@ namespace CacoEngine
 
     Object& Engine::AddObject(Object object)
     {
-        this->Objects.push_back(object);
-        return this->Objects[this->Objects.size() - 1];
+        this->Objects.push_back(std::make_unique<Object>(object));
+
+        return *this->Objects[this->Objects.size() - 1];
     }
     
     RigidObject2D& Engine::AddObject(RigidObject2D object)
     {
-        this->RigidObjects.push_back(object);
-        
-        return this->RigidObjects[this->RigidObjects.size() - 1];
+        this->RigidObjects.push_back(std::make_unique<RigidObject2D>(object));
+
+        return *this->RigidObjects[this->RigidObjects.size() - 1];
     }
 
     void Engine::OnKeyPress(SDL_KeyboardEvent& event)
@@ -122,7 +70,7 @@ namespace CacoEngine
 
         for (int x = 0; x < this->RigidObjects.size(); x++)
         {
-            RigidObject2D& object = this->RigidObjects[x];
+            RigidObject2D& object = *this->RigidObjects[x];
             double dT = this->DeltaTime;
 
             object.RigidBody.Velocity +=  Vector2Df(0, dT * gravity);
@@ -136,15 +84,14 @@ namespace CacoEngine
         }
     }
 
-    void Engine::Render(SDL_Renderer* renderer, std::vector<Object>& objects)
+    void Engine::Render(SDL_Renderer* renderer, std::vector<std::unique_ptr<Object>>& objects)
     {
-
 
         for (int x = 0; x < objects.size(); x++)
         {
-            Object& object = objects[x];
+            Object& object = *objects[x];
 
-            this->EngineRenderer.SetColor((object).FillColor);
+            this->EngineRenderer.SetColor(object.FillColor);
 
             if (object.FillMode == RasterizeMode::WireFrame)
                 SDL_RenderDrawLinesF(renderer = this->EngineRenderer.GetInstance(), object.ObjectMesh.GetPoints().data(), object.ObjectMesh.Vertices.size());
@@ -165,11 +112,11 @@ namespace CacoEngine
         // SDL_Delay(0);
     }
 
-    void Engine::Render(SDL_Renderer* renderer, std::vector<RigidObject2D>& objects)
+    void Engine::Render(SDL_Renderer* renderer, std::vector<std::unique_ptr<RigidObject2D>>& objects)
     {
         for (int x = 0; x < objects.size(); x++)
         {
-            RigidObject2D& object = objects[x];
+            RigidObject2D& object = *objects[x];
 
             this->EngineRenderer.SetColor((object).FillColor);
 
@@ -261,7 +208,7 @@ namespace CacoEngine
     }
 
     Engine::Engine(std::string_view title, Vector2Df resolution, bool initialize)
-        : Objects(std::vector<Object>()), RigidObjects(std::vector<RigidObject2D>()), Title(title), Resolution(resolution), IsRunning(false), DeltaTime(0)
+        : Objects(std::vector<std::unique_ptr<Object>>()), RigidObjects(std::vector<std::unique_ptr<RigidObject2D>>()), Title(title), Resolution(resolution), IsRunning(false), DeltaTime(0)
     {
         this->Extensions = {
             Extension::Video,

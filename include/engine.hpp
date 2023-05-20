@@ -5,6 +5,7 @@
 #include <SDL_events.h>
 #include <vector>
 #include <string_view>
+#include <memory>
 #include "vertex.hpp"
 #include "objects.hpp"
 #include "surface.hpp"
@@ -33,16 +34,16 @@ namespace CacoEngine
 
             Surface WindowSurface;
 
-            std::vector<Object> Objects;
+            std::vector<std::unique_ptr<Object>> Objects;
 
-            std::vector<RigidObject2D> RigidObjects;
+            std::vector<std::unique_ptr<RigidObject2D>> RigidObjects;
 
             bool HasExtension(Extension);
 
             void UpdatePhysics();
 
-            void Render(SDL_Renderer*, std::vector<Object>&); 
-            void Render(SDL_Renderer*, std::vector<RigidObject2D>&); 
+            void Render(SDL_Renderer*, std::vector<std::unique_ptr<Object>>&);
+            void Render(SDL_Renderer*, std::vector<std::unique_ptr<RigidObject2D>>&);
 
     public:
             std::string_view Title;
@@ -79,4 +80,5 @@ namespace CacoEngine
             ~Engine();
     };
 }
+
 #endif // ENGINE_H_

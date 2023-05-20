@@ -2,7 +2,6 @@
 #define RIGIDOBJECT_H_
 
 #include "rigidbody.hpp"
-#include <cmath>
 
 namespace CacoEngine
 {
@@ -10,6 +9,9 @@ namespace CacoEngine
     {
     public:
         RigidBody2D RigidBody;
+
+        virtual bool CollidesWith(RigidObject2D&);
+        virtual bool CollidesWith(Vector2Df&);
 
         virtual bool CollidesWith(RigidObject2D);
         virtual bool CollidesWith(Vector2Df);
@@ -34,8 +36,6 @@ namespace CacoEngine
             void SetRadius(double);
 
             bool CollidesWith(Circle&);
-
-            virtual bool CollidesWith(Vector2Df);
 
             RigidCircle(Vector2Df, double = 1.0f);
             virtual ~RigidCircle();

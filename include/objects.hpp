@@ -32,6 +32,10 @@ namespace CacoEngine
 
         std::vector<SDL_FPoint> GetPoints();
 
+        bool Equals(Mesh&);
+
+        bool operator ==(Mesh&);
+
         Mesh(std::vector<Vertex2Df>  = std::vector<Vertex2Df>());
 
         virtual ~Mesh();
@@ -59,10 +63,13 @@ namespace CacoEngine
 
         void SetFillColor(RGBA);
 
+        bool Equals(Object&);
+
         Object();
         Object(const Object&);
 
         Object& operator =(const Object& object);
+        bool operator ==(Object&);
 
         virtual ~Object();
     };

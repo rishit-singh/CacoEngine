@@ -32,6 +32,23 @@ public:
 
         CacoEngine::RigidBody2D Metrics;
 
+        CacoEngine::RigidCircle rgCircle { CacoEngine::RigidCircle(CacoEngine::Vector2Df(200, 200), 50) };
+
+
+        CacoEngine::Object& GetObject(size_t index)
+        {
+            size_t size, rigidIndex;
+
+            if (index >= (size = this->Objects.size()) && (rigidIndex = (index - size)) >= this->RigidObjects.size())
+              return *this->RigidObjects[this->RigidObjects.size() - 1];
+
+            else if (index >= size)
+                return *this->RigidObjects[rigidIndex];
+
+            return *this->Objects[index];
+        }
+
+
         void OnInitialize() override
         {
             this->TintIndex = 0;
@@ -56,16 +73,31 @@ public:
             //
             this->AddObject(CacoEngine::RigidCircle(CacoEngine::Vector2Df(200, 200), 50));
 
-            // this->AddObject(CacoEngine::Box2D(CacoEngine::Vector2Df(100, 100), CacoEngine::Vector2Df(), CacoEngine::Colors[(int)CacoEngine::Color::White]));
-
-
+            // this->RigidObjects[this->RigidObjects.size() - 1].RigidBody = CacoEngine::RigidBody2D(CacoEngine::Vector2D());
+            // this->AddObject(CacoEngine::Box2D(CacoEngine::Vector2Df(100, 100),
+                                              // CacoEngine::Vector2Df(), CacoEngine::Colors[(int)CacoEngine::Color::White]));
             // this->Metrics = CacoEngine::RigidBody2D(CacoEngine::Vector2Df(0, 5), CacoEngine::Vector2Df(0, 50));
+            //
         }
 
         void OnUpdate(double frame) override
         {
             this->EngineRenderer.SetColor(CacoEngine::Colors[(int)CacoEngine::Color::White]);
-            // DrawCircle(this->EngineRenderer.GetInstance(), 100, 100, 100);
+            // DrawCircle(this->EngineRenderer.GetInstance( ), 100, 100, 100);
+
+            CacoEngine::RigidObject2D& object = *this->RigidObjects[this->RigidObjects.size() - 1];
+
+
+            std::cout << "Cursor: (" << this->CursorPosition.X << ", " << this->CursorPosition.Y << ")\n";
+
+            if (object.CollidesWith(CacoEngine::Vector2Df(this->CursorPosition.X, this->CursorPosition.Y)))
+            {
+                object.FillColor = CacoEngine::Colors[(int)CacoEngine::Color::Red];
+
+                std::cout << "Object collides.\n";
+            }
+            else
+                object.FillColor = CacoEngine::Colors[(int)CacoEngine::Color::White];
         }
 
         void OnMouseClick(SDL_MouseButtonEvent& event) override
@@ -76,31 +108,34 @@ public:
         {
             if (event.keysym.sym == SDLK_RIGHT)
             {
-                this->Objects[this->SelectedIndex].mTexture = this->TextureCache["cacodemon_right"];
+                this->GetObject(this->SelectedIndex).mTexture = this->TextureCache["cacodemon_right"];
 
-                this->Metrics.Velocity += (this->Metrics.Acceleration * this->DeltaTime);
+                // this->Metrics.Velocity += (this->Metrics.Acceleration * this->DeltaTime);
 
-                std::cout << "Velocity: " << this->Metrics.Velocity.Y << std::endl;
-
-                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2Df(this->Metrics.Velocity.Y * this->DeltaTime, 0));
+                this->GetObject(this->SelectedIndex).Translate(CacoEngine::Vector2Df(this->Metrics.Velocity.Y * this->DeltaTime, 0));
             }
 
             if (event.keysym.sym == SDLK_LEFT)
             {
-                this->Objects[this->SelectedIndex].mTexture = this->TextureCache["cacodemon_left"];
-                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2Df(-200 * this->DeltaTime, 0));
+                this->GetObject(this->SelectedIndex).mTexture = this->TextureCache["cacodemon_left"];
+                this->GetObject(this->SelectedIndex).Translate(CacoEngine::Vector2Df(-200 * this->DeltaTime, 0));
             }
 
             if (event.keysym.sym == SDLK_DOWN)
             {
-                this->Objects[this->SelectedIndex].mTexture = this->TextureCache["cacodemon"];
-                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2Df(0, 200 * this->DeltaTime));
+                this->GetObject(this->SelectedIndex).mTexture = this->TextureCache["cacodemon"];
+                this->GetObject(this->SelectedIndex).Translate(CacoEngine::Vector2Df(0, 200 * this->DeltaTime));
             }
 
             if (event.keysym.sym == SDLK_UP)
             {
-                this->Objects[this->SelectedIndex].mTexture = this->TextureCache["cacodemon"];
-                this->Objects[this->SelectedIndex].Translate(CacoEngine::Vector2Df(0, -200 * this->DeltaTime));
+                this->GetObject(this->SelectedIndex).mTexture = this->TextureCache["cacodemon"];
+                this->GetObject(this->SelectedIndex).Translate(CacoEngine::Vector2Df(0, -200 * this->DeltaTime));
+            }
+
+            if (event.keysym.sym == SDLK_SPACE)
+            {
+                this->GetObject(this->SelectedIndex).Translate(CacoEngine::Vector2Df(0, 700));
             }
 
             if (event.keysym.sym == SDLK_s)
@@ -116,13 +151,13 @@ public:
                 // sprite.mTexture = this->TextureCache["cacodemon"];
                 // sprite.FillMode = CacoEngine::RasterizeMode::Texture;
 
-                this->Objects.push_back(sprite);
+                this->Objects.push_back(std::make_unique<CacoEngine::Object>(sprite));
                 this->SelectedIndex++;
             }
 
             if (event.keysym.sym == SDLK_w)
             {
-                CacoEngine::Object& object = this->Objects[this->SelectedIndex];
+                CacoEngine::Object& object = this->GetObject(this->SelectedIndex); //this->Objects[this->SelectedIndex];
                 if (object.FillMode == CacoEngine::RasterizeMode::WireFrame)
                     object.FillMode = CacoEngine::RasterizeMode::Texture;
                 else
@@ -130,12 +165,14 @@ public:
             }
             
             if (event.keysym.sym == SDLK_c)
-                if (++this->SelectedIndex >= this->Objects.size())
+            {
+                if (++this->SelectedIndex >= (this->Objects.size() + this->RigidObjects.size()))
                     this->SelectedIndex = 0;
+            }
 
             if (event.keysym.sym == SDLK_d)
                 if (--this->SelectedIndex < 0)
-                    this->SelectedIndex = this->Objects.size() - 1;
+                    this->SelectedIndex = (this->Objects.size() +  this->RigidObjects.size()) - 1;
         }
 
         void OnMouseScroll(SDL_MouseWheelEvent &event) override

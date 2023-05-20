@@ -25,6 +25,15 @@ CacoEngine::Object& CacoEngine::Object::operator =(const Object& object)
     return *this;
 }
 
+bool CacoEngine::Object::Equals(Object &object)
+{
+  return (this->ID == object.ID &&
+            this->Position == object.Position &&
+            this->FillColor == object.FillColor &&
+            this->FillMode == object.FillMode &&
+            this->ObjectMesh == object.ObjectMesh);
+}
+
 std::vector<SDL_FPoint> CacoEngine::Mesh::GetPoints()
 {
     std::vector<SDL_FPoint> sdlPoints = std::vector<SDL_FPoint>();
@@ -45,6 +54,16 @@ std::vector<SDL_Vertex> CacoEngine::Mesh::GetVertexBuffer()
         sdlVertices.push_back(this->Vertices[x].GetSDLVertex());
 
     return sdlVertices;
+}
+
+bool CacoEngine::Mesh::Equals(Mesh &mesh)
+{
+  return (this->Vertices == mesh.Vertices);
+}
+
+bool CacoEngine::Mesh::operator==(Mesh &mesh)
+{
+    return this->Equals(mesh);
 }
 
 CacoEngine::Object::~Object()
@@ -75,8 +94,8 @@ CacoEngine::Triangle &CacoEngine::Triangle::operator =(const Triangle& triangle)
     return *this;
 }
 
-CacoEngine::Triangle::~Triangle() {}
-
+CacoEngine::Triangle::~Triangle()
+{}
 
 
 void CacoEngine::Object::AddVertex(Vertex2Df vertex)
@@ -147,7 +166,7 @@ void CacoEngine::Circle::GeneratePoints()
     float ty = 1;
     float error = (tx - diameter);
 
-    while( x >= y )
+    while( x >= y)
     {
         // Each of the following renders an octant of the circle
         this->ObjectMesh.Vertices.push_back(Vertex2Df(Vector2Df((float)this->Position.X + x, (float)this->Position.Y - y), this->FillColor));
