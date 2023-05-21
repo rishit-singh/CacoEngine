@@ -44,18 +44,14 @@ namespace CacoEngine
         }
     }
 
-    Object& Engine::AddObject(Object object)
+    Object& Engine::AddObject(std::unique_ptr<Object> object)
     {
-        this->Objects.push_back(std::make_unique<Object>(object));
-
-        return *this->Objects[this->Objects.size() - 1];
+        return *this->Objects.emplace_back(std::move(object));
     }
     
-    RigidObject2D& Engine::AddObject(RigidObject2D object)
+    RigidObject2D& Engine::AddObject(std::unique_ptr<RigidObject2D> object)
     {
-        this->RigidObjects.push_back(std::make_unique<RigidObject2D>(object));
-
-        return *this->RigidObjects[this->RigidObjects.size() - 1];
+        return *this->RigidObjects.emplace_back(std::move(object));
     }
 
     void Engine::OnKeyPress(SDL_KeyboardEvent& event)
@@ -117,6 +113,9 @@ namespace CacoEngine
         for (int x = 0; x < objects.size(); x++)
         {
             RigidObject2D& object = *objects[x];
+
+            // std::unique_ptr<RigidObject2D> ptr = objects[x];
+
 
             this->EngineRenderer.SetColor((object).FillColor);
 

@@ -80,7 +80,7 @@ bool CacoEngine::RigidCircle::CollidesWith(Circle &circle)
     return ((this->Position.DistanceFrom(circle.Position) - (circle.GetRadius())) < 0);
 }
 
-// CacoEngine::Box2D::Box2D(CacoEngie::Vector2D dimensions, Vector2D position, RGBA color) : Rectangle(dimensions, position, color), RigidBody2D()
+// CacoEngine::Box2D::Box2D(CacoEngine::Vector2D dimensions, Vector2D position, RGBA color) : Rectangle(dimensions, position, color), RigidBody2D()
 // {
 // }
 

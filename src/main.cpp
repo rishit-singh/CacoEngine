@@ -59,7 +59,7 @@ public:
             this->TextureCache["cacodemon_left"] = CacoEngine::TextureManager::CreateTexture("cacodemon_left.png", this->EngineRenderer);
             this->TextureCache["cacodemon_right"] = CacoEngine::TextureManager::CreateTexture("cacodemon_right.png", this->EngineRenderer);
 
-            this->AddObject((CacoEngine::Object)CacoEngine::Sprite(this->TextureCache["cacodemon"], CacoEngine::Vector2Df(200, 200), CacoEngine::Vector2Df(600, 600)));
+            this->AddObject(std::make_unique<CacoEngine::Object>(CacoEngine::Sprite(this->TextureCache["cacodemon"], CacoEngine::Vector2Df(200, 200), CacoEngine::Vector2Df(600, 600))));
 
             CacoEngine::Box2D box = CacoEngine::Box2D(CacoEngine::Vector2Df(200, 200), CacoEngine::Vector2Df(100, 100));
 
@@ -71,8 +71,7 @@ public:
             //
             // this->AddObject(rgSprite);
             //
-            this->AddObject(CacoEngine::RigidCircle(CacoEngine::Vector2Df(200, 200), 50));
-
+            this->AddObject(std::unique_ptr<CacoEngine::RigidObject2D>(std::make_unique<CacoEngine::RigidCircle>(CacoEngine::Vector2Df(200, 200), 50)));
             // this->RigidObjects[this->RigidObjects.size() - 1].RigidBody = CacoEngine::RigidBody2D(CacoEngine::Vector2D());
             // this->AddObject(CacoEngine::Box2D(CacoEngine::Vector2Df(100, 100),
                                               // CacoEngine::Vector2Df(), CacoEngine::Colors[(int)CacoEngine::Color::White]));

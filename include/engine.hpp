@@ -71,8 +71,8 @@ namespace CacoEngine
             virtual void OnInitialize() = 0;
             virtual void OnUpdate(double) = 0;
 
-            Object& AddObject(Object);
-            RigidObject2D& AddObject(RigidObject2D);
+            Object& AddObject(std::unique_ptr<Object>);
+            RigidObject2D& AddObject(std::unique_ptr<RigidObject2D>);
 
             Object& CreateMesh(std::vector<Vector2Df>);
             
