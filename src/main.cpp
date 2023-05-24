@@ -150,7 +150,8 @@ public:
                 // sprite.mTexture = this->TextureCache["cacodemon"];
                 // sprite.FillMode = CacoEngine::RasterizeMode::Texture;
 
-                this->Objects.push_back(std::make_unique<CacoEngine::Object>(sprite));
+                // this->Objects.push_back(std::make_unique<CacoEngine::Object>(sprite));
+                this->AddObject(std::unique_ptr<CacoEngine::RigidObject2D>(std::make_unique<CacoEngine::RigidCircle>(CacoEngine::Vector2Df(200, 200), 50)));
                 this->SelectedIndex++;
             }
 

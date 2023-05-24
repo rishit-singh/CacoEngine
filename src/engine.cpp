@@ -197,7 +197,6 @@ namespace CacoEngine
 
             this->UpdatePhysics();
 
-
             current = SDL_GetPerformanceCounter();
 
             this->DeltaTime = (double)((current - prev) / (double)SDL_GetPerformanceFrequency());

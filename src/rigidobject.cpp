@@ -53,8 +53,9 @@ bool CacoEngine::RigidCircle::CollidesWith(Vector2Df point)
 
     std::cout << "Distance: " << distance << '\n';
 
-    std::cout << "Position: "
+     std::cout << "Position: "
               << "(" << this->Position.X << ", " << this->Position.Y << ")\n";
+
     return (distance < this->GetRadius());
 }
 
@@ -73,7 +74,6 @@ void CacoEngine::RigidCircle::SetRadius(double radius)
     this->mCircle.SetRadius(radius);
     this->Sync();
 }
-
 
 bool CacoEngine::RigidCircle::CollidesWith(Circle &circle)
 {
