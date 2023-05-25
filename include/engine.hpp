@@ -6,11 +6,13 @@
 #include <vector>
 #include <string_view>
 #include <memory>
+#include <unordered_map>
 #include "vertex.hpp"
 #include "objects.hpp"
 #include "surface.hpp"
 #include "renderer.hpp"
 #include "rigidobject.hpp"
+#include "key.hpp"
 
 namespace CacoEngine
 {
@@ -34,6 +36,10 @@ namespace CacoEngine
 
             Surface WindowSurface;
 
+            uint8_t* KeyStates;
+
+            std::unordered_map<SDL_Keycode, Key> KeyMap;
+
             std::vector<std::unique_ptr<Object>> Objects;
 
             std::vector<std::unique_ptr<RigidObject2D>> RigidObjects;
@@ -41,6 +47,10 @@ namespace CacoEngine
             bool HasExtension(Extension);
 
             void UpdatePhysics();
+
+            void MapKey(SDL_KeyboardEvent&);
+
+            void ResetKeyState();
 
             void Render(SDL_Renderer*, std::vector<std::unique_ptr<Object>>&);
             void Render(SDL_Renderer*, std::vector<std::unique_ptr<RigidObject2D>>&);
@@ -62,6 +72,8 @@ namespace CacoEngine
 
             void AddExtension(Extension);
             void Initialize();
+
+            Key GetKeyState(SDL_Scancode);
 
             /** Event handlers **/
             virtual void OnKeyPress(SDL_KeyboardEvent&) = 0;

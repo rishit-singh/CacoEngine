@@ -4,6 +4,7 @@
 #include <SDL_pixels.h>
 #include <SDL_rect.h>
 #include <SDL_render.h>
+#include <SDL_scancode.h>
 #include <SDL_surface.h>
 #include <SDL_timer.h>
 #include <SDL_video.h>
@@ -44,6 +45,22 @@ namespace CacoEngine
         }
     }
 
+    void Engine::MapKey(SDL_KeyboardEvent& event)
+    {
+        if (this->KeyMap.contains(event.keysym.sym))
+            this->KeyMap[event.keysym.sym].IsHeld = true;
+        else
+            this->KeyMap[event.keysym.sym] = Key(event.keysym.sym, true);
+    }
+
+    void Engine::ResetKeyState()
+    {
+        for (auto x = this->KeyMap.begin(); x != this->KeyMap.end(); x++)
+            x->second.IsHeld = false;
+    }
+
+
+
     Object& Engine::AddObject(std::unique_ptr<Object> object)
     {
         return *this->Objects.emplace_back(std::move(object));
@@ -56,8 +73,15 @@ namespace CacoEngine
 
     void Engine::OnKeyPress(SDL_KeyboardEvent& event)
     {
+        this->MapKey(event);
+
         if (event.keysym.sym == SDLK_ESCAPE)
             this->IsRunning = false;
+    }
+
+    Key Engine::GetKeyState(SDL_Scancode keyCode)
+    {
+        return Key(keyCode, (this->KeyStates[keyCode] != 0));
     }
 
     void Engine::UpdatePhysics()
@@ -69,7 +93,7 @@ namespace CacoEngine
             RigidObject2D& object = *this->RigidObjects[x];
             double dT = this->DeltaTime;
 
-            object.RigidBody.Velocity +=  Vector2Df(0, dT * gravity);
+            object.RigidBody.Velocity += Vector2Df(0, dT * gravity);
 
             object.Translate(Vector2Df(object.RigidBody.Velocity.X * dT, object.RigidBody.Velocity.Y * dT));
 
@@ -161,9 +185,10 @@ namespace CacoEngine
         {
             SDL_GetMouseState(&this->CursorPosition.X, &this->CursorPosition.Y);
 
-            prev = SDL_GetPerformanceCounter();
+            this->ResetKeyState();
 
-            while (SDL_PollEvent(&this->Event))
+            prev = SDL_GetPerformanceCounter();
+            while (SDL_PollEvent(&this->Event)){
                 switch (this->Event.type)
                 {
                     case SDL_QUIT:
@@ -188,6 +213,10 @@ namespace CacoEngine
                 }
 
 
+                SDL_PumpEvents();
+                this->KeyStates = const_cast<uint8_t*>(SDL_GetKeyboardState(NULL));
+            }
+
             this->EngineRenderer.Clear();
             this->EngineRenderer.SetColor(Colors[(int)Color::White]);
 
@@ -202,6 +231,8 @@ namespace CacoEngine
             this->DeltaTime = (double)((current - prev) / (double)SDL_GetPerformanceFrequency());
 
             this->OnUpdate(this->DeltaTime);
+
+            // SDL_PumpEvents(Vx);
         }
     }
 

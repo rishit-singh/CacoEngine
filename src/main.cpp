@@ -1,3 +1,5 @@
+#include <SDL_events.h>
+#include <SDL_keyboard.h>
 #include <SDL_keycode.h>
 #include <algorithm>
 #include <cstdint>
@@ -34,7 +36,6 @@ public:
 
         CacoEngine::RigidCircle rgCircle { CacoEngine::RigidCircle(CacoEngine::Vector2Df(200, 200), 50) };
 
-
         CacoEngine::Object& GetObject(size_t index)
         {
             size_t size, rigidIndex;
@@ -47,7 +48,6 @@ public:
 
             return *this->Objects[index];
         }
-
 
         void OnInitialize() override
         {
@@ -86,8 +86,8 @@ public:
 
             CacoEngine::RigidObject2D& object = *this->RigidObjects[this->RigidObjects.size() - 1];
 
-
             std::cout << "Cursor: (" << this->CursorPosition.X << ", " << this->CursorPosition.Y << ")\n";
+
 
             if (object.CollidesWith(CacoEngine::Vector2Df(this->CursorPosition.X, this->CursorPosition.Y)))
             {
@@ -101,6 +101,8 @@ public:
 
         void OnMouseClick(SDL_MouseButtonEvent& event) override
         {
+            this->AddObject(std::unique_ptr<CacoEngine::RigidObject2D>(std::make_unique<CacoEngine::RigidCircle>(CacoEngine::Vector2Df(this->CursorPosition.X, this->CursorPosition.Y), 50)));
+            this->SelectedIndex++;
         }
 
         void OnKeyPress(SDL_KeyboardEvent& event) override
