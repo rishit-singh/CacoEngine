@@ -97,6 +97,8 @@ public:
             }
             else
                 object.FillColor = CacoEngine::Colors[(int)CacoEngine::Color::White];
+
+            std::cout << "ObjectCount: " << this->RigidObjects.size() + this->Objects.size() << '\n';
         }
 
         void OnMouseClick(SDL_MouseButtonEvent& event) override
@@ -153,7 +155,7 @@ public:
                 // sprite.FillMode = CacoEngine::RasterizeMode::Texture;
 
                 // this->Objects.push_back(std::make_unique<CacoEngine::Object>(sprite));
-                this->AddObject(std::unique_ptr<CacoEngine::RigidObject2D>(std::make_unique<CacoEngine::RigidCircle>(CacoEngine::Vector2Df(200, 200), 50)));
+                this->AddObject(std::unique_ptr<CacoEngine::RigidObject2D>(std::make_unique<CacoEngine::RigidCircle>(CacoEngine::Vector2Df(0, 0), 50)));
                 this->SelectedIndex++;
             }
 

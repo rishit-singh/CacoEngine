@@ -61,6 +61,7 @@ bool CacoEngine::RigidCircle::CollidesWith(Vector2Df point)
 
 void CacoEngine::RigidCircle::Sync()
 {
+    this->Position = this->mCircle.Position;
     this->ObjectMesh = this->mCircle.ObjectMesh;
 }
 

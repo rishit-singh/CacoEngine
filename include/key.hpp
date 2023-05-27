@@ -9,7 +9,9 @@ namespace CacoEngine
 
         bool IsHeld;
 
-        Key(SDL_Keycode = 0, bool = false);
+
+        Key();
+        Key(SDL_Scancode, bool = false);
 
         Key(const Key&);
         Key& operator =(const Key&);

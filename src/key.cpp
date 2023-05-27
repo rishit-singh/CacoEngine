@@ -1,6 +1,10 @@
 #include "key.hpp"
 
-CacoEngine::Key::Key(SDL_Keycode symbol, bool held)
+CacoEngine::Key::Key()
+{
+}
+
+CacoEngine::Key::Key(SDL_Scancode symbol, bool held)
     : Symbol(symbol), IsHeld(held) {}
 
 

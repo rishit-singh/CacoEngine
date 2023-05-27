@@ -50,7 +50,7 @@ namespace CacoEngine
         if (this->KeyMap.contains(event.keysym.sym))
             this->KeyMap[event.keysym.sym].IsHeld = true;
         else
-            this->KeyMap[event.keysym.sym] = Key(event.keysym.sym, true);
+            this->KeyMap[event.keysym.sym] = Key(event.keysym.scancode, true);
     }
 
     void Engine::ResetKeyState()
