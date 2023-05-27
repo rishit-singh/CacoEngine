@@ -13,6 +13,7 @@
 #include "objects.hpp"
 #include "rigidobject.hpp"
 #include "texture.hpp"
+#include "vertex.hpp"
 #include <memory>
 
 namespace CacoEngine
@@ -86,19 +87,29 @@ namespace CacoEngine
 
     void Engine::UpdatePhysics()
     {   
-        int gravity = 1000;
+        double gravity = 9.8f;
 
         for (int x = 0; x < this->RigidObjects.size(); x++)
         {
             RigidObject2D& object = *this->RigidObjects[x];
             double dT = this->DeltaTime;
 
-            object.RigidBody.Velocity += Vector2Df(0, dT * gravity);
+            object.RigidBody.Velocity += (object.RigidBody.Acceleration * dT);
 
             object.Translate(Vector2Df(object.RigidBody.Velocity.X * dT, object.RigidBody.Velocity.Y * dT));
 
-            if (object.Position.Y > 400)
-                object.Translate(Vector2Df(0, -(object.Position.Y - 400)));
+            if (object.Position.Y > 800)
+                object.Translate(Vector2Df(0, -(object.Position.Y - 800)));
+
+            std::cout << "Decreasing force" << std::endl;
+
+            object.RigidBody.Force -= 10;
+
+            object.RigidBody.Velocity = Vector2Df(0, 0);
+            if (object.RigidBody.Force.X <= 0 && object.RigidBody.Force.Y)
+                object.RigidBody.Force = 0;
+
+            object.RigidBody.UpdateAcceleration();
 
             object.RigidBody.LastUpdate = this->DeltaTime;
         }

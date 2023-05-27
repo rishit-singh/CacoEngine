@@ -88,15 +88,14 @@ public:
 
             std::cout << "Cursor: (" << this->CursorPosition.X << ", " << this->CursorPosition.Y << ")\n";
 
-
             if (object.CollidesWith(CacoEngine::Vector2Df(this->CursorPosition.X, this->CursorPosition.Y)))
             {
-                object.FillColor = CacoEngine::Colors[(int)CacoEngine::Color::Red];
+                object.SetFillColor(CacoEngine::Colors[(int)CacoEngine::Color::Red]);
 
                 std::cout << "Object collides.\n";
             }
             else
-                object.FillColor = CacoEngine::Colors[(int)CacoEngine::Color::White];
+                object.SetFillColor(CacoEngine::Colors[(int)CacoEngine::Color::White]);
 
             std::cout << "ObjectCount: " << this->RigidObjects.size() + this->Objects.size() << '\n';
         }
@@ -104,6 +103,8 @@ public:
         void OnMouseClick(SDL_MouseButtonEvent& event) override
         {
             this->AddObject(std::unique_ptr<CacoEngine::RigidObject2D>(std::make_unique<CacoEngine::RigidCircle>(CacoEngine::Vector2Df(this->CursorPosition.X, this->CursorPosition.Y), 50)));
+
+
             this->SelectedIndex++;
         }
 
@@ -132,8 +133,9 @@ public:
 
             if (event.keysym.sym == SDLK_UP)
             {
-                this->GetObject(this->SelectedIndex).mTexture = this->TextureCache["cacodemon"];
-                this->GetObject(this->SelectedIndex).Translate(CacoEngine::Vector2Df(0, -200 * this->DeltaTime));
+                // this->GetObject(this->SelectedIndex).mTexture = this->TextureCache["cacodemon"];
+                // this->GetObject(this->SelectedIndex).Translate(CacoEngine::Vector2Df(0, -200 * this->DeltaTime));
+                this->RigidObjects[this->RigidObjects.size() - 1]->RigidBody.AddForce(CacoEngine::Vector2Df(10000, 0));
             }
 
             if (event.keysym.sym == SDLK_SPACE)
