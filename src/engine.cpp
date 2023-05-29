@@ -101,13 +101,21 @@ namespace CacoEngine
             if (object.Position.Y > 800)
                 object.Translate(Vector2Df(0, -(object.Position.Y - 800)));
 
-            std::cout << "Decreasing force" << std::endl;
 
-            object.RigidBody.Force -= 10;
 
             object.RigidBody.Velocity = Vector2Df(0, 0);
+
             if (object.RigidBody.Force.X <= 0 && object.RigidBody.Force.Y)
+            {
                 object.RigidBody.Force = 0;
+
+                std::cout << "Force is 0. " << std::endl;
+            }
+            else
+            {
+                object.RigidBody.Force -= 100;
+                std::cout << "Decreasing force" << std::endl;
+            }
 
             object.RigidBody.UpdateAcceleration();
 

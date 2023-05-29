@@ -121,14 +121,16 @@ public:
 
             if (event.keysym.sym == SDLK_LEFT)
             {
-                this->GetObject(this->SelectedIndex).mTexture = this->TextureCache["cacodemon_left"];
-                this->GetObject(this->SelectedIndex).Translate(CacoEngine::Vector2Df(-200 * this->DeltaTime, 0));
+                // this->GetObject(this->SelectedIndex).mTexture = this->TextureCache["cacodemon_left"];
+                // this->GetObject(this->SelectedIndex).Translate(CacoEngine::Vector2Df(-200 * this->DeltaTime, 0));
+                this->RigidObjects[this->RigidObjects.size() - 1]->RigidBody.AddForce(CacoEngine::Vector2Df(-1000, 0));
             }
 
             if (event.keysym.sym == SDLK_DOWN)
             {
-                this->GetObject(this->SelectedIndex).mTexture = this->TextureCache["cacodemon"];
-                this->GetObject(this->SelectedIndex).Translate(CacoEngine::Vector2Df(0, 200 * this->DeltaTime));
+                // this->GetObject(this->SelectedIndex).mTexture = this->TextureCache["cacodemon"];
+                // this->GetObject(this->SelectedIndex).Translate(CacoEngine::Vector2Df(0, 200 * this->DeltaTime));
+                this->RigidObjects[this->RigidObjects.size() - 1]->RigidBody.AddForce(CacoEngine::Vector2Df(0, 10000));
             }
 
             if (event.keysym.sym == SDLK_UP)

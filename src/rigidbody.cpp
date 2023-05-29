@@ -6,7 +6,6 @@ CacoEngine::RigidBody2D::RigidBody2D(CacoEngine::Vector2Df velocity, CacoEngine:
 {
 }
 
-
 void CacoEngine::RigidBody2D::AddForce(Vector2Df force)
 {
     this->Force += force;
