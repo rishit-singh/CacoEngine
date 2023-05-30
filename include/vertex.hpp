@@ -24,7 +24,7 @@ namespace CacoEngine
         int X;
         int Y;
 
-        int DistanceFrom(Vector2D&);
+        int DistanceFrom(Vector2D);
 
         Vector2D operator +(Vector2D);
         Vector2D operator -(Vector2D);
@@ -54,7 +54,7 @@ namespace CacoEngine
         double X;
         double Y;
 
-        double DistanceFrom(Vector2Df&);
+        double DistanceFrom(Vector2Df);
 
         bool Equals(Vector2Df);
 

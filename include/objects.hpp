@@ -107,6 +107,8 @@ namespace CacoEngine
 
             void SetRadius(double);
 
+            bool CollidesWith(Circle&);
+
             Circle(Vector2Df, double =  1);
             virtual ~Circle();
     };

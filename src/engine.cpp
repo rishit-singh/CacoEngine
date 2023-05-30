@@ -94,26 +94,32 @@ namespace CacoEngine
             RigidObject2D& object = *this->RigidObjects[x];
             double dT = this->DeltaTime;
 
-            object.RigidBody.Velocity += (object.RigidBody.Acceleration * dT);
+            object.RigidBody.Acceleration *= dT;
+
+            std::cout << "Acceleration: X:" << object.RigidBody.Acceleration.X
+                << " Y: " << object.RigidBody.Acceleration.Y << '\n';
+            std::cout << "Force: X:" << object.RigidBody.Force.X
+                << " Y: " << object.RigidBody.Force.Y << '\n';
+
+            object.RigidBody.Velocity += (object.RigidBody.Acceleration);
 
             object.Translate(Vector2Df(object.RigidBody.Velocity.X * dT, object.RigidBody.Velocity.Y * dT));
 
             if (object.Position.Y > 800)
                 object.Translate(Vector2Df(0, -(object.Position.Y - 800)));
 
-
-
             object.RigidBody.Velocity = Vector2Df(0, 0);
 
-            if (object.RigidBody.Force.X <= 0 && object.RigidBody.Force.Y)
+            if ((object.RigidBody.Force.X - 1) < 0 || (object.RigidBody.Force.Y - 1) < 0)
             {
-                object.RigidBody.Force = 0;
+                object.RigidBody.Force.X = 0;
+                object.RigidBody.Force.Y = 0;
 
                 std::cout << "Force is 0. " << std::endl;
             }
             else
             {
-                object.RigidBody.Force -= 100;
+                object.RigidBody.Force -= 1;
                 std::cout << "Decreasing force" << std::endl;
             }
 

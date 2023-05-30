@@ -212,6 +212,10 @@ void CacoEngine::Circle::SetRadius(double radius)
     this->GeneratePoints();
 }
 
+bool CacoEngine::Circle::CollidesWith(Circle &circle) {
+  return ((this->GetCenter().DistanceFrom(circle.GetCenter()) - (this->GetRadius() + circle.GetRadius())) <= 0);
+}
+
 CacoEngine::Circle::Circle(Vector2Df center,double radius) : Object(), Radius(radius)
 {
     this->Position = center;

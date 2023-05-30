@@ -126,12 +126,12 @@ bool CacoEngine::Vector2D::operator ==(Vector2D& vector)
     return (this->X = vector.X && this->Y == vector.Y );
 }
 
-int CacoEngine::Vector2D::DistanceFrom(Vector2D& vector)
+int CacoEngine::Vector2D::DistanceFrom(Vector2D vector)
 {
     return sqrt(pow(vector.X - this->X, 2) + pow(vector.Y - this->Y, 2));
 }
 
-double CacoEngine::Vector2Df::DistanceFrom(Vector2Df& vector)
+double CacoEngine::Vector2Df::DistanceFrom(Vector2Df vector)
 {
     return sqrt(pow(vector.X - this->X, 2) + pow(vector.Y - this->Y, 2));
 }
@@ -201,7 +201,7 @@ CacoEngine::Vector2Df CacoEngine::Vector2Df::operator /(double rhs)
 CacoEngine::Vector2Df &CacoEngine::Vector2Df::operator +=(double rhs)
 {
     this->X += rhs;
-    this->Y += rhs;
+
 
     return *this;
 }
