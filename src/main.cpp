@@ -95,9 +95,15 @@ public:
                 std::cout << "Object collides.\n";
             }
             else
-                object.SetFillColor(CacoEngine::Colors[(int)CacoEngine::Color::White]);
+                object.SetFillColor(CacoEngine::Colors[(int)CacoEngine::Color::Green]);
 
             std::cout << "ObjectCount: " << this->RigidObjects.size() + this->Objects.size() << '\n';
+
+
+            // if (object.RigidBody.Velocity.X < 0 || object.RigidBody.Velocity.Y < 0)
+            //     object.RigidBody.Velocity = CacoEngine::Vector2Df();
+            // else
+            //     object.RigidBody.Velocity -= 150.0f;
         }
 
         void OnMouseClick(SDL_MouseButtonEvent& event) override
@@ -130,7 +136,7 @@ public:
             {
                 // this->GetObject(this->SelectedIndex).mTexture = this->TextureCache["cacodemon"];
                 // this->GetObject(this->SelectedIndex).Translate(CacoEngine::Vector2Df(0, 200 * this->DeltaTime));
-                this->RigidObjects[this->RigidObjects.size() - 1]->RigidBody.AddForce(CacoEngine::Vector2Df(0, 10000));
+                this->RigidObjects[this->RigidObjects.size() - 1]->RigidBody.AddForce(CacoEngine::Vector2Df(0, 1000));
             }
 
             if (event.keysym.sym == SDLK_UP)

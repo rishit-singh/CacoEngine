@@ -15,6 +15,7 @@
 #include "texture.hpp"
 #include "vertex.hpp"
 #include <memory>
+#include <cmath>
 
 namespace CacoEngine
 {
@@ -53,6 +54,7 @@ namespace CacoEngine
         else
             this->KeyMap[event.keysym.sym] = Key(event.keysym.scancode, true);
     }
+
 
     void Engine::ResetKeyState()
     {
@@ -94,12 +96,21 @@ namespace CacoEngine
             RigidObject2D& object = *this->RigidObjects[x];
             double dT = this->DeltaTime;
 
-            object.RigidBody.Acceleration *= dT;
+            // object.RigidBody.Acceleration *= dT;
 
             std::cout << "Acceleration: X:" << object.RigidBody.Acceleration.X
                 << " Y: " << object.RigidBody.Acceleration.Y << '\n';
             std::cout << "Force: X:" << object.RigidBody.Force.X
                 << " Y: " << object.RigidBody.Force.Y << '\n';
+
+            // object.RigidBody.Acceleration = (object.RigidBody.Velocity) * -10.0f;
+
+            double speed = std::sqrt(pow(object.RigidBody.Velocity.X, 2) + pow(object.RigidBody.Velocity.Y, 2));
+
+            object.RigidBody.Force =
+                Vector2Df(-0.5f * object.RigidBody.Velocity.X * speed ,
+                          -0.5f * object.RigidBody.Velocity.Y * speed) * dT;
+
 
             object.RigidBody.Velocity += (object.RigidBody.Acceleration);
 
@@ -108,19 +119,13 @@ namespace CacoEngine
             if (object.Position.Y > 800)
                 object.Translate(Vector2Df(0, -(object.Position.Y - 800)));
 
-            object.RigidBody.Velocity = Vector2Df(0, 0);
+            // object.RigidBody.Force = Vector2Df();
 
-            if ((object.RigidBody.Force.X - 1) < 0 || (object.RigidBody.Force.Y - 1) < 0)
+            if (object.RigidBody.Force.X < 0 || object.RigidBody.Force.Y < 0)
             {
-                object.RigidBody.Force.X = 0;
-                object.RigidBody.Force.Y = 0;
-
-                std::cout << "Force is 0. " << std::endl;
-            }
-            else
-            {
-                object.RigidBody.Force -= 1;
-                std::cout << "Decreasing force" << std::endl;
+                object.RigidBody.Force = Vector2Df();
+                object.RigidBody.Velocity = Vector2Df();
+                object.RigidBody.Acceleration = Vector2Df();
             }
 
             object.RigidBody.UpdateAcceleration();
