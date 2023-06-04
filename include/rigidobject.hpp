@@ -33,11 +33,15 @@ namespace CacoEngine
             double GetRadius();
             void SetRadius(double);
 
-            bool CollidesWith(Circle&);
+            bool CollidesWith(RigidCircle&);
 
             virtual bool CollidesWith(Vector2Df);
 
             RigidCircle(Vector2Df, double = 1.0f);
+            RigidCircle(RigidObject2D&);
+
+            RigidCircle& operator =(RigidObject2D&);
+
             virtual ~RigidCircle();
     };
 }

@@ -63,7 +63,6 @@ namespace CacoEngine
     }
 
 
-
     Object& Engine::AddObject(std::unique_ptr<Object> object)
     {
         return *this->Objects.emplace_back(std::move(object));
@@ -96,22 +95,6 @@ namespace CacoEngine
             RigidObject2D& object = *this->RigidObjects[x];
             double dT = this->DeltaTime;
 
-            // object.RigidBody.Acceleration *= dT;
-
-            std::cout << "Acceleration: X:" << object.RigidBody.Acceleration.X
-                << " Y: " << object.RigidBody.Acceleration.Y << '\n';
-            std::cout << "Force: X:" << object.RigidBody.Force.X
-                << " Y: " << object.RigidBody.Force.Y << '\n';
-
-            // object.RigidBody.Acceleration = (object.RigidBody.Velocity) * -10.0f;
-
-            double speed = std::sqrt(pow(object.RigidBody.Velocity.X, 2) + pow(object.RigidBody.Velocity.Y, 2));
-
-            object.RigidBody.Force =
-                Vector2Df(-0.5f * object.RigidBody.Velocity.X * speed ,
-                          -0.5f * object.RigidBody.Velocity.Y * speed) * dT;
-
-
             object.RigidBody.Velocity += (object.RigidBody.Acceleration);
 
             object.Translate(Vector2Df(object.RigidBody.Velocity.X * dT, object.RigidBody.Velocity.Y * dT));
@@ -121,12 +104,6 @@ namespace CacoEngine
 
             // object.RigidBody.Force = Vector2Df();
 
-            if (object.RigidBody.Force.X < 0 || object.RigidBody.Force.Y < 0)
-            {
-                object.RigidBody.Force = Vector2Df();
-                object.RigidBody.Velocity = Vector2Df();
-                object.RigidBody.Acceleration = Vector2Df();
-            }
 
             object.RigidBody.UpdateAcceleration();
 

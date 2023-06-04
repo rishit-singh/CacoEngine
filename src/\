@@ -90,23 +90,15 @@ public:
             this->EngineRenderer.SetColor(CacoEngine::Colors[(int)CacoEngine::Color::White]);
             // DrawCircle(this->EngineRenderer.GetInstance( ), 100, 100, 100);
 
-            CacoEngine::RigidCircleCollider collider = CacoEngine::RigidCircleCollider(
-                                            std::make_unique<CacoEngine::RigidCircle>(this->RigidCircles[0]),
-                                            std::make_unique<CacoEngine::RigidObject2D>(this->RigidCircles[0]));
 
-            CacoEngine::RigidObject2D& object = *this->RigidObjects[this->RigidObjects.size() - 1];
+            if ((*(std::make_unique<CacoEngine::RigidCircle>(object))).CollidesWith((*this->rgCircle)))
+            {
+                object.SetFillColor(CacoEngine::Colors[(int)CacoEngine::Color::Red]);
 
-            std::cout << "Cursor: (" << this->CursorPosition.X << ", " << this->CursorPosition.Y << ")\n";
-
-            for (int x = 0; x < this->RigidCircles.size(); x++)
-                if (collider.CollidesWith(RigidCircles[x]))
-                {
-                    object.SetFillColor(CacoEngine::Colors[(int)CacoEngine::Color::Red]);
-
-                    std::cout << "Object collides.\n";
-                }
-                else
-                    object.SetFillColor(CacoEngine::Colors[(int)CacoEngine::Color::Green]);
+                std::cout << "Object collides.\n";
+            }
+            else
+                object.SetFillColor(CacoEngine::Colors[(int)CacoEngine::Color::Green]);
 
             std::cout << "ObjectCount: " << this->RigidObjects.size() + this->Objects.size() << '\n';
 
@@ -120,9 +112,8 @@ public:
         void OnMouseClick(SDL_MouseButtonEvent& event) override
         {
             // this->rgCircle = std::make_unique<CacoEngine::RigidCircle>(*this->RigidObjects[this->RigidObjects.size() - 1]);
-            this->RigidCircles.push_back(CacoEngine::RigidCircle(CacoEngine::Vector2Df(this->CursorPosition.X, this->CursorPosition.Y), 50));
 
-            this->AddObject(std::unique_ptr<CacoEngine::RigidObject2D>(std::make_unique<CacoEngine::RigidCircle>(this->RigidCircles[this->RigidCircles.size() - 1])));
+            this->AddObject(std::unique_ptr<CacoEngine::RigidObject2D>(std::make_unique<CacoEngine::RigidCircle>(CacoEngine::Vector2Df(this->CursorPosition.X, this->CursorPosition.Y), 50)));
 
             this->SelectedIndex++;
         }
