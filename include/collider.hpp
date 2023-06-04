@@ -51,7 +51,7 @@ namespace CacoEngine
         }
 
         RigidCircleCollider(std::unique_ptr<RigidCircle> circle, std::unique_ptr<RigidObject2D> object)
-            : Collider<RigidCircle>(std::move(circle)), mCircle(std::move(circle))
+            : Collider<RigidCircle>(std::move(object)), mCircle(std::move(circle))
         {
             this->SetCallback([this](RigidCircle circle) {
                 if (this->CollidesWith(circle))
