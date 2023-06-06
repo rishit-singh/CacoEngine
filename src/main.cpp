@@ -33,7 +33,7 @@ public:
 
         CacoEngine::RigidBody2D Metrics;
 
-        std::unique_ptr<CacoEngine::RigidCircle> rgCircle { std::make_unique<CacoEngine::RigidCircle>(CacoEngine::RigidCircle(CacoEngine::Vector2Df(200, 200), 50)) };
+        std::shared_ptr<CacoEngine::RigidCircle> rgCircle { std::make_unique<CacoEngine::RigidCircle>(CacoEngine::RigidCircle(CacoEngine::Vector2Df(200, 200), 50)) };
 
         std::vector<CacoEngine::RigidCircle> RigidCircles;
 
@@ -52,7 +52,6 @@ public:
 
         void OnInitialize() override
         {
-
             this->TintIndex = 0;
             this->TintColor = CacoEngine::Colors[this->TintIndex];
             this->SelectedIndex = 0;
@@ -61,13 +60,13 @@ public:
             this->TextureCache["cacodemon_left"] = CacoEngine::TextureManager::CreateTexture("cacodemon_left.png", this->EngineRenderer);
             this->TextureCache["cacodemon_right"] = CacoEngine::TextureManager::CreateTexture("cacodemon_right.png", this->EngineRenderer);
 
-            this->AddObject(std::make_unique<CacoEngine::Object>(CacoEngine::Sprite(this->TextureCache["cacodemon"], CacoEngine::Vector2Df(200, 200), CacoEngine::Vector2Df(600, 600))));
+            this->AddObject(std::make_shared<CacoEngine::Object>(CacoEngine::Sprite(this->TextureCache["cacodemon"], CacoEngine::Vector2Df(200, 200), CacoEngine::Vector2Df(600, 600))));
 
             CacoEngine::Box2D box = CacoEngine::Box2D(CacoEngine::Vector2Df(200, 200), CacoEngine::Vector2Df(100, 100));
 
             box.RigidBody = CacoEngine::RigidBody2D(CacoEngine::Vector2Df(0, 50), CacoEngine::Vector2Df(0, 50));
 
-            this->AddObject(std::unique_ptr<CacoEngine::RigidObject2D>(std::make_unique<CacoEngine::RigidCircle>(*this->rgCircle)));
+            this->AddObject(std::shared_ptr<CacoEngine::RigidObject2D>(std::make_unique<CacoEngine::RigidCircle>(*this->rgCircle)));
 
             this->RigidCircles.push_back(*this->rgCircle);
 
@@ -77,7 +76,7 @@ public:
             //
             // this->AddObject(rgSprite);
             //
-           // this->AddObject(std::unique_ptr<CacoEngine::RigidObject2D>(std::make_unique<CacoEngine::RigidCircle>(CacoEngine::Vector2Df(200, 200), 50)));
+           // this->AddObject(std::shared_ptr<CacoEngine::RigidObject2D>(std::make_unique<CacoEngine::RigidCircle>(CacoEngine::Vector2Df(200, 200), 50)));
             // this->RigidObjects[this->RigidObjects.size() - 1].RigidBody = CacoEngine::RigidBody2D(CacoEngine::Vector2D());
             // this->AddObject(CacoEngine::Box2D(CacoEngine::Vector2Df(100, 100),
             //                                   CacoEngine::Vector2Df(), CacoEngine::Colors[(int)CacoEngine::Color::White]));
@@ -90,39 +89,39 @@ public:
             this->EngineRenderer.SetColor(CacoEngine::Colors[(int)CacoEngine::Color::White]);
             // DrawCircle(this->EngineRenderer.GetInstance( ), 100, 100, 100);
 
-            CacoEngine::RigidCircleCollider collider = CacoEngine::RigidCircleCollider(
-                                            std::make_unique<CacoEngine::RigidCircle>(this->RigidCircles[0]),
-                                            std::make_unique<CacoEngine::RigidObject2D>(this->RigidCircles[0]));
+            CacoEngine::RigidCircleCollider collider = CacoEngine::RigidCircleCollider(this->RigidCircles, this->RigidObjects);
 
             CacoEngine::RigidObject2D& object = *this->RigidObjects[this->RigidObjects.size() - 1];
 
             std::cout << "Cursor: (" << this->CursorPosition.X << ", " << this->CursorPosition.Y << ")\n";
 
-            for (int x = 0; x < this->RigidCircles.size(); x++)
-                if (collider.CollidesWith(RigidCircles[x]))
-                {
-                    object.SetFillColor(CacoEngine::Colors[(int)CacoEngine::Color::Red]);
+            // for (int x = 0; x < this->RigidCircles.size(); x++)
+            //     if (collider.CollidesWith(RigidCircles[x]))
+            //     {
+            //         object.SetFillColor(CacoEngine::Colors[(int)CacoEngine::Color::Red]);
 
-                    std::cout << "Object collides.\n";
-                }
-                else
-                    object.SetFillColor(CacoEngine::Colors[(int)CacoEngine::Color::Green]);
+            //         std::cout << "Object collides.\n";
+            //     }
+            //     else
+            //         object.SetFillColor(CacoEngine::Colors[(int)CacoEngine::Color::Green]);
 
-            std::cout << "ObjectCount: " << this->RigidObjects.size() + this->Objects.size() << '\n';
+            // std::cout << "ObjectCount: " << this->RigidObjects.size() + this->Objects.size() << '\
+
+            collider.Handle();
 
             if (object.Position.X > 1000)
             {
                 std::cout << "Beyond threshold" << std::endl;
-                object.RigidBody.AddForce(CacoEngine::Vector2Df(-2000, 0));
+                object.RigidBody.AddForce(CacoEngine::Vector2Df(-200, 0));
             }
         }
 
         void OnMouseClick(SDL_MouseButtonEvent& event) override
         {
-            // this->rgCircle = std::make_unique<CacoEngine::RigidCircle>(*this->RigidObjects[this->RigidObjects.size() - 1]);
+            // this->rgCircle = std::make_shared<CacoEngine::RigidCircle>(*this->RigidObjects[this->RigidObjects.size() - 1]);
             this->RigidCircles.push_back(CacoEngine::RigidCircle(CacoEngine::Vector2Df(this->CursorPosition.X, this->CursorPosition.Y), 50));
 
-            this->AddObject(std::unique_ptr<CacoEngine::RigidObject2D>(std::make_unique<CacoEngine::RigidCircle>(this->RigidCircles[this->RigidCircles.size() - 1])));
+            this->AddObject(std::shared_ptr<CacoEngine::RigidObject2D>(std::make_unique<CacoEngine::RigidCircle>(this->RigidCircles[this->RigidCircles.size() - 1])));
 
             this->SelectedIndex++;
         }
@@ -177,8 +176,8 @@ public:
                 // sprite.mTexture = this->TextureCache["cacodemon"];
                 // sprite.FillMode = CacoEngine::RasterizeMode::Texture;
 
-                // this->Objects.push_back(std::make_unique<CacoEngine::Object>(sprite));
-                this->AddObject(std::unique_ptr<CacoEngine::RigidObject2D>(std::make_unique<CacoEngine::RigidCircle>(CacoEngine::Vector2Df(0, 0), 50)));
+                // this->Objects.push_back(std::make_shared<CacoEngine::Object>(sprite));
+                this->AddObject(std::shared_ptr<CacoEngine::RigidObject2D>(std::make_unique<CacoEngine::RigidCircle>(CacoEngine::Vector2Df(0, 0), 50)));
                 this->SelectedIndex++;
             }
 

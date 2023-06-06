@@ -1,0 +1,77 @@
+[
+{
+  "directory": "/Users/rishit/src/repos/CacoEngine/cmake-build-debug",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ -I/Users/rishit/src/repos/CacoEngine/include -isystem /usr/local/include -isystem /usr/local/include/SDL2 -isystem /opt/homebrew/include/SDL2  -I/opt/local/include/SDL2 -Wall -D_THREAD_SAFE --std=c++20 -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics -o CMakeFiles/CacoEngine.dir/src/box.cpp.o -c /Users/rishit/src/repos/CacoEngine/src/box.cpp",
+  "file": "/Users/rishit/src/repos/CacoEngine/src/box.cpp"
+},
+{
+  "directory": "/Users/rishit/src/repos/CacoEngine/cmake-build-debug",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ -I/Users/rishit/src/repos/CacoEngine/include -isystem /usr/local/include -isystem /usr/local/include/SDL2 -isystem /opt/homebrew/include/SDL2  -I/opt/local/include/SDL2 -Wall -D_THREAD_SAFE --std=c++20 -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics -o CMakeFiles/CacoEngine.dir/src/collider.cpp.o -c /Users/rishit/src/repos/CacoEngine/src/collider.cpp",
+  "file": "/Users/rishit/src/repos/CacoEngine/src/collider.cpp"
+},
+{
+  "directory": "/Users/rishit/src/repos/CacoEngine/cmake-build-debug",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ -I/Users/rishit/src/repos/CacoEngine/include -isystem /usr/local/include -isystem /usr/local/include/SDL2 -isystem /opt/homebrew/include/SDL2  -I/opt/local/include/SDL2 -Wall -D_THREAD_SAFE --std=c++20 -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics -o CMakeFiles/CacoEngine.dir/src/engine.cpp.o -c /Users/rishit/src/repos/CacoEngine/src/engine.cpp",
+  "file": "/Users/rishit/src/repos/CacoEngine/src/engine.cpp"
+},
+{
+  "directory": "/Users/rishit/src/repos/CacoEngine/cmake-build-debug",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ -I/Users/rishit/src/repos/CacoEngine/include -isystem /usr/local/include -isystem /usr/local/include/SDL2 -isystem /opt/homebrew/include/SDL2  -I/opt/local/include/SDL2 -Wall -D_THREAD_SAFE --std=c++20 -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics -o CMakeFiles/CacoEngine.dir/src/key.cpp.o -c /Users/rishit/src/repos/CacoEngine/src/key.cpp",
+  "file": "/Users/rishit/src/repos/CacoEngine/src/key.cpp"
+},
+{
+  "directory": "/Users/rishit/src/repos/CacoEngine/cmake-build-debug",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ -I/Users/rishit/src/repos/CacoEngine/include -isystem /usr/local/include -isystem /usr/local/include/SDL2 -isystem /opt/homebrew/include/SDL2  -I/opt/local/include/SDL2 -Wall -D_THREAD_SAFE --std=c++20 -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics -o CMakeFiles/CacoEngine.dir/src/main.cpp.o -c /Users/rishit/src/repos/CacoEngine/src/main.cpp",
+  "file": "/Users/rishit/src/repos/CacoEngine/src/main.cpp"
+},
+{
+  "directory": "/Users/rishit/src/repos/CacoEngine/cmake-build-debug",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ -I/Users/rishit/src/repos/CacoEngine/include -isystem /usr/local/include -isystem /usr/local/include/SDL2 -isystem /opt/homebrew/include/SDL2  -I/opt/local/include/SDL2 -Wall -D_THREAD_SAFE --std=c++20 -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics -o CMakeFiles/CacoEngine.dir/src/objects.cpp.o -c /Users/rishit/src/repos/CacoEngine/src/objects.cpp",
+  "file": "/Users/rishit/src/repos/CacoEngine/src/objects.cpp"
+},
+{
+  "directory": "/Users/rishit/src/repos/CacoEngine/cmake-build-debug",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ -I/Users/rishit/src/repos/CacoEngine/include -isystem /usr/local/include -isystem /usr/local/include/SDL2 -isystem /opt/homebrew/include/SDL2  -I/opt/local/include/SDL2 -Wall -D_THREAD_SAFE --std=c++20 -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics -o CMakeFiles/CacoEngine.dir/src/renderer.cpp.o -c /Users/rishit/src/repos/CacoEngine/src/renderer.cpp",
+  "file": "/Users/rishit/src/repos/CacoEngine/src/renderer.cpp"
+},
+{
+  "directory": "/Users/rishit/src/repos/CacoEngine/cmake-build-debug",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ -I/Users/rishit/src/repos/CacoEngine/include -isystem /usr/local/include -isystem /usr/local/include/SDL2 -isystem /opt/homebrew/include/SDL2  -I/opt/local/include/SDL2 -Wall -D_THREAD_SAFE --std=c++20 -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics -o CMakeFiles/CacoEngine.dir/src/rigidbody.cpp.o -c /Users/rishit/src/repos/CacoEngine/src/rigidbody.cpp",
+  "file": "/Users/rishit/src/repos/CacoEngine/src/rigidbody.cpp"
+},
+{
+  "directory": "/Users/rishit/src/repos/CacoEngine/cmake-build-debug",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ -I/Users/rishit/src/repos/CacoEngine/include -isystem /usr/local/include -isystem /usr/local/include/SDL2 -isystem /opt/homebrew/include/SDL2  -I/opt/local/include/SDL2 -Wall -D_THREAD_SAFE --std=c++20 -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics -o CMakeFiles/CacoEngine.dir/src/rigidobject.cpp.o -c /Users/rishit/src/repos/CacoEngine/src/rigidobject.cpp",
+  "file": "/Users/rishit/src/repos/CacoEngine/src/rigidobject.cpp"
+},
+{
+  "directory": "/Users/rishit/src/repos/CacoEngine/cmake-build-debug",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ -I/Users/rishit/src/repos/CacoEngine/include -isystem /usr/local/include -isystem /usr/local/include/SDL2 -isystem /opt/homebrew/include/SDL2  -I/opt/local/include/SDL2 -Wall -D_THREAD_SAFE --std=c++20 -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics -o CMakeFiles/CacoEngine.dir/src/rigidsprite.cpp.o -c /Users/rishit/src/repos/CacoEngine/src/rigidsprite.cpp",
+  "file": "/Users/rishit/src/repos/CacoEngine/src/rigidsprite.cpp"
+},
+{
+  "directory": "/Users/rishit/src/repos/CacoEngine/cmake-build-debug",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ -I/Users/rishit/src/repos/CacoEngine/include -isystem /usr/local/include -isystem /usr/local/include/SDL2 -isystem /opt/homebrew/include/SDL2  -I/opt/local/include/SDL2 -Wall -D_THREAD_SAFE --std=c++20 -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics -o CMakeFiles/CacoEngine.dir/src/sprite.cpp.o -c /Users/rishit/src/repos/CacoEngine/src/sprite.cpp",
+  "file": "/Users/rishit/src/repos/CacoEngine/src/sprite.cpp"
+},
+{
+  "directory": "/Users/rishit/src/repos/CacoEngine/cmake-build-debug",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ -I/Users/rishit/src/repos/CacoEngine/include -isystem /usr/local/include -isystem /usr/local/include/SDL2 -isystem /opt/homebrew/include/SDL2  -I/opt/local/include/SDL2 -Wall -D_THREAD_SAFE --std=c++20 -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics -o CMakeFiles/CacoEngine.dir/src/surface.cpp.o -c /Users/rishit/src/repos/CacoEngine/src/surface.cpp",
+  "file": "/Users/rishit/src/repos/CacoEngine/src/surface.cpp"
+},
+{
+  "directory": "/Users/rishit/src/repos/CacoEngine/cmake-build-debug",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ -I/Users/rishit/src/repos/CacoEngine/include -isystem /usr/local/include -isystem /usr/local/include/SDL2 -isystem /opt/homebrew/include/SDL2  -I/opt/local/include/SDL2 -Wall -D_THREAD_SAFE --std=c++20 -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics -o CMakeFiles/CacoEngine.dir/src/texture.cpp.o -c /Users/rishit/src/repos/CacoEngine/src/texture.cpp",
+  "file": "/Users/rishit/src/repos/CacoEngine/src/texture.cpp"
+},
+{
+  "directory": "/Users/rishit/src/repos/CacoEngine/cmake-build-debug",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ -I/Users/rishit/src/repos/CacoEngine/include -isystem /usr/local/include -isystem /usr/local/include/SDL2 -isystem /opt/homebrew/include/SDL2  -I/opt/local/include/SDL2 -Wall -D_THREAD_SAFE --std=c++20 -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics -o CMakeFiles/CacoEngine.dir/src/tools.cpp.o -c /Users/rishit/src/repos/CacoEngine/src/tools.cpp",
+  "file": "/Users/rishit/src/repos/CacoEngine/src/tools.cpp"
+},
+{
+  "directory": "/Users/rishit/src/repos/CacoEngine/cmake-build-debug",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ -I/Users/rishit/src/repos/CacoEngine/include -isystem /usr/local/include -isystem /usr/local/include/SDL2 -isystem /opt/homebrew/include/SDL2  -I/opt/local/include/SDL2 -Wall -D_THREAD_SAFE --std=c++20 -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics -o CMakeFiles/CacoEngine.dir/src/vertex.cpp.o -c /Users/rishit/src/repos/CacoEngine/src/vertex.cpp",
+  "file": "/Users/rishit/src/repos/CacoEngine/src/vertex.cpp"
+}
+]

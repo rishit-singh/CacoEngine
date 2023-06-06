@@ -63,12 +63,12 @@ namespace CacoEngine
     }
 
 
-    Object& Engine::AddObject(std::unique_ptr<Object> object)
+    Object& Engine::AddObject(std::shared_ptr<Object> object)
     {
         return *this->Objects.emplace_back(std::move(object));
     }
     
-    RigidObject2D& Engine::AddObject(std::unique_ptr<RigidObject2D> object)
+    RigidObject2D& Engine::AddObject(std::shared_ptr<RigidObject2D> object)
     {
         return *this->RigidObjects.emplace_back(std::move(object));
     }
@@ -111,7 +111,7 @@ namespace CacoEngine
         }
     }
 
-    void Engine::Render(SDL_Renderer* renderer, std::vector<std::unique_ptr<Object>>& objects)
+    void Engine::Render(SDL_Renderer* renderer, std::vector<std::shared_ptr<Object>>& objects)
     {
 
         for (int x = 0; x < objects.size(); x++)
@@ -139,13 +139,13 @@ namespace CacoEngine
         // SDL_Delay(0);
     }
 
-    void Engine::Render(SDL_Renderer* renderer, std::vector<std::unique_ptr<RigidObject2D>>& objects)
+    void Engine::Render(SDL_Renderer* renderer, std::vector<std::shared_ptr<RigidObject2D>>& objects)
     {
         for (int x = 0; x < objects.size(); x++)
         {
             RigidObject2D& object = *objects[x];
 
-            // std::unique_ptr<RigidObject2D> ptr = objects[x];
+            // std::shared_ptr<RigidObject2D> ptr = objects[x];
 
 
             this->EngineRenderer.SetColor((object).FillColor);
@@ -244,7 +244,7 @@ namespace CacoEngine
     }
 
     Engine::Engine(std::string_view title, Vector2Df resolution, bool initialize)
-        : Objects(std::vector<std::unique_ptr<Object>>()), RigidObjects(std::vector<std::unique_ptr<RigidObject2D>>()), Title(title), Resolution(resolution), IsRunning(false), DeltaTime(0)
+        : Objects(std::vector<std::shared_ptr<Object>>()), RigidObjects(std::vector<std::shared_ptr<RigidObject2D>>()), Title(title), Resolution(resolution), IsRunning(false), DeltaTime(0)
     {
         this->Extensions = {
             Extension::Video,

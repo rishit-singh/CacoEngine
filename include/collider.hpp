@@ -7,7 +7,7 @@
 namespace CacoEngine
 {
     template<typename T>
-    using ColliderCallback = std::function<bool(T)>; //  bool(*)(T, T);
+    using ColliderCallback = std::function<bool(std::shared_ptr<RigidObject2D>)>; //  bool(*)(T, T);
 
     // Wrapper for collision check and resolution routines
     template<typename T>
@@ -16,12 +16,20 @@ namespace CacoEngine
     protected:
         ColliderCallback<T> Callback;
 
-        std::unique_ptr<RigidObject2D> Object;
-    public:
+        std::vector<std::shared_ptr<RigidObject2D>> Objects;
 
-        virtual bool CollidesWith(T object)
+    public:
+        virtual void Handle()
         {
-            return true;
+            for (int x = 0; x < this->Objects.size(); x++)
+                for (int y = 0; y < this->Objects.size(); y++)
+                    if (this->Objects[x]->CollidesWith(*this->Objects[y]))
+                        this->Callback(this->Objects[y]);
+        }
+
+        void AddObject(std::shared_ptr<RigidObject2D> object)
+        {
+            this->Objects.push_back(object);
         }
 
         void SetCallback(ColliderCallback<T> callback)
@@ -29,8 +37,10 @@ namespace CacoEngine
             this->Callback = callback;
         }
 
-        Collider(std::unique_ptr<RigidObject2D> object, ColliderCallback<T> callback = nullptr) : Object(std::move(object)), Callback(callback)
+        Collider(std::vector<std::shared_ptr<RigidObject2D>>& objects, ColliderCallback<T> callback = nullptr) : Callback(callback)
         {
+            for (int x = 0; x < objects.size(); x++)
+                this->Objects.push_back(objects[x]);
         }
 
         virtual ~Collider()
@@ -41,22 +51,22 @@ namespace CacoEngine
     class RigidCircleCollider : public Collider<RigidCircle>
     {
     protected:
-        std::unique_ptr<RigidCircle> mCircle;
+        std::vector<RigidCircle> Circles;
     
     public:
-
-        bool CollidesWith(RigidCircle circle) override
+        void Handle()
         {
-            return (*this->mCircle).CollidesWith(circle);
+            for (int x = 0; x < this->Circles.size(); x++)
+                for (int y = 0; y < this->Circles.size(); y++)
+                    if (this->Circles[x].CollidesWith(this->Circles[y]))
+                        this->Callback(this->Objects[y]);
         }
 
-        RigidCircleCollider(std::unique_ptr<RigidCircle> circle, std::unique_ptr<RigidObject2D> object)
-            : Collider<RigidCircle>(std::move(object)), mCircle(std::move(circle))
+         RigidCircleCollider(std::vector<RigidCircle>& circles, std::vector<std::shared_ptr<RigidObject2D>>& objects)
+            : Collider<RigidCircle>(objects), Circles(circles)
         {
-            this->SetCallback([this](RigidCircle circle) {
-                if (this->CollidesWith(circle))
-                    (*this->Object).SetFillColor(Colors[(int)Color::Red]);
-
+            this->SetCallback([](std::shared_ptr<RigidObject2D> object){
+                object->SetFillColor(Colors[(int)Color::Red]);
                 return true;
             });
         }

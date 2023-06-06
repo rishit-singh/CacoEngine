@@ -40,9 +40,9 @@ namespace CacoEngine
 
             std::unordered_map<SDL_Keycode, Key> KeyMap;
 
-            std::vector<std::unique_ptr<Object>> Objects;
+            std::vector<std::shared_ptr<Object>> Objects;
 
-            std::vector<std::unique_ptr<RigidObject2D>> RigidObjects;
+            std::vector<std::shared_ptr<RigidObject2D>> RigidObjects;
 
             bool HasExtension(Extension);
 
@@ -52,8 +52,8 @@ namespace CacoEngine
 
             void ResetKeyState();
 
-            void Render(SDL_Renderer*, std::vector<std::unique_ptr<Object>>&);
-            void Render(SDL_Renderer*, std::vector<std::unique_ptr<RigidObject2D>>&);
+            void Render(SDL_Renderer*, std::vector<std::shared_ptr<Object>>&);
+            void Render(SDL_Renderer*, std::vector<std::shared_ptr<RigidObject2D>>&);
 
     public:
             std::string_view Title;
@@ -83,8 +83,8 @@ namespace CacoEngine
             virtual void OnInitialize() = 0;
             virtual void OnUpdate(double) = 0;
 
-            Object& AddObject(std::unique_ptr<Object>);
-            RigidObject2D& AddObject(std::unique_ptr<RigidObject2D>);
+            Object& AddObject(std::shared_ptr<Object>);
+            RigidObject2D& AddObject(std::shared_ptr<RigidObject2D>);
 
             Object& CreateMesh(std::vector<Vector2Df>);
             

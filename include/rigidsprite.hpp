@@ -4,6 +4,7 @@
 #include "sprite.hpp"
 #include "rigidobject.hpp"
 #include "vertex.hpp"
+
 namespace CacoEngine
 {
     class RigidSprite : public CacoEngine::RigidObject2D
