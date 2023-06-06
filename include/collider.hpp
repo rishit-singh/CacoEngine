@@ -16,31 +16,42 @@ namespace CacoEngine
     protected:
         ColliderCallback<T> Callback;
 
-        std::vector<std::shared_ptr<RigidObject2D>> Objects;
+        std::vector<T> Objects;
+
+        std::vector<std::shared_ptr<RigidObject2D>> mObjects;
 
     public:
         virtual void Handle()
         {
-            for (int x = 0; x < this->Objects.size(); x++)
-                for (int y = 0; y < this->Objects.size(); y++)
-                    if (this->Objects[x]->CollidesWith(*this->Objects[y]))
-                        this->Callback(this->Objects[y]);
+            for (int x = 0; x < this->mObjects.size(); x++)
+                for (int y = 0; y < this->mObjects.size(); y++)
+                    if (x != y && this->mObjects[x]->CollidesWith(*this->mObjects[y]))
+                        this->Callback(this->mObjects[y]);
         }
 
-        void AddObject(std::shared_ptr<RigidObject2D> object)
+        void AddObject(T object)
         {
             this->Objects.push_back(object);
         }
+
 
         void SetCallback(ColliderCallback<T> callback)
         {
             this->Callback = callback;
         }
 
-        Collider(std::vector<std::shared_ptr<RigidObject2D>>& objects, ColliderCallback<T> callback = nullptr) : Callback(callback)
+        std::vector<T>& GetObjects()
         {
-            for (int x = 0; x < objects.size(); x++)
-                this->Objects.push_back(objects[x]);
+            return this->Objects;
+        }
+
+        std::vector<std::shared_ptr<RigidObject2D>> GetmObjects()
+        {
+            return this->mObjects;
+        }
+
+        Collider(std::vector<T> objects, std::vector<std::shared_ptr<RigidObject2D>>& mObjects, ColliderCallback<T> callback = nullptr) : Callback(callback), Objects(objects), mObjects(mObjects)
+        {
         }
 
         virtual ~Collider()
@@ -51,21 +62,27 @@ namespace CacoEngine
     class RigidCircleCollider : public Collider<RigidCircle>
     {
     protected:
-        std::vector<RigidCircle> Circles;
-    
+
     public:
+
         void Handle()
         {
-            for (int x = 0; x < this->Circles.size(); x++)
-                for (int y = 0; y < this->Circles.size(); y++)
-                    if (this->Circles[x].CollidesWith(this->Circles[y]))
-                        this->Callback(this->Objects[y]);
+            for (int x = 0; x < this->Objects.size(); x++)
+                for (int y = 0; y < this->Objects.size(); y++)
+                    if (x != y && this->Objects[x].CollidesWith(this->Objects[y]))
+                    {
+                        this->Callback(this->mObjects[y]);
+
+                        std::cout << "Collides\n";
+                    }
         }
 
+
          RigidCircleCollider(std::vector<RigidCircle>& circles, std::vector<std::shared_ptr<RigidObject2D>>& objects)
-            : Collider<RigidCircle>(objects), Circles(circles)
+            : Collider<RigidCircle>(circles, objects)
         {
-            this->SetCallback([](std::shared_ptr<RigidObject2D> object){
+            this->SetCallback([](std::shared_ptr<RigidObject2D> object)
+            {
                 object->SetFillColor(Colors[(int)Color::Red]);
                 return true;
             });

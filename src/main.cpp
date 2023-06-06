@@ -107,7 +107,14 @@ public:
 
             // std::cout << "ObjectCount: " << this->RigidObjects.size() + this->Objects.size() << '\
 
+
+            auto objects = collider.GetObjects();
+
             collider.Handle();
+
+//.            for (int x = 0; x < objects.size(); x++)
+   //             objects[x]->SetFillColor(CacoEngine::Colors[(int)CacoEngine::Color::White]);
+
 
             if (object.Position.X > 1000)
             {
