@@ -201,7 +201,7 @@ CacoEngine::Vector2Df CacoEngine::Vector2Df::operator /(double rhs)
 CacoEngine::Vector2Df &CacoEngine::Vector2Df::operator +=(double rhs)
 {
     this->X += rhs;
-
+    this->Y += rhs;
 
     return *this;
 }
